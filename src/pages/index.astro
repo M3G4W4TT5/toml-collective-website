@@ -1,0 +1,52 @@
+---
+import { getHomeContent } from '../lib/content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ContactForm from '../components/ContactForm.astro';
+
+const content = await getHomeContent();
+---
+<BaseLayout title={content.title} description={content.intro}>
+    <header class="wrap"><a href="#main" class="skip">Skip to content</a><span class="eyebrow">Website starter / demonstration</span></header>
+    <main id="main" class="wrap">
+      <section class="hero" aria-labelledby="page-title">
+        <p class="eyebrow">{content.source === 'demo' ? 'Local demo content' : 'Sanity published content'}</p>
+        <h1 id="page-title">{content.title}</h1>
+        <p class="lead">{content.intro}</p>
+      </section>
+      <section class="panel" aria-labelledby="details-title">
+        <p class="eyebrow">01 / Editorial</p>
+        <h2 id="details-title">{content.detailsTitle}</h2>
+        <p>{content.details}</p>
+      </section>
+      <section class="contact" aria-labelledby="contact-title">
+        <p class="eyebrow">02 / Contact example</p>
+        <h2 id="contact-title">A contact form for each site</h2>
+        <p>Choose a real recipient, sender and privacy wording for the client. The demonstration form is disabled until hosted delivery has been tested.</p>
+        <ContactForm />
+      </section>
+    </main>
+    <footer class="wrap"><small>Demonstration only. Replace content, design, legal text and configuration for each client.</small></footer>
+</BaseLayout>
+
+<style>
+
+  :global(*) { box-sizing: border-box; }
+  :global(html) { scroll-behavior: smooth; }
+  :global(body) { margin: 0; background: #f5f4f0; color: #1b2725; font: 18px/1.55 system-ui, sans-serif; }
+  :global(a) { color: inherit; text-underline-offset: .2em; }
+  :global(:focus-visible) { outline: 3px solid #c35d34; outline-offset: 4px; }
+  .wrap { width: min(100% - 2.5rem, 980px); margin-inline: auto; }
+  header { padding-block: 1.8rem; }
+  .skip { position: absolute; left: -9999px; }
+  .skip:focus { left: 1rem; top: 1rem; background: white; padding: .6rem; z-index: 2; }
+  .eyebrow { font-size: .74rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; }
+  h1, h2 { line-height: 1.05; letter-spacing: -.045em; font-weight: 600; }
+  h1 { max-width: 12ch; font-size: clamp(3.4rem, 9vw, 7.4rem); margin: 1.2rem 0; }
+  h2 { font-size: clamp(2rem, 5vw, 3.5rem); margin: .9rem 0; }
+  .hero { padding-block: clamp(4rem, 10vw, 9rem); }
+  .lead { max-width: 42rem; font-size: clamp(1.3rem, 2.5vw, 1.8rem); }
+  .panel { background: #dce8de; padding: clamp(2rem, 5vw, 4rem); border-radius: 1.5rem; }
+  .panel p:last-child, .contact > p { max-width: 40rem; }
+  .contact { padding-block: 6rem; }
+  footer { border-top: 1px solid #b8c7bc; padding-block: 2rem; }
+</style>

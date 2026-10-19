@@ -1,0 +1,13 @@
+{
+  "name": "starter-studio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "sanity dev",
+    "build": "sanity build"
+  },
+  "dependencies": {
+    "sanity": "^6.19.0",
+    "styled-components": "^6.6.0"
+  }
+}

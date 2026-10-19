@@ -1,0 +1,31 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  // Replace both names when generating a client repository.
+  "name": "website-starter",
+  "main": "worker/index.ts",
+  "compatibility_date": "2026-10-19",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
+  },
+  "observability": { "enabled": true, "head_sampling_rate": 0.1 },
+  "vars": {
+    "CONTACT_FORM_ENABLED": "0",
+    "CONTACT_DEV_MODE": "0",
+    "CONTACT_PROVIDER": "resend"
+  },
+  "env": {
+    "review": {
+      "name": "website-starter-review",
+      "vars": {
+        "CONTACT_FORM_ENABLED": "0",
+        "CONTACT_DEV_MODE": "0",
+        "CONTACT_PROVIDER": "resend"
+      }
+    }
+  }
+}

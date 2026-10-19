@@ -1,0 +1,59 @@
+---
+import { site } from '../lib/site';
+
+interface Props { id?: string; }
+const { id = 'contact-form' } = Astro.props;
+const { formReady, turnstileSiteKey: siteKey, contactEmail: publicEmail } = site;
+---
+{formReady && <script is:inline src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>}
+{publicEmail && <p><a href={`mailto:${publicEmail}`}>Email the team directly</a></p>}
+<form id={id} data-contact-form action="/api/contact" method="post" aria-describedby={`${id}-status`}>
+  <div class="fields">
+    <label>Name <input name="name" autocomplete="name" required minlength="2" maxlength="100" disabled={!formReady} /></label>
+    <label>Email <input name="email" type="email" autocomplete="email" required maxlength="200" disabled={!formReady} /></label>
+  </div>
+  <label>Message <textarea name="message" required minlength="10" maxlength="5000" rows="6" disabled={!formReady}></textarea></label>
+  <div class="trap" aria-hidden="true"><label>Website <input name="website" tabindex="-1" autocomplete="off" /></label></div>
+  {formReady && <div id={`${id}-turnstile`} class="cf-turnstile" data-sitekey={siteKey}></div>}
+  <button type="submit" disabled={!formReady}>Send message</button>
+  <p id={`${id}-status`} data-form-status role="status" aria-live="polite">{formReady ? '' : 'Form disabled until client delivery is verified.'}</p>
+</form>
+<script>
+  for (const form of document.querySelectorAll<HTMLFormElement>('[data-contact-form]')) {
+    const status = form.querySelector<HTMLElement>('[data-form-status]');
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!status || !form.reportValidity()) return;
+      const button = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      if (button) button.disabled = true;
+      status.textContent = 'Sending…';
+      try {
+        const response = await fetch(form.action, { method: 'POST', body: new FormData(form) });
+        const result = await response.json() as { ok?: boolean; mode?: string };
+        if (!response.ok || result.ok !== true) throw new Error('Delivery was not accepted');
+        form.reset();
+        status.textContent = result.mode === 'local_mock'
+          ? 'Local simulation complete. No email was sent.'
+          : 'The sending service accepted your message.';
+      } catch {
+        status.textContent = 'The message could not be sent. Please try again later.';
+      } finally {
+        if (button) button.disabled = false;
+        const widget = form.querySelector<HTMLElement>('.cf-turnstile');
+        if (widget && 'turnstile' in window) {
+          (window as Window & { turnstile?: { reset: (selector: string) => void } })
+            .turnstile?.reset(`#${CSS.escape(widget.id)}`);
+        }
+      }
+    });
+  }
+</script>
+<style>
+  form { max-width: 40rem; display: grid; gap: 1rem; margin-top: 2rem; }
+  .fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); gap: 1rem; }
+  label { display: grid; gap: .35rem; font-size: .9rem; font-weight: 600; }
+  input, textarea { width: 100%; padding: .75rem; border: 1px solid #879a90; border-radius: .4rem; font: inherit; background: white; }
+  button { justify-self: start; border: 0; border-radius: 99px; background: #1b2725; color: white; padding: .8rem 1.5rem; font: inherit; cursor: pointer; }
+  button:disabled { opacity: .45; cursor: not-allowed; }
+  .trap { position: absolute; left: -9999px; }
+</style>

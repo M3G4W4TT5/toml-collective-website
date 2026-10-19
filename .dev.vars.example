@@ -1,0 +1,11 @@
+# Local Worker simulation only. Copy to .dev.vars; never add real mail credentials.
+# This file also supplies variable names for npm run worker:types.
+CONTACT_DEV_MODE=1
+CONTACT_FORM_ENABLED=0
+CONTACT_PROVIDER=resend
+CONTACT_RECIPIENT=
+CONTACT_SENDER=
+TURNSTILE_SECRET_KEY=
+RESEND_API_KEY=
+CF_EMAIL_ACCOUNT_ID=
+CF_EMAIL_API_TOKEN=
