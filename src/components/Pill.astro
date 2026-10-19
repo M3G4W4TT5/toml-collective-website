@@ -1,0 +1,11 @@
+---
+interface Props {
+  href: string;
+  inverse?: boolean;
+}
+const { href, inverse = false } = Astro.props;
+---
+
+<a href={href} class:list={["pill", { inverse }]}
+  ><span><slot /></span><span class="plus" aria-hidden="true">+</span></a
+>

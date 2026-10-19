@@ -1,0 +1,44 @@
+---
+import type { Project } from "../data/website";
+interface Props {
+  project: Project;
+  home?: boolean;
+}
+const { project: p, home = false } = Astro.props;
+---
+
+<article
+  class="project-card"
+  data-filter-item
+  data-categories={JSON.stringify(p.categories)}
+>
+  {
+    p.image && (
+      <a
+        href={`/work/${p.slug}`}
+        class="image-link"
+        aria-label={`View ${p.title} case study`}
+      >
+        <img
+          src={p.image}
+          alt={p.imageAlt || `${p.title} — ${p.discipline}`}
+          width="1200"
+          height="900"
+          loading="lazy"
+        />
+      </a>
+    )
+  }
+  <div class="card-heading">
+    <h3><a href={`/work/${p.slug}`}>{p.title}</a></h3>{
+      !home && (
+        <a class="text-link" href={`/work/${p.slug}`}>
+          View case study
+        </a>
+      )
+    }
+  </div>
+  {home && <p>{p.summary}</p>}<p class:list={{ category: home }}>
+    {p.slug === "ubs-red-thread" ? "Art direction / With UNIT9" : p.discipline}
+  </p>
+</article>

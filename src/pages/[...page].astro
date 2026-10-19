@@ -1,20 +1,37 @@
 ---
-import type { GetStaticPaths } from 'astro';
-import SitePage from '../layouts/SitePage.astro';
-import { pages, aboutPages } from '../lib/pages';
-
-export const getStaticPaths = (() => pages.map(({ path, title }) => ({
-  params: { page: path }, props: { title },
-}))) satisfies GetStaticPaths;
-
+import SitePage from "../layouts/SitePage.astro";
+export function getStaticPaths() {
+  return [
+    { params: { page: "privacy-policy" }, props: { title: "Privacy Policy" } },
+    { params: { page: "cookies" }, props: { title: "Cookies" } },
+  ];
+}
 const { title } = Astro.props;
-const { page } = Astro.params;
 ---
-<SitePage title={title}>
-  <p>Content to follow.</p>
-  {page === 'about' && (
-    <ul>{aboutPages.map(({ path, title }) => <li><a href={`/${path}`}>{title}</a></li>)}</ul>
-  )}
-  {page?.startsWith('about/') && <p><a href="/about">Back to About</a></p>}
-  {page === 'people' && <p><a href="/people/members">Members</a></p>}
-</SitePage>
+
+<SitePage title={title}
+  ><section class="policy container">
+    <p class="eyebrow">TOML Collective</p><h1>{title}</h1>{
+      title === "Privacy Policy" ? (
+        <>
+          <>
+            <p>The current policy is available on TOML’s existing website.</p>
+            <a
+              class="text-link"
+              href="https://www.tomlcollective.com/_files/ugd/a9f050_70bc6255c34544fbb10b9350f10a8611.pdf"
+            >
+              Read TOML’s current Terms & Conditions / Privacy Policy
+            </a>
+          </>
+        </>
+      ) : (
+        <p>
+          Cookie information for the new website will be available before
+          launch. For questions, email{" "}
+          <a href="mailto:hello@tomlcollective.com">hello@tomlcollective.com</a>
+          .
+        </p>
+      )
+    }
+  </section></SitePage
+>

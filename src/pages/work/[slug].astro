@@ -1,17 +1,188 @@
 ---
-import type { GetStaticPaths } from 'astro';
-import SitePage from '../../layouts/SitePage.astro';
-import { getCases } from '../../lib/collections';
-import type { RouteRecord } from '../../lib/route-records';
-
-export const getStaticPaths = (async () => (await getCases()).map((entry) => ({
-  params: { slug: entry.slug }, props: { entry },
-}))) satisfies GetStaticPaths;
-
-interface Props { entry: RouteRecord }
-const { entry } = Astro.props;
+import SitePage from "../../layouts/SitePage.astro";
+import ContactBand from "../../components/ContactBand.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import { getWebsiteProjects } from "../../lib/website-content";
+import { asset } from "../../data/website";
+export async function getStaticPaths() {
+  const projects = await getWebsiteProjects();
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: {
+      project,
+      related: projects.filter((p) => p.slug !== project.slug).slice(0, 2),
+    },
+  }));
+}
+const { project: p, related } = Astro.props;
+const leads: Record<string, string> = {
+  siebert: "A financial pioneer.\nA new generation.",
+  "eth-zurich-space": "A new digital home\nfor space research.",
+  "ubs-red-thread": "One idea.\nA global conversation.",
+};
+const hero = p.slug === "siebert" ? asset("p3-p3_i101") : p.image;
 ---
-<SitePage title={entry.title} description={entry.description || undefined}>
-  {entry.description && <p>{entry.description}</p>}
-  <p><a href="/work">Back to Work</a></p>
+
+<SitePage title={p.title} description={p.summary} image={hero}>
+  <section class:list={["case-hero container", `case-${p.slug}`]}>
+    <div>
+      <a class="text-link" href="/work">Back to work</a><p class="eyebrow">
+        {p.discipline}
+      </p><h1>{p.headline}</h1><p class="lead" style="white-space:pre-line">
+        {leads[p.slug] || p.summary}
+      </p><div class="case-meta">
+        <div><p class="eyebrow">Client</p><p>{p.client}</p></div>{
+          p.partner && (
+            <div>
+              <>
+                <p class="eyebrow">
+                  {p.slug === "ubs-red-thread"
+                    ? "Agency partner"
+                    : "Collaboration"}
+                </p>
+                <p>{p.partner}</p>
+              </>
+            </div>
+          )
+        }
+      </div>
+    </div><figure class="hero-image">
+      {
+        hero && (
+          <img
+            src={hero}
+            width="1200"
+            height="800"
+            alt={p.imageAlt || `${p.title} — ${p.discipline}`}
+            fetchpriority="high"
+          />
+        )
+      }
+    </figure>
+  </section>
+  {
+    p.sections.length > 0 && (
+      <section class="case-sections grid-3 container rule">
+        {p.sections.map((s) => (
+          <article>
+            <p class="eyebrow">{s.label}</p>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </article>
+        ))}
+      </section>
+    )
+  }
+  {
+    p.gallery.length > 0 && (
+      <section
+        class="gallery container"
+        aria-label={`${p.title} project gallery`}
+      >
+        <img
+          src={p.gallery[0]}
+          width="1200"
+          height="800"
+          alt={
+            p.galleryDescriptions?.[0]?.alt || `${p.title} — project showcase`
+          }
+          loading="lazy"
+        />
+        {p.galleryDescriptions?.[0]?.credit && (
+          <p class="portfolio-credit">{p.galleryDescriptions[0].credit}</p>
+        )}
+        {p.gallery.length > 1 && (
+          <div class="gallery-pair">
+            {p.gallery.slice(1).map((src, i) => (
+              <figure>
+                <img
+                  src={src}
+                  width="900"
+                  height="700"
+                  alt={
+                    p.galleryDescriptions?.[i + 1]?.alt ||
+                    `${p.title} — project detail ${i + 1}`
+                  }
+                  loading="lazy"
+                />
+                {p.galleryDescriptions?.[i + 1]?.credit && (
+                  <figcaption class="portfolio-credit">
+                    {p.galleryDescriptions[i + 1].credit}
+                  </figcaption>
+                )}
+              </figure>
+            ))}
+          </div>
+        )}
+      </section>
+    )
+  }
+  {
+    p.slug === "siebert-generation-wealth" && (
+      <section class="container section">
+        <a class="text-link" href="https://vimeo.com/1095607235">
+          Watch the Generation Wealth campaign film
+        </a>
+      </section>
+    )
+  }
+  {
+    p.campaigns && (
+      <section class="container section rule">
+        <>
+          <p class="eyebrow">An ongoing partnership</p>
+          <h2>More from Siebert.</h2>
+          <div class="grid-3 ways">
+            {p.campaigns.map((c) => (
+              <article>
+                <h3>{c.title}</h3>
+                <p>{c.description}</p>
+                <a href={c.href} class="text-link">
+                  Explore the campaign
+                </a>
+              </article>
+            ))}
+          </div>
+        </>
+      </section>
+    )
+  }
+  {
+    p.outcomes.length > 0 && (
+      <section class="outcomes dark">
+        <div class="container">
+          <div class="stats">
+            {p.outcomes.map((o) => (
+              <div>
+                <h2 style="white-space:pre-line">{o.title}</h2>
+                <p style="white-space:pre-line">{o.detail}</p>
+              </div>
+            ))}
+          </div>
+          {p.outcomeNote && <p class="small">{p.outcomeNote}</p>}
+        </div>
+      </section>
+    )
+  }
+  {
+    p.source && p.slug === "siebert-corporate-bonds" && (
+      <section class="container section">
+        <a class="text-link" href={p.source}>
+          View the full Corporate Bonds case study on Behance
+        </a>
+      </section>
+    )
+  }
+  <section class="related container">
+    <div class="section-heading">
+      <h2>More from TOML.</h2><a class="text-link" href="/work">View all work</a
+      >
+    </div><div class="project-grid">
+      {related.map((r) => <ProjectCard project={r} />)}
+    </div>
+  </section>
+  <ContactBand
+    heading={"An idea worth\ngetting into."}
+    copy="Tell us what you’re planning."
+  />
 </SitePage>

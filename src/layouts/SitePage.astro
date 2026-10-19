@@ -1,35 +1,139 @@
 ---
-import BaseLayout from './BaseLayout.astro';
-import { navigation } from '../lib/pages';
+import BaseLayout from "./BaseLayout.astro";
+import Pill from "../components/Pill.astro";
+import assets from "../data/deck-assets.json";
+import "../styles/site.css";
 
 interface Props {
   title: string;
   description?: string;
+  image?: string;
 }
-const { title, description = `${title} — TOML Collective` } = Astro.props;
+const {
+  title,
+  description = "The collective of visual storytellers. A creative collective making brands, campaigns, films and digital experiences.",
+  image = assets["p1-h796408d6f171eb9c_0_18"].src,
+} = Astro.props;
+const path = Astro.url.pathname;
+const nav = [
+  { href: "/work", title: "Work" },
+  { href: "/about", title: "About" },
+  { href: "/people", title: "People" },
+  { href: "https://www.tomljournal.com", title: "Journal" },
+];
 ---
-<BaseLayout title={title} description={description}>
-  <header>
-    <a href="#main">Skip to content</a>
-    <p><a href="/">TOML Collective</a></p>
-    <nav aria-label="Main navigation">
-      <ul>
-        {navigation.map(({ href, title }) => (
-          <li><a href={href} aria-current={Astro.url.pathname.replace(/\/$/, '') === href ? 'page' : undefined}>{title}</a></li>
-        ))}
-      </ul>
+
+<BaseLayout
+  title={`${title} | TOML Collective`}
+  description={description}
+  image={image}
+>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header id="top" class="site-header container">
+    <div class="brand-group">
+      <a class="brand" href="/" aria-label="TOML Collective home"
+        >TOML<span class="dot">.</span></a
+      ><p class="descriptor">The collective of visual storytellers.</p>
+    </div>
+    <button
+      class="menu-toggle"
+      aria-expanded="false"
+      aria-controls="main-navigation">Menu</button
+    >
+    <nav class="main-nav" id="main-navigation" aria-label="Main navigation">
+      {
+        nav.map((n) => (
+          <a
+            href={n.href}
+            aria-current={
+              n.href.startsWith("/") && path.startsWith(n.href)
+                ? "page"
+                : undefined
+            }
+          >
+            {n.title}
+          </a>
+        ))
+      }<Pill href="/contact">Let’s talk</Pill>
     </nav>
   </header>
-  <main id="main">
-    <h1>{title}</h1>
-    <slot />
-  </main>
-  <footer>
-    <nav aria-label="Legal">
-      <ul>
-        <li><a href="/privacy-policy">Privacy Policy</a></li>
-        <li><a href="/cookies">Cookies</a></li>
-      </ul>
-    </nav>
+  <main id="main"><slot /></main>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-top">
+        <p>The collective of<br />visual storytellers.</p><p>
+          London / Prishtina / Toronto<br />Working worldwide.
+        </p><div class="social">
+          <a href="https://instagram.com/toml.collective">Instagram</a><a
+            href="http://www.linkedin.com/company/19117671/">LinkedIn</a>
+        </div><a class="playlist-link" href="/playlist">TOML Playlist</a><a
+          class="top-link"
+          href="#top">Back to top</a>
+      </div>
+      <div class="footer-main">
+        <div>
+          <nav class="footer-nav" aria-label="Footer navigation">
+            {nav.map((n) => <a href={n.href}>{n.title}</a>)}<a href="/contact"
+              >Let’s talk</a>
+          </nav><a class="wordmark" href="/" aria-label="TOML Collective home"
+            >TOML<span class="dot">.</span></a>
+        </div>
+        <div class="recognition">
+          <div>
+            <img
+              class="drum"
+              src={assets["p1-p1_i112"].src}
+              width="235"
+              height="74"
+              alt="The Drum Recommends"
+              loading="lazy"
+            /><p>Recommended by our clients</p>
+          </div><div class="council">
+            <img
+              src={assets["p1-p1_i114"].src}
+              width="112"
+              height="76"
+              alt="Fast Company Impact Council"
+              loading="lazy"
+            /><p>Fast Company Impact Council<br />Virtyt Pula / Member</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 TOML Collective</span><a
+          href="mailto:hello@tomlcollective.com">hello@tomlcollective.com</a
+        ><a href="/privacy-policy">Privacy Policy</a>
+      </div>
+    </div>
   </footer>
 </BaseLayout>
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
+  const nav = document.querySelector<HTMLElement>(".main-nav");
+  function closeMenu() {
+    nav?.removeAttribute("data-open");
+    toggle?.setAttribute("aria-expanded", "false");
+    if (toggle) toggle.textContent = "Menu";
+  }
+  toggle?.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") !== "true";
+    toggle.setAttribute("aria-expanded", String(open));
+    nav?.toggleAttribute("data-open", open);
+    toggle.textContent = open ? "Close" : "Menu";
+  });
+  document.addEventListener("keydown", (e) => {
+    if (
+      e.key === "Escape" &&
+      toggle?.getAttribute("aria-expanded") === "true"
+    ) {
+      closeMenu();
+      toggle.focus();
+    }
+  });
+  nav?.addEventListener("click", (e) => {
+    if ((e.target as HTMLElement).closest("a")) closeMenu();
+  });
+  matchMedia("(min-width:801px)").addEventListener("change", (e) => {
+    if (e.matches) closeMenu();
+  });
+</script>

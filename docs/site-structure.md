@@ -1,35 +1,38 @@
-# Page structure
+# Website structure — V4 draft
 
-Requested on 19 October 2026. These are plain semantic pages with browser defaults; no visual design or final copy has been added.
+Implemented locally on 19 October 2026 using the user’s expanded full-site scope. See [design brief](design-brief.md) for source priority, confirmed decisions and publication inputs.
 
-| URL | Purpose / source |
+| Route | Implementation |
 | --- | --- |
-| `/` | Existing Sanity Home content, within the plain shared layout |
-| `/work` | Published case index |
-| `/work/[slug]` | Sanity `caseStudy`: title, URL slug and optional summary |
-| `/about` | About placeholder and links to the three child pages |
-| `/about/approach` | Approach placeholder |
-| `/about/our-story` | Our Story placeholder |
-| `/about/house-of-toml` | House of TOML placeholder |
-| `/people` | Core Team placeholder, with a link to Members |
-| `/people/members` | Published member index |
-| `/people/members/[slug]` | Sanity `member`: name, URL slug and optional biography |
-| `/journal` | Journal placeholder |
-| `/playlist` | Playlist placeholder |
-| `/contact` | Contact placeholder; no recipient or contact copy supplied |
-| `/privacy-policy` | Empty policy placeholder; legal wording awaits review |
-| `/cookies` | Empty policy placeholder; cookie wording awaits review |
+| `/` | V4 homepage; selected work, services, blue testimonial, Journal/House previews, contact band and shared footer |
+| `/work` | Responsive case grid, discipline filters, count and empty state; approach section and showreel dialog |
+| `/work/[slug]` | Nine source-backed baseline cases plus any published Sanity additions |
+| `/about` | Story, collective, values, recognition and wider TOML activities |
+| `/about/approach` | Source diagram, three team tiers, client benefits, project rhythm and ways to work together |
+| `/about/our-story` | Founder’s supplied story and timeline |
+| `/about/house-of-toml` | User-approved provisional House page and preselected visit enquiry |
+| `/people` | Six source core-team cards and accessible profile drawers |
+| `/people/members` | Twelve source members, discipline filters, portfolio attribution and enquiry panels |
+| `/people/members/[slug]` | Local portfolio templates populated with legacy galleries and supplied copy; full name Nertil Muhaxhiri |
+| `/journal` | Redirect to the existing Journal domain; primary navigation links directly there |
+| `/playlist` | Five V4 tiles; explicit unavailable states pending owned Spotify links; track-sharing enquiry |
+| `/contact` | Supplied contact information, six form fields, eight enquiry types, named contacts and House teaser |
+| `/privacy-policy` | Link to TOML’s existing policy PDF; final review pending |
+| `/cookies` | Clearly labelled pending information |
+| Unknown routes | Custom 404 with a route back to Work |
 
-`src/lib/pages.ts` lists fixed pages and main navigation. `SitePage.astro` supplies shared semantic navigation, the main heading and policy links. The catch-all file generates only the explicitly listed fixed pages; unknown URLs remain 404s. The home page retains its CMS content and uses this same plain layout.
+Baseline cases: Siebert, ETH Zürich Space, UBS / The Red Thread, Vvitaverse, Carvago, RH45, Elja / UNM, Siebert / Generation Wealth and Siebert / Corporate Bonds. Don’t be that guy is linked from Siebert to the supplied Behance article.
 
-Case and member pages are generated at build time from the published Sanity perspective. Publishing an entry with a title/name and valid unique slug creates its URL on the next successful build; unpublishing removes it after the next successful build. Slugs use lowercase letters, numbers and single hyphens, up to 96 characters. Invalid or duplicate published paths fail the build. No example cases or people were created or published. Existing legacy demo documents, including `talent` drafts, are preserved; member routes use the new `member` type.
+The deck’s first four lead cards are retained in order, with the comment-requested Vvitaverse substitution. Additional supplied cases follow them. Sources and extra gallery content intentionally extend some pages beyond the long-slide mockup height.
 
-These schemas establish routing only. Rich content, media, core-team editing, journal entries and playlist integrations can be added when their requirements are supplied. Cases and members are allowed to have empty collections. Site indexing and contact sending retain their existing review settings.
+## CMS and publishing
 
-## Verification and rollout
+Home, cases and members still use published Sanity reads at build time. Schema extensions are in the repository only. No source documents, seed fixtures, drafts, uploaded media or webhooks were written to Sanity during this pass. Existing infrastructure and disabled mail/indexing settings remain in place.
 
-- Local Astro/TypeScript checks, all 14 tests, the CMS-backed build and Studio build pass.
-- All 13 fixed pages, internal links and noindex metadata were checked in the build output.
-- The two dynamic templates and their index links were checked using test-only fixtures in an isolated temporary checkout. No fixture data was written to Sanity.
-- Publication approved on 19 October 2026. The updated code-managed Studio and schema have been deployed. Both existing Sanity webhook filters were expanded and verified as `(_type == "homePage" && _id == "home") || _type in ["caseStudy", "member"]`, with drafts and versions still excluded.
-- Website publication uses the existing `main` deployment pipelines for both Workers. Check the commit’s CI and Cloudflare builds for deployment results. No case/member publishing acceptance test using real content has been performed.
+`src/lib/website-content.ts` combines the review baseline with published overrides by slug. The baseline must be migrated to CMS before CMS-only unpublishing/removal is the editorial authority. New gallery fields preserve descriptions and published credits. Final CMS structure follows visual review, as discussed in the meeting.
+
+Contact enquiry type, company and timing are retained in the bounded plain-text mail payload when sending is configured. Review mode presents validation and an email fallback without sending. The existing server validation, honeypot, origin check, hostname-bound Turnstile verification, fixed sender and local simulation are preserved.
+
+## Verification
+
+See project-root `design-qa.md` and local `artifacts/design-qa/` for normalized source comparisons and browser evidence. Routine verification includes Astro/TypeScript checks, the unit suite, static site build, Studio build and Worker dry run. Hosted Studio acceptance, dataset migration and real inbox delivery remain separate release checks.

@@ -1,0 +1,141 @@
+---
+import { asset } from "../data/website";
+interface Props {
+  variant?: "link" | "feature";
+  id?: string;
+}
+const { variant = "link", id = "showreel" } = Astro.props;
+---
+
+{
+  variant === "link" ? (
+    <button
+      class="link-button reel-link"
+      data-open-reel={id}
+      aria-haspopup="dialog"
+    >
+      Watch the reel
+    </button>
+  ) : (
+    <figure class="showreel-feature">
+      <>
+        <img
+          src={asset("p2-p2_i132")}
+          width="1280"
+          height="640"
+          alt="Floating architectural worlds — TOML showreel still"
+          loading="lazy"
+        />
+        <button class="pill" data-open-reel={id} aria-haspopup="dialog">
+          Play our showreel
+          <span class="plus" aria-hidden="true">
+            +
+          </span>
+        </button>
+      </>
+    </figure>
+  )
+}
+<dialog class="reel-dialog" id={id} aria-label="TOML Collective showreel">
+  <button class="close-reel" autofocus aria-label="Close showreel"
+    >Close ×</button
+  ><video controls playsinline preload="none" poster={asset("p2-p2_i132")}
+    ><source src="/media/toml-showreel.mp4" type="video/mp4" /><a
+      href="/media/toml-showreel.mp4">Download the TOML showreel</a
+    ></video
+  ><p>TOML Collective / Showreel</p>
+</dialog>
+<script>
+  for (const trigger of document.querySelectorAll<HTMLButtonElement>(
+    "[data-open-reel]",
+  )) {
+    const dialog = document.getElementById(
+      trigger.dataset.openReel || "",
+    ) as HTMLDialogElement | null;
+    const video = dialog?.querySelector("video");
+    trigger.addEventListener("click", () => {
+      dialog?.showModal();
+      document.body.classList.add("scroll-lock");
+      video?.load();
+    });
+    dialog
+      ?.querySelector(".close-reel")
+      ?.addEventListener("click", () => dialog.close());
+    dialog?.addEventListener("close", () => {
+      video?.pause();
+      document.body.classList.remove("scroll-lock");
+      trigger.focus();
+    });
+  }
+</script>
+<style>
+  .reel-link {
+    font-size: 18px;
+  }
+  .reel-dialog {
+    border: 0;
+    background: var(--ink);
+    color: var(--canvas);
+    padding: 28px;
+    width: min(1200px, calc(100% - 32px));
+    max-width: 100%;
+    max-height: 95dvh;
+  }
+  .reel-dialog::backdrop {
+    background: rgb(0 0 0 / 0.85);
+  }
+  video {
+    width: 100%;
+    max-height: 75dvh;
+    display: block;
+  }
+  .close-reel {
+    display: block;
+    margin-left: auto;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    padding: 0 0 22px;
+  }
+  .reel-dialog p {
+    font-size: 13px;
+    margin: 18px 0 0;
+  }
+  .showreel-feature {
+    position: relative;
+  }
+  .showreel-feature > img {
+    aspect-ratio: 2;
+    object-fit: cover;
+  }
+  .showreel-feature > button {
+    position: absolute;
+    bottom: 32px;
+    left: 32px;
+  }
+  .showreel-feature > button.pill {
+    min-width: 260px;
+    font-size: 17px;
+  }
+  @media (max-width: 560px) {
+    .showreel-feature > button {
+      bottom: 16px;
+      left: 16px;
+      min-height: 48px;
+    }
+    .showreel-feature > button.pill {
+      min-width: 220px;
+      font-size: 14px;
+    }
+    .showreel-feature > img {
+      aspect-ratio: 1.4;
+    }
+    .reel-dialog {
+      padding: 18px;
+    }
+    .reel-link {
+      font-size: 16px;
+    }
+  }
+</style>

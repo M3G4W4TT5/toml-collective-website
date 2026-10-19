@@ -1,0 +1,27 @@
+---
+import Pill from "./Pill.astro";
+interface Props {
+  heading?: string;
+  copy?: string;
+  href?: string;
+  label?: string;
+}
+const {
+  heading = "What have you\ngot in mind?",
+  copy = "A new brand, a campaign, a next chapter or an idea that won’t leave you alone. Let’s see where it could go.",
+  href = "/contact",
+  label = "Start a conversation",
+} = Astro.props;
+---
+
+<section class="cta-band">
+  <div class="container">
+    <div>
+      <p class="eyebrow">LET’S TALK</p><h2 style="white-space:pre-line">
+        {heading}
+      </h2>
+    </div><div class="cta-copy">
+      <p>{copy}</p><Pill href={href}>{label}</Pill>
+    </div>
+  </div>
+</section>

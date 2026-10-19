@@ -1,0 +1,35 @@
+---
+interface Props {
+  type?: "about" | "people";
+}
+const { type = "about" } = Astro.props;
+const links =
+  type === "about"
+    ? [
+        ["/about", "About TOML"],
+        ["/about/approach", "Our approach"],
+        ["/about/our-story", "Our story"],
+      ]
+    : [
+        ["/people", "Core team"],
+        ["/people/members", "TOML Members"],
+      ];
+---
+
+<nav
+  class="subnav container"
+  aria-label={type === "about" ? "About navigation" : "People navigation"}
+>
+  {
+    links.map(([href, label]) => (
+      <a
+        href={href}
+        aria-current={
+          Astro.url.pathname.replace(/\/$/, "") === href ? "page" : undefined
+        }
+      >
+        {label}
+      </a>
+    ))
+  }
+</nav>

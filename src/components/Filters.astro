@@ -1,0 +1,65 @@
+---
+interface Props {
+  categories: string[];
+  count: number;
+  kind: "work" | "members";
+}
+const { categories, count, kind } = Astro.props;
+---
+
+<div
+  class="filters"
+  role="group"
+  aria-label={`Filter ${kind}`}
+  data-filters={kind}
+>
+  {
+    ["All", ...categories].map((c, i) => (
+      <button
+        type="button"
+        data-filter={c}
+        aria-pressed={i === 0 ? "true" : "false"}
+      >
+        {c}
+      </button>
+    ))
+  }<span class="count" aria-live="polite" data-filter-count
+    >{String(count).padStart(2, "0")}
+    {kind === "work" ? "selected projects" : "members"}</span>
+</div>
+<script>
+  for (const group of document.querySelectorAll<HTMLElement>(
+    "[data-filters]",
+  )) {
+    const scope = group.closest<HTMLElement>("[data-filter-scope]");
+    if (!scope) continue;
+    const items = scope.querySelectorAll<HTMLElement>("[data-filter-item]");
+    const empty = scope.querySelector<HTMLElement>("[data-filter-empty]");
+    for (const button of group.querySelectorAll<HTMLButtonElement>(
+      "[data-filter]",
+    ))
+      button.addEventListener("click", () => {
+        const value = button.dataset.filter;
+        let count = 0;
+        for (const item of items) {
+          const categories = JSON.parse(
+            item.dataset.categories || "[]",
+          ) as string[];
+          const visible = value === "All" || categories.includes(value || "");
+          item.hidden = !visible;
+          if (visible) count++;
+        }
+        for (const b of group.querySelectorAll("button"))
+          b.setAttribute("aria-pressed", String(b === button));
+        const label = group.querySelector("[data-filter-count]");
+        if (label)
+          label.textContent = `${String(count).padStart(2, "0")} ${group.dataset.filters === "work" ? "selected projects" : "members"}`;
+        if (empty) empty.hidden = count !== 0;
+      });
+    scope
+      .querySelector("[data-reset-filter]")
+      ?.addEventListener("click", () =>
+        group.querySelector<HTMLButtonElement>('[data-filter="All"]')?.click(),
+      );
+  }
+</script>

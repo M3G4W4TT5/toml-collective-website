@@ -1,10 +1,51 @@
 ---
-import SitePage from '../../layouts/SitePage.astro';
-import { getCases } from '../../lib/collections';
-const cases = await getCases();
+import SitePage from "../../layouts/SitePage.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import Filters from "../../components/Filters.astro";
+import ContactBand from "../../components/ContactBand.astro";
+import Showreel from "../../components/Showreel.astro";
+import { getWebsiteProjects } from "../../lib/website-content";
+const projects = await getWebsiteProjects();
 ---
-<SitePage title="Work">
-  {cases.length ? (
-    <ul>{cases.map((entry) => <li><a href={`/work/${entry.slug}`}>{entry.title}</a></li>)}</ul>
-  ) : <p>Cases to follow.</p>}
+
+<SitePage title="Our work"
+  ><section class="page-intro split container">
+    <div>
+      <p class="eyebrow">Our work</p><h1>Ideas, out<br />in the world.</h1>
+    </div><p class="lead intro-copy">
+      Brands, campaigns and digital experiences. Different briefs, with a clear
+      idea behind each one.
+    </p>
+  </section>
+  <div class="container" data-filter-scope>
+    <Filters
+      categories={["Branding", "Digital", "Film & content", "Campaigns"]}
+      count={projects.length}
+      kind="work"
+    /><div class="project-grid">
+      {projects.map((p) => <ProjectCard project={p} />)}
+    </div><div class="empty" data-filter-empty hidden>
+      <p>No projects in this selection yet.</p><button
+        class="link-button"
+        data-reset-filter>View all work</button>
+    </div>
+  </div>
+  <section class="section container">
+    <div class="story-row split">
+      <div>
+        <p class="eyebrow">How the work happens</p><h2>
+          The team fits<br />the idea.
+        </h2>
+      </div><div class="body">
+        <p>
+          We build teams around what each person brings to the work. Our core
+          team leads, with the collective joining around each brief.
+        </p><a class="text-link" href="/about/approach">Explore our approach</a>
+      </div>
+    </div><Showreel variant="feature" />
+  </section>
+  <ContactBand
+    heading={"What’s your\nnext chapter?"}
+    copy="A brand, a campaign or something taking shape."
+  />
 </SitePage>

@@ -4,10 +4,10 @@
 | --- | --- |
 | Project kind | client |
 | Phase | design-implementation |
-| Purpose | Groundwork for the TOML Collective website; template demonstration until design implementation |
+| Purpose | Full-site V4 visual implementation for local review |
 | Repository | https://github.com/M3G4W4TT5/toml-collective-website (public), branch `main` |
 | Template | https://github.com/M3G4W4TT5/astro-sanity-cloudflare-starter |
-| Client brief | `docs/design-brief.md` — awaiting the website brief |
+| Client brief | `docs/design-brief.md` — supplied deck, comments, attachments and conversation decisions |
 | Runtime | Node 24, npm 11; static Astro and contact Worker |
 | Sanity | TOML Collective, project `tt800xj0`, public dataset `production` |
 | Cloudflare | TOML Collective account `119f3a7e5a0a92df0015f928b7e75d87` |
@@ -42,7 +42,21 @@
 
 ## Next task / blockers
 
-- Infrastructure setup is complete. The requested page structure is prepared locally. Await the design brief, approved assets and content before visual implementation; continue from `docs/design-brief.md`.
+- Full V4 visual implementation is prepared locally. Review the design at the local preview, then finalize content and the CMS migration described in `docs/design-brief.md`.
 - Both Workers currently track `main`. Choose a separate trusted design branch later if primary and preview need independent releases.
 - Open the new Studio to confirm the owner's editing workflow. Do not repeat completed provisioning.
 - Final domain, mail delivery, policy wording, indexing, analytics and failure-notification ownership remain launch/handoff decisions. No failure notifier has been configured.
+
+## V4 full-site implementation — 19 October 2026
+
+- The user expanded scope to the entire site, then confirmed legacy-site content reuse, external Journal navigation, Nertil Muhaxhiri’s name and Members placement, the provisional House page, and supplied showreel. Spotify URLs remain pending.
+- Implemented the shared V4 design, source-backed case and member pages, About subpages, contact flow, playlist states, showreel playback, responsive navigation, functional filters and accessible profile drawers.
+- Added local CMS schema extensions and build-time overrides for Home, cases and members. No CMS data/Studio publication, Git push or website deployment was performed. Seed content remains code-backed pending visual acceptance and reviewed migration.
+- Reused original slide artwork, legacy galleries and supplied campaign exports; optimized consumed images and the showreel locally. Source references and outstanding content inputs are recorded in `docs/design-brief.md`.
+- Local validation and visual evidence are recorded in `design-qa.md`; current hosted Workers still represent the previously published revision until a separately authorized release.
+
+## Main-branch publication authorization — 19 October 2026
+
+- After the local implementation handoff, the user explicitly requested “push to main!”. This authorizes committing this V4 implementation and pushing to the verified repository’s `main`, which starts the existing website pipelines.
+- Local source checks, 16 tests, site/Studio builds, Worker dry run and browser QA passed before this push. Local browser evidence remains ignored by Git; the QA report and source inventory are included.
+- This code push does not migrate the Sanity dataset, deploy Studio separately, enable contact sending, change indexing mode or switch DNS. Hosted build status must be verified separately from Git acceptance.

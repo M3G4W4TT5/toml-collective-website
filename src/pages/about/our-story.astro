@@ -1,0 +1,100 @@
+---
+import SitePage from "../../layouts/SitePage.astro";
+import Subnav from "../../components/Subnav.astro";
+import ContactBand from "../../components/ContactBand.astro";
+---
+
+<SitePage title="Our story"
+  ><Subnav /><section class="page-intro editorial-hero container">
+    <p class="eyebrow">Our story / Founder’s story</p><h1>
+      It started<br />with people.
+    </h1><p class="lead">
+      TOML grew from a belief that creative people deserve room to do their best
+      work, and that those people can be anywhere.
+    </p><p class="eyebrow" style="margin-top:48px">
+      Virtyt Pula / Founder & Creative Lead
+    </p>
+  </section>
+  <section class="story-row split container">
+    <div>
+      <p class="eyebrow">01 / Why it started</p><h2>
+        Room for<br />better work.
+      </h2>
+    </div><div class="body">
+      <p>
+        After working inside large agencies, I wanted to build a creative
+        company where people had a voice in the work, received proper credit and
+        could bring their own perspective.
+      </p><p>
+        TOML grew around that belief. Independent creatives, brought together
+        with clear direction and care for what we make.
+      </p>
+    </div>
+  </section>
+  <section class="story-row split container">
+    <div>
+      <p class="eyebrow">02 / How it grew</p><h2>
+        One conversation<br />at a time.
+      </h2>
+    </div><div class="body">
+      <p>
+        I moved from Kosovo to London in 2017, with no network and English as my
+        second language. I reached out to graduates, met creatives and knocked
+        on agency doors. Each project was a chance to earn trust.
+      </p><p>
+        Those connections grew into collaborations with UNIT9 and Waste
+        Creative, then Red Bull Media House and IDEO. Brands began coming to us
+        directly. We kept building each team around the brief.
+      </p>
+    </div>
+  </section>
+  <div class="timeline container">
+    {
+      [
+        ["2016", "The first idea", "A creative company built around talent."],
+        ["2017", "London", "New connections, project by project."],
+        ["2019", "TOML LTD", "The collective becomes a UK company."],
+        ["2026", "House of TOML", "Our creative home opens in Prishtina."],
+      ].map(([y, t, d]) => (
+        <article>
+          <>
+            <h3>{y}</h3>
+            <h4>{t}</h4>
+            <p>{d}</p>
+          </>
+        </article>
+      ))
+    }
+  </div>
+  <section class="dark section">
+    <div class="container">
+      <p class="eyebrow">The belief we keep coming back to</p><h2>
+        Better ideas come<br />from different voices.
+      </h2>
+    </div>
+  </section>
+  <section class="story-row split container">
+    <div>
+      <p class="eyebrow">03 / Where we’re going</p><h2>
+        More room<br />to make things.
+      </h2>
+    </div><div class="body">
+      <p>
+        As TOML grows, I want to protect the things that made it work. Staying
+        independent. Keeping people close to the decisions. Creating more
+        opportunities for our collective.
+      </p><p>
+        TOML Journal and Children’s Planet give us space for ideas of our own.
+        The House in Prishtina gives us a place to come together.
+      </p><div class="actions">
+        <a class="text-link" href="/people">Meet the people</a><a
+          class="text-link"
+          href="/about/approach">Explore our approach</a>
+      </div>
+    </div>
+  </section>
+  <ContactBand
+    heading={"An idea worth\ngetting together for."}
+    copy="Tell us what you have in mind."
+  /></SitePage
+>

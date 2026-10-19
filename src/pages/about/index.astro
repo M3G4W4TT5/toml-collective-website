@@ -1,0 +1,165 @@
+---
+import SitePage from "../../layouts/SitePage.astro";
+import Subnav from "../../components/Subnav.astro";
+import ContactBand from "../../components/ContactBand.astro";
+import { asset } from "../../data/website";
+const values = [
+  [
+    "Stay curious.",
+    "We ask useful questions and stay open to answers we weren’t expecting.",
+  ],
+  [
+    "Work well together.",
+    "Clear conversations, thoughtful planning and room for life beyond the project.",
+  ],
+  [
+    "Follow the detail through.",
+    "The idea carries through every decision, from the first sketch to the finished work.",
+  ],
+  [
+    "Make room for other minds.",
+    "Different perspectives improve the work. We listen, make room and give proper credit.",
+  ],
+];
+---
+
+<SitePage title="About TOML"
+  ><Subnav /><section class="page-intro editorial-hero container">
+    <p class="eyebrow">About TOML</p><h1>
+      Independent minds.<br />Shared standards.
+    </h1><p class="lead">
+      TOML is a creative company built around people with a point of view. We
+      bring strategy, design and storytelling together, with a team shaped
+      around the work.
+    </p>
+  </section>
+  <section class="story-row split container">
+    <div>
+      <p class="eyebrow">01 / Our story</p><h2>
+        Started with an idea.<br />Built through<br />people.
+      </h2>
+    </div><div class="body">
+      <p>
+        TOML began in 2016 with Virtyt Pula’s belief that creative talent
+        deserved room to contribute. After moving from Kosovo to London in 2017,
+        he built the collective one relationship at a time.
+      </p><p>The people came first. The projects grew from there.</p><a
+        class="text-link"
+        href="/about/our-story">Read our story</a>
+    </div>
+  </section>
+  <section class="story-row split container">
+    <div>
+      <p class="eyebrow">02 / The collective</p><h2>
+        A close team.<br />A wider circle.
+      </h2>
+    </div><div class="body">
+      <p>
+        Our core team leads. We bring in independent creatives and specialist
+        partners for what they add to the idea.
+      </p><p>
+        You work with one connected team, with clear direction and direct
+        conversations.
+      </p><a class="text-link" href="/about/approach">Explore our approach</a>
+    </div>
+  </section>
+  <section class="values dark">
+    <div class="container">
+      <p class="eyebrow">03 / Culture & values</p><h2>People first.</h2><p
+        class="lead"
+      >
+        Care for the idea. Respect for the people.<br />Attention to how the
+        work gets made.
+      </p><div class="values-grid">
+        {
+          values.map(([t, p]) => (
+            <article>
+              <>
+                <h3>{t}</h3>
+                <p>{p}</p>
+              </>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+  <section class="story-row split container">
+    <div>
+      <p class="eyebrow">04 / Recognition</p><h2>
+        Good work<br />gets noticed.
+      </h2>
+    </div><div class="recognition-list">
+      {
+        [
+          [
+            "ETH Zürich Space",
+            "UI, UX & Innovation recognition / CSS Design Awards",
+          ],
+          [
+            "Siebert GenW",
+            "Digital & Social Media Campaign of the Year / AMA 2026",
+          ],
+          [
+            "UBS / The Red Thread",
+            "The Drum finalist / Art direction with UNIT9",
+          ],
+        ].map(([t, d]) => (
+          <article>
+            <>
+              <h3>{t}</h3>
+              <p>{d}</p>
+            </>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+  <section class="section container rule">
+    <p class="eyebrow">05 / Beyond client work</p><h2>
+      There’s more to the collective.
+    </h2><div class="grid-3 beyond-grid">
+      <article>
+        <img
+          src={asset("p7-p7_i243")}
+          width="600"
+          height="220"
+          alt="TOML Journal — floating worlds"
+          loading="lazy"
+        /><h3>TOML Journal</h3><p>
+          Conversations on culture, craft and the things changing how we work.
+        </p><a class="text-link" href="https://www.tomljournal.com"
+          >Read the Journal</a>
+      </article><article>
+        <img
+          src={asset("p7-p7_i248")}
+          width="600"
+          height="220"
+          alt="Children’s Planet animated landscape"
+          loading="lazy"
+        /><h3>Children’s Planet</h3><p>
+          Original music, animation and educational stories for children.
+        </p><a
+          class="text-link"
+          href="https://www.tomlcollective.com/childrensplanet"
+          >Explore Children’s Planet</a>
+      </article><article>
+        <img
+          src={asset("p7-p7_i252")}
+          width="600"
+          height="220"
+          alt="House of TOML reference photograph"
+          loading="lazy"
+        /><h3>House of TOML</h3><p>
+          Our creative home in Prishtina. A place to work, share ideas and spend
+          time together.
+        </p><a class="text-link" href="/about/house-of-toml"
+          >Discover the space</a>
+      </article>
+    </div>
+  </section>
+  <ContactBand
+    heading={"Thoughtful work.\nGood people."}
+    copy="Tell us what you have in mind."
+  /></SitePage
+>
