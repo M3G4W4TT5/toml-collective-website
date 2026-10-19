@@ -1,0 +1,17 @@
+---
+import type { GetStaticPaths } from 'astro';
+import SitePage from '../../layouts/SitePage.astro';
+import { getCases } from '../../lib/collections';
+import type { RouteRecord } from '../../lib/route-records';
+
+export const getStaticPaths = (async () => (await getCases()).map((entry) => ({
+  params: { slug: entry.slug }, props: { entry },
+}))) satisfies GetStaticPaths;
+
+interface Props { entry: RouteRecord }
+const { entry } = Astro.props;
+---
+<SitePage title={entry.title} description={entry.description || undefined}>
+  {entry.description && <p>{entry.description}</p>}
+  <p><a href="/work">Back to Work</a></p>
+</SitePage>

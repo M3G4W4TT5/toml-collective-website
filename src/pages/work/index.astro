@@ -1,0 +1,10 @@
+---
+import SitePage from '../../layouts/SitePage.astro';
+import { getCases } from '../../lib/collections';
+const cases = await getCases();
+---
+<SitePage title="Work">
+  {cases.length ? (
+    <ul>{cases.map((entry) => <li><a href={`/work/${entry.slug}`}>{entry.title}</a></li>)}</ul>
+  ) : <p>Cases to follow.</p>}
+</SitePage>

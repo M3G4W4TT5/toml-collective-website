@@ -1,0 +1,35 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import { navigation } from '../lib/pages';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = `${title} — TOML Collective` } = Astro.props;
+---
+<BaseLayout title={title} description={description}>
+  <header>
+    <a href="#main">Skip to content</a>
+    <p><a href="/">TOML Collective</a></p>
+    <nav aria-label="Main navigation">
+      <ul>
+        {navigation.map(({ href, title }) => (
+          <li><a href={href} aria-current={Astro.url.pathname.replace(/\/$/, '') === href ? 'page' : undefined}>{title}</a></li>
+        ))}
+      </ul>
+    </nav>
+  </header>
+  <main id="main">
+    <h1>{title}</h1>
+    <slot />
+  </main>
+  <footer>
+    <nav aria-label="Legal">
+      <ul>
+        <li><a href="/privacy-policy">Privacy Policy</a></li>
+        <li><a href="/cookies">Cookies</a></li>
+      </ul>
+    </nav>
+  </footer>
+</BaseLayout>

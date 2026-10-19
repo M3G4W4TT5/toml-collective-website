@@ -1,0 +1,11 @@
+---
+import SitePage from '../../../layouts/SitePage.astro';
+import { getMembers } from '../../../lib/collections';
+const members = await getMembers();
+---
+<SitePage title="Members">
+  {members.length ? (
+    <ul>{members.map((entry) => <li><a href={`/people/members/${entry.slug}`}>{entry.title}</a></li>)}</ul>
+  ) : <p>Members to follow.</p>}
+  <p><a href="/people">Core Team</a></p>
+</SitePage>

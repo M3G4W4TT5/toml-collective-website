@@ -1,0 +1,20 @@
+---
+import type { GetStaticPaths } from 'astro';
+import SitePage from '../layouts/SitePage.astro';
+import { pages, aboutPages } from '../lib/pages';
+
+export const getStaticPaths = (() => pages.map(({ path, title }) => ({
+  params: { page: path }, props: { title },
+}))) satisfies GetStaticPaths;
+
+const { title } = Astro.props;
+const { page } = Astro.params;
+---
+<SitePage title={title}>
+  <p>Content to follow.</p>
+  {page === 'about' && (
+    <ul>{aboutPages.map(({ path, title }) => <li><a href={`/${path}`}>{title}</a></li>)}</ul>
+  )}
+  {page?.startsWith('about/') && <p><a href="/about">Back to About</a></p>}
+  {page === 'people' && <p><a href="/people/members">Members</a></p>}
+</SitePage>

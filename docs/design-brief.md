@@ -6,9 +6,9 @@ Fill this in for the generated client site. This starter supplies infrastructure
 
 - Client and site purpose:
 - Audience and primary visitor actions:
-- Required pages, navigation and language(s):
+- Required pages and navigation: see [site structure](site-structure.md); language(s) to confirm.
 - Content owner and decision-maker:
-- Deadline and current scope:
+- Deadline and current scope: page structure only, no design or final copy (19 October 2026); deadline not supplied.
 
 ## Visual references and decisions
 

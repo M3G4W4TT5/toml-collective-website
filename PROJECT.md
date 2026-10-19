@@ -33,9 +33,16 @@
 - Verified the changed text over HTTPS on both public pages: “CMS publishing verified on 19 October 2026.” Both returned HTTP 200, the correct title/canonical and `noindex`. API method rejection returned 405, disabled contact submission returned 503, and unknown page/API paths returned 404. No mail was sent.
 - Hosted page verification used HTTP response content. A browser/editor UI session was not available for visual or Studio login acceptance.
 
+## Page structure increment — 2026-10-19
+
+- Added the requested fixed routes, about subpages, case/member indexes and Sanity-driven case/member templates. See `docs/site-structure.md` for the route map and CMS fields.
+- Replaced the styled starter demonstration with a shared plain semantic layout. Policy pages contain placeholders only; no examples, legal copy or contact details were invented.
+- Local checks, all 14 tests, CMS-backed build, Studio build, fixed-page link checks and isolated dynamic-route fixture builds passed.
+- Publication approved. The updated Studio/schema are deployed and both existing publishing hooks now cover Home, cases and members, with drafts/versions excluded. Website changes publish through the existing `main` pipelines for both Workers.
+
 ## Next task / blockers
 
-- Infrastructure setup is complete. Await the website brief, approved assets and content before replacing the template demonstration; continue from `docs/design-brief.md`.
+- Infrastructure setup is complete. The requested page structure is prepared locally. Await the design brief, approved assets and content before visual implementation; continue from `docs/design-brief.md`.
 - Both Workers currently track `main`. Choose a separate trusted design branch later if primary and preview need independent releases.
 - Open the new Studio to confirm the owner's editing workflow. Do not repeat completed provisioning.
 - Final domain, mail delivery, policy wording, indexing, analytics and failure-notification ownership remain launch/handoff decisions. No failure notifier has been configured.

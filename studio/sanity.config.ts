@@ -1,6 +1,8 @@
 import { defineConfig } from 'sanity';
 import { structureTool } from 'sanity/structure';
 import { homePage } from './schemas/homePage';
+import { caseStudy } from './schemas/caseStudy';
+import { member } from './schemas/member';
 
 export default defineConfig({
   name: 'toml-collective',
@@ -15,5 +17,5 @@ export default defineConfig({
       ? actions.filter(({ action }) => action !== 'delete' && action !== 'unpublish')
       : actions,
   },
-  schema: { types: [homePage] },
+  schema: { types: [homePage, caseStudy, member] },
 });
