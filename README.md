@@ -1,19 +1,33 @@
-# Astro + Sanity + Cloudflare Workers starter
+# TOML Collective website
 
-A design-neutral template for small client websites: static Astro, React when needed, Sanity content fetched at build time, and Cloudflare Workers Static Assets with a protected contact endpoint.
+Groundwork for the TOML Collective website, generated from [astro-sanity-cloudflare-starter](https://github.com/M3G4W4TT5/astro-sanity-cloudflare-starter). Static Astro, optional React, Sanity content at build time, and Cloudflare Workers Static Assets.
 
-The demonstration page is disposable. Each generated repository gets its own design, content model, accounts and launch decisions.
+The template demonstration is temporary. Design and final editorial content are a separate phase.
 
-## Try it locally
+## Environments
 
-Use Node 24 and npm 11. No accounts are needed for the demo.
+| Environment | URL | Git branch | Deploy command |
+| --- | --- | --- | --- |
+| Primary | https://toml-collective-website.toml-collective.workers.dev | `main` | `npx wrangler deploy` |
+| Preview | https://toml-collective-website-preview.toml-collective.workers.dev | `main` | `npx wrangler deploy --env review` |
+
+Both are in the TOML Collective Cloudflare account, public without a password, and initially use `PUBLIC_SITE_MODE=review` (`noindex`). Builds on other branches are disabled. Each Worker has its own build variables and runtime configuration. Contact sending remains disabled.
+
+Sanity project: `tt800xj0`; public dataset: `production`. The code-managed Studio is in `studio/`. Read [PROJECT.md](PROJECT.md) for verified setup state, evidence and outstanding work.
+
+## Local development
+
+Use Node 24 and npm 11:
 
 ```bash
 npm ci
+cp .env.example .env
 npm run dev
 ```
 
-Open [localhost:4321](http://localhost:4321). Check the complete starter with:
+The environment example points at the TOML preview configuration and published CMS content. Without `.env`, the account-free demonstration still runs. Start the Studio with `npm run studio:dev`. For the full local site and simulated contact API, copy `.dev.vars.example` to `.dev.vars` and run `npm run dev:worker`.
+
+Validate infrastructure changes with:
 
 ```bash
 npm run check
@@ -21,28 +35,11 @@ npm test
 npm run build
 npm run studio:build
 npm run worker:check
+npx wrangler deploy --env review --dry-run
 ```
 
-For the full static site and local API, copy `.dev.vars.example` to `.dev.vars` and run `npm run dev:worker` on port 8787. Local mail is always simulated. Astro dev and preview serve the frontend only.
+Cloudflare Workers Builds runs `npm run build` before each deployment. Published Sanity content is fetched afresh during the build; it does not update already deployed static HTML until a rebuild succeeds.
 
-## Start a client site
+## Next steps
 
-1. Generate an independent repository using this template. Set the project kind and phase in [PROJECT.md](PROJECT.md).
-2. Follow the [quickstart](docs/quickstart.md) to connect client-owned Sanity and Workers review services.
-3. Record the successful CMS-to-review deployment and move to `design-implementation`. Fill [the design brief](docs/design-brief.md) and replace the demonstration page and styling.
-4. Complete the [launch checklist](docs/new-site-checklist.md), including real inbox delivery, policy review and the domain switch.
-5. Complete the [operations handoff](docs/operations-handoff.md).
-
-`AGENTS.md` uses the recorded project phase so later coding sessions continue design work without repeating account setup. Missing mail, legal or domain decisions do not block independent design implementation.
-
-## Reusable pieces
-
-- `src/layouts/BaseLayout.astro`: language, canonical URL, description, Open Graph and indexing.
-- `src/components/ContactForm.astro`: form markup and submission behavior, independent of the demonstration page.
-- `worker/`: bounded validation, Turnstile verification and replaceable Resend/Cloudflare mail adapters.
-- `wrangler.jsonc`: static assets, API routing, generated binding types and an isolated review environment.
-- GitHub Actions and grouped Dependabot updates: maintain the template before reusing it.
-
-`PUBLIC_SITE_MODE=demo|review|live` controls validated configuration and indexing. Only live mode permits indexing; branch previews stay unindexed. Analytics is undecided and no tracking provider is installed.
-
-See [configuration](docs/quickstart.md), [starter decisions](docs/decisions.md), [maintenance](docs/maintenance.md) and the working [policy templates](docs/templates/README.md). Existing Pages users should read the [migration notes](docs/migrate-from-pages.md).
+Use [the design brief](docs/design-brief.md) for the website design and editorial model. Configuration details are in [the quickstart](docs/quickstart.md). Complete [the launch checklist](docs/new-site-checklist.md) and [operations handoff](docs/operations-handoff.md) before the final domain and indexing launch. Analytics remains undecided.

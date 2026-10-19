@@ -1,7 +1,8 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
-  // Replace both names when generating a client repository.
-  "name": "website-starter",
+  "name": "toml-collective-website",
+  "account_id": "119f3a7e5a0a92df0015f928b7e75d87",
+  "workers_dev": true,
   "main": "worker/index.ts",
   "compatibility_date": "2026-10-19",
   "compatibility_flags": ["nodejs_compat"],
@@ -20,7 +21,7 @@
   },
   "env": {
     "review": {
-      "name": "website-starter-review",
+      "name": "toml-collective-website-preview",
       "vars": {
         "CONTACT_FORM_ENABLED": "0",
         "CONTACT_DEV_MODE": "0",

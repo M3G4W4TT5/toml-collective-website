@@ -1,5 +1,5 @@
 {
-  "name": "astro-sanity-cloudflare-starter",
+  "name": "toml-collective-website",
   "private": true,
   "type": "module",
   "workspaces": [

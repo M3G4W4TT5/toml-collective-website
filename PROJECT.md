@@ -1,34 +1,32 @@
-# Project state
-
-Update this file when setup completes, the project phase changes, or an infrastructure decision changes. Keep it concise and safe for a public repository. Store credentials and private ownership/recovery records elsewhere.
+# TOML Collective website
 
 | Field | Current value |
 | --- | --- |
-| Project kind | template |
-| Phase | template-maintenance |
-| Purpose | Design-neutral Astro/React + Sanity + Cloudflare Workers starter |
-| Client brief | Not applicable to the public template; use `docs/design-brief.md` in generated sites |
-| Runtime | Node 24, npm 11; static Astro plus a contact Worker |
-| Sanity | Not provisioned; project/dataset are per-client |
-| Cloudflare | Not provisioned; replace `website-starter` and `website-starter-review` in `wrangler.jsonc` |
-| Review origin / Studio URL | Not configured |
-| Live origin | Not configured |
-| Build mode | Account-free `demo`; review/live require CMS identifiers and an HTTPS origin |
-| Mail | Resend adapter available; sending disabled until client delivery is verified |
-| Analytics | Undecided; no provider or tracking installed |
-
-## When generating a client repository
-
-1. Set kind to `client`, phase to `setup`, and replace template facts with client-specific facts. Record the chosen repository/branch, non-secret Sanity IDs, Worker names, URLs and brief link.
-2. Track setup evidence: local checks/builds, deployed Studio, editor access, published CMS edit, corresponding review deployment and observed page. Record dates and links without secret deploy-hook URLs.
-3. Move phase to `design-implementation` once setup is verified. Record the next design task and unresolved external blockers. Do not rerun completed setup.
-4. Later move to `launch`, then `handoff`, with references to the completed checklists and the private operations record.
+| Project kind | client |
+| Phase | setup |
+| Purpose | Groundwork for the TOML Collective website; template demonstration until design implementation |
+| Repository | https://github.com/M3G4W4TT5/toml-collective-website (public), branch `main` |
+| Template | https://github.com/M3G4W4TT5/astro-sanity-cloudflare-starter |
+| Client brief | `docs/design-brief.md` — awaiting the website brief |
+| Runtime | Node 24, npm 11; static Astro and contact Worker |
+| Sanity | TOML Collective, project `tt800xj0`, public dataset `production` |
+| Cloudflare | TOML Collective account `119f3a7e5a0a92df0015f928b7e75d87` |
+| Primary Worker / origin | `toml-collective-website` / https://toml-collective-website.toml-collective.workers.dev |
+| Preview Worker / origin | `toml-collective-website-preview` / https://toml-collective-website-preview.toml-collective.workers.dev |
+| Studio | Template code in `studio/`; deployment pending |
+| Build mode | Both initial sites use `review` once CMS is connected; public without a password, with `noindex` |
+| Git deployment | Both Workers track `main`; preview deploys with `--env review`; other branch builds disabled |
+| Mail | Public form and runtime sending disabled in both environments |
+| Analytics | Undecided; no tracking installed |
 
 ## Completed setup / evidence
 
-- Public template only. No client services have been created.
+- 2026-10-19: created the independent public GitHub repository from the selected template.
+- Verified the named Sanity project/dataset and Cloudflare account; reserved the `toml-collective.workers.dev` namespace.
+- GitHub authorization connected by the owner through the Cloudflare dashboard.
 
 ## Next task / blockers
 
-- In a generated site: fill the client brief and configure the client's services.
-- Domain, mail, legal approval and analytics selection are later client decisions.
+- Validate local checks and both hosted deployments; verify a published CMS edit reaches preview before moving to `design-implementation`.
+- Deploy the code-managed Studio under the TOML Sanity identity. Existing demo documents need not be deleted for this setup.
+- Design, final domain, mail, policy wording, indexing and analytics remain later decisions.

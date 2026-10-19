@@ -3,9 +3,9 @@ import { structureTool } from 'sanity/structure';
 import { homePage } from './schemas/homePage';
 
 export default defineConfig({
-  name: 'website-starter',
-  title: 'Website content',
-  projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'missing',
+  name: 'toml-collective',
+  title: 'TOML Collective',
+  projectId: process.env.SANITY_STUDIO_PROJECT_ID || 'tt800xj0',
   dataset: process.env.SANITY_STUDIO_DATASET || 'production',
   plugins: [structureTool()],
   document: {
