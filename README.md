@@ -13,7 +13,7 @@ The template demonstration is temporary. Design and final editorial content are 
 
 Both are in the TOML Collective Cloudflare account, public without a password, and initially use `PUBLIC_SITE_MODE=review` (`noindex`). Builds on other branches are disabled. Each Worker has its own build variables and runtime configuration. Contact sending remains disabled.
 
-Sanity project: `tt800xj0`; public dataset: `production`. The code-managed Studio is in `studio/`. Read [PROJECT.md](PROJECT.md) for verified setup state, evidence and outstanding work.
+Sanity project: `tt800xj0`; public dataset: `production`. The [code-managed Studio](https://toml-collective.sanity.studio/) is in `studio/`. Publishing its Home page triggers a rebuild of both Workers. Read [PROJECT.md](PROJECT.md) for verified setup state, evidence and outstanding work.
 
 ## Local development
 
