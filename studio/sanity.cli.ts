@@ -6,4 +6,5 @@ export default defineCliConfig({
     dataset: process.env.SANITY_STUDIO_DATASET || 'production',
   },
   studioHost: 'toml-collective',
+  deployment: { appId: 'rzo9a7bbq0hcxbuxuzz4xc93' },
 });
