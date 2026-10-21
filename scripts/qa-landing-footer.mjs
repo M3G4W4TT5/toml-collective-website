@@ -112,6 +112,9 @@ try {
       const news = newsletter.getBoundingClientRect();
       const image = newsletter.querySelector("picture").getBoundingClientRect();
       const caption = newsletter.querySelector("span");
+      const captionRange = document.createRange();
+      captionRange.selectNodeContents(caption);
+      const lettering = captionRange.getBoundingClientRect();
       const contacts = document.createTreeWalker(
         footer.querySelector(".landing-footer-offices"),
         NodeFilter.SHOW_TEXT,
@@ -156,6 +159,9 @@ try {
           bottom: news.bottom,
           imageWidth: image.width,
           imageHeight: image.height,
+          captionTextWidth: lettering.width,
+          captionCenterOffset:
+            (lettering.left + lettering.right - image.left - image.right) / 2,
           socialTop: footer
             .querySelector(".landing-footer-social")
             .getBoundingClientRect().top,
@@ -194,6 +200,16 @@ try {
       JSON.stringify(layout),
     );
     assert.equal(layout.newsletter.captionLines, 1, JSON.stringify(layout));
+    assert.ok(
+      Math.abs(
+        layout.newsletter.captionTextWidth - layout.newsletter.imageWidth,
+      ) < 1,
+      JSON.stringify(layout),
+    );
+    assert.ok(
+      Math.abs(layout.newsletter.captionCenterOffset) < 1,
+      JSON.stringify(layout),
+    );
     assert.ok(
       Math.abs(
         layout.newsletter.imageWidth / layout.newsletter.imageHeight - 3.5,
