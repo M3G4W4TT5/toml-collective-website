@@ -36,6 +36,15 @@
   .landing-draft main:focus {
     outline: none;
   }
+  .landing-draft main {
+    position: relative;
+    z-index: 1;
+    display: flow-root;
+    background: #fff;
+  }
+  .landing-draft[data-hero-covered="true"] .landing-hero-heading {
+    visibility: hidden;
+  }
   .landing-header {
     position: fixed;
     z-index: 50;

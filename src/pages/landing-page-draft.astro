@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import LandingHeader from "../components/landing/LandingHeader.astro";
 import LandingReel from "../components/landing/LandingReel.astro";
 import LandingProject from "../components/landing/LandingProject.astro";
+import LandingFooter from "../components/landing/LandingFooter.astro";
 import {
   getHomepageDesign,
   getLatestWebsiteProjects,
@@ -37,7 +38,7 @@ const [{ selectedWork }, latestProjects] = await Promise.all([
     type="font/woff2"
     crossorigin
   />
-  <div class="landing-draft" data-landing-draft>
+  <div class="landing-draft" id="top" data-landing-draft>
     <a class="skip-link" href="#landing-main">
       Skip to content
     </a>
@@ -112,6 +113,7 @@ const [{ selectedWork }, latestProjects] = await Promise.all([
         </section>
       </div>
     </main>
+    <LandingFooter />
   </div>
 </BaseLayout>
 

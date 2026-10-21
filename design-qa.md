@@ -1,4 +1,43 @@
-# Landing page draft QA — 21 October 2026
+# Landing footer QA — 21 October 2026
+
+final result: passed
+
+Scope: the newly requested footer on `/landing-page-draft`, including the final mobile instruction to retain every address, phone number and email while omitting the clocks. The original homepage is unchanged.
+
+## Source and visual comparison
+
+- Revisited only the reference homepage, its public footer HTML/CSS and `footer.js`. Captured source and draft at 1440 × 900, 390 × 844, 820 × 1180 and 2460 × 1522, DPR 1. Evidence is under ignored `artifacts/landing-footer/`.
+- Opened equal-size side-by-side desktop and phone comparisons: `comparison-2460-footer.png` (4940 × 1522, including a 20px separator) and `comparison-390-footer.png` (800 × 844). Also inspected the 320px phone and the half-revealed desktop footer.
+- Retained the source's FK Grotesk type, 20/30/40px gutters, black/white/gray palette, 54px upper-right mark, responsive marquee scale, three-rem gaps and 20-second linear two-track movement. TOML copy, three time zones, four social destinations, transparent white carton and orange squares are intentional requested differences. The source's descriptive claim is removed.
+- Mobile uses the requested full-viewport reveal, rather than the source's normal-flow footer. It shows every supplied contact block without the clock row. Desktop retains stacked offices; short wide viewports use three columns so postal details remain readable. Exceptionally short narrow windows allow internal footer scrolling rather than dropping content.
+
+## Findings and resolution
+
+1. Initial result: blocked. [P2] At 320 × 568 and 1200 × 800, the full-contact composition exceeded the frame by a few pixels. Reduced the forced group gap and extended the compact three-column layout through 832px viewport height. All 15 final viewport checks fit without vertical/footer or horizontal/page overflow; the deliberate 320 × 320 internal-scroll fallback also reaches the legal links.
+2. Final result: passed. The footer remains fixed at viewport coordinates while the white foreground moves upward. Fully revealed content clears the foreground by less than 2px. The fixed hero is hidden while covered and returns after Back to top. Final captures wait for the existing header fade to settle.
+3. The existing showreel test asserted media pause before the native dialog close event ran. Added a condition-based wait for closed-and-paused; no dialog application behavior was changed. The complete focused draft runner then passed.
+
+## Validation
+
+| Check | Result |
+| --- | --- |
+| Formatting and Astro/TypeScript | Passed; 51 Astro files, zero diagnostics |
+| Site build / existing unit tests | 35 pages built; 18 tests passed |
+| Full-site browser regression | 142 viewport checks and 8 interactions passed |
+| Existing focused landing checks | 12 layouts and 14 interaction groups passed |
+| Footer browser checks | 15 portrait/landscape layouts and 6 interaction groups passed |
+| Fixed reveal and full-height layout | Top, half reveal and full reveal checked from 320 × 568 to 2560 × 1440 |
+| Clock behavior | Fixed-time checks verify London, Kosovo and Calgary offsets; second updates verified |
+| Links and interactions | Four current TOML socials, orange marquee, Back to top and keyboard focus reveal passed |
+| Progressive behavior | Reduced motion stops marquee; no-JS retains normal-flow addresses; 320 × 320 internal scrolling reaches legal row |
+
+Evidence: `artifacts/landing-footer/browser-results.json`, `artifacts/landing-page-draft/browser-results.json` and `artifacts/refactor-qa/browser-results.json`. Browser testing used the previously authorized Playwright/Google Chrome fallback. Safari, Firefox and physical-device testing were not part of this pass. Publication is verified separately from these local checks.
+
+Implementation checklist: reference/code review complete; supplied mobile correction implemented; desktop/phone comparisons opened; blocking findings fixed; current source and interaction checks passed.
+
+---
+
+# Earlier landing page draft QA — 21 October 2026
 
 final result: passed
 

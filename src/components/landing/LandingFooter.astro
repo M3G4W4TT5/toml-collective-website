@@ -1,0 +1,130 @@
+---
+import square from "../../../public/icons/square.svg?raw";
+import arrowUp from "../../../public/icons/arrow-up.svg?raw";
+import "../../styles/pages/landing-footer.css";
+
+const clocks = [
+  { label: "UK", timeZone: "Europe/London" },
+  { label: "Kosovo", timeZone: "Europe/Belgrade" },
+  { label: "Calgary", timeZone: "America/Edmonton" },
+];
+const offices = [
+  {
+    city: "London",
+    lines: ["125 Kingsway, Aviation House,", "London"],
+    phone: "+44 (0) 1234 567 890",
+    tel: "+441234567890",
+  },
+  {
+    city: "Prishtina",
+    lines: ["Rexhep Luci 29,", "Kosovo"],
+    phone: "+383 (0) 12 345 678",
+    tel: "+38312345678",
+  },
+  {
+    city: "Calgary",
+    lines: ["3553, 31st Street NW,", "Alberta, Canada T2L 2K7"],
+    phone: "+1 (403) 608-8531",
+    tel: "+14036088531",
+  },
+];
+const socials = [
+  { label: "LinkedIn", href: "http://www.linkedin.com/company/19117671/" },
+  { label: "Instagram", href: "https://instagram.com/toml.collective" },
+  { label: "Behance", href: "https://www.behance.net/toml-collective/" },
+  { label: "Vimeo", href: "https://vimeo.com/tomlcollective" },
+];
+---
+
+<div
+  class="landing-footer-reveal"
+  data-landing-footer-reveal
+  aria-hidden="true"
+></div>
+<footer class="landing-footer" data-landing-footer aria-label="TOML Collective">
+  <div class="landing-footer-top landing-container">
+    <div class="landing-footer-clock-row">
+      {clocks.map(({ label, timeZone }) => (
+        <div class="landing-footer-clock">
+          <div class="landing-footer-clock-label">{label}</div>
+          <time data-landing-time data-timezone={timeZone}></time>
+        </div>
+      ))}
+    </div>
+    <a class="landing-footer-brand" href="/" aria-label="TOML Collective home">
+      <img src="/media/toml-milk.svg" width="29" height="44" alt="" />
+    </a>
+    <div class="landing-footer-offices">
+      {offices.map(({ city, lines, phone, tel }, index) => (
+        <address class="landing-footer-office">
+          <span class="landing-footer-city">{city}</span>
+          <span class="landing-footer-postal">
+            {lines.map((line) => (
+              <span>{line}</span>
+            ))}
+          </span>
+          <a class="landing-footer-phone" href={`tel:${tel}`}>
+            {phone}
+          </a>
+          {index === 0 && (
+            <a
+              class="landing-footer-email"
+              href="mailto:hello@tomlcollective.com"
+            >
+              hello@tomlcollective.com
+            </a>
+          )}
+        </address>
+      ))}
+    </div>
+  </div>
+  <div class="landing-footer-lower">
+    <nav
+      class="landing-footer-social landing-container"
+      aria-label="Social media"
+    >
+      {socials.map(({ label, href }) => (
+        <a href={href} target="_blank" rel="noopener noreferrer">
+          {label}
+        </a>
+      ))}
+    </nav>
+    <div
+      class="landing-footer-marquee"
+      role="img"
+      aria-label="Tell your story."
+    >
+      {[0, 1].map(() => (
+        <div class="landing-footer-marquee-track" aria-hidden="true">
+          {[0, 1, 2].map(() => (
+            <>
+              <span>TELL YOUR STORY</span>
+              <span class="landing-footer-square">
+                <Fragment set:html={square} />
+              </span>
+            </>
+          ))}
+        </div>
+      ))}
+    </div>
+    <div class="landing-footer-legal landing-container">
+      <a class="landing-footer-back" href="#top">
+        <Fragment set:html={arrowUp} /> Back to top
+      </a>
+      <div class="landing-footer-policies">
+        <span>© {new Date().getFullYear()} TOML Collective</span>
+        <nav aria-label="Legal">
+          <a href="/cookies">Cookies</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="https://www.tomlcollective.com/_files/ugd/a9f050_70bc6255c34544fbb10b9350f10a8611.pdf">
+            Terms
+          </a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  import "../../scripts/landing-footer";
+</script>

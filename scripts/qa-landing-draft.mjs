@@ -604,6 +604,11 @@ try {
   );
   await page.screenshot({ path: out + "draft-showreel-open.png" });
   await page.keyboard.press("Escape");
+  await page.waitForFunction(
+    () =>
+      !document.querySelector("#landing-showreel").open &&
+      document.querySelector("#landing-showreel video").paused,
+  );
   assert.equal(
     await page.locator("#landing-showreel video").evaluate((el) => el.paused),
     true,
