@@ -1,10 +1,19 @@
 # TOML Collective website
 
+## Current local increment — landing page draft, 21 October 2026
+
+- Implemented `/landing-page-draft` through Selected Work from the user's Wonder Vision homepage reference. The original homepage remains in place. See `docs/landing-page-draft.md` for the code review, asset inventory and implementation map, and `design-qa.md` for local verification.
+- Later instructions shorten the wordmark to `TOML.` and the hero to “A creative agency powered by a global collective of storytellers”, with at most three lines at every tested viewport.
+- Final refinements use `TELL / YOUR / STORY`, orange squares for the slogan and Selected Work, revised intro prose, and the exact source mobile menu icon. The source story sequence runs once per load; content fades from white on entry and on reload at a restored scroll position. The dedicated browser checks verify these behaviors.
+- Header refinement copies the reference's responsive navigation type, gaps, padding, baseline and 768px breakpoint within its measured 82px height. The logo swaps only after the header is fully hidden, including a rapid scroll reversal; the milk carton is now a transparent black SVG with its TJ lettering removed.
+- Mobile Menu now opens the reference's full-screen black panel, sliding in from the right and closing back right over 700ms. It retains TOML's four links and adds a bottom Latest case carousel using published CMS articles, with existing seeded cases as fallback.
+- The final arrow correction scrolls immediately past the showreel at every screen size. The user subsequently authorized pushing this draft increment to GitHub and deploying through the existing Workers pipelines; see the authorization below.
+
 | Field | Current value |
 | --- | --- |
 | Project kind | client |
 | Phase | design-implementation |
-| Purpose | Full-site V4 visual implementation for local review |
+| Purpose | Homepage draft at `/landing-page-draft`, alongside the existing V4 homepage |
 | Repository | https://github.com/M3G4W4TT5/toml-collective-website (public), branch `main` |
 | Template | https://github.com/M3G4W4TT5/astro-sanity-cloudflare-starter |
 | Client brief | `docs/design-brief.md` — supplied deck, comments, attachments and conversation decisions |
@@ -72,3 +81,10 @@
 - After the local verification handoff, the user requested “Please push and deploy.” This authorizes committing the approved refactor and pushing to the verified repository's `main`, triggering the existing primary and preview website pipelines.
 - The release retains review indexing protection and disabled enquiry delivery. It does not migrate CMS content, deploy Studio/schema changes, change DNS or enable analytics.
 - GitHub's Cloudflare Workers Builds checks expose the build and version IDs for each exact source commit. Verify those checks and the hosted output separately from Git push acceptance; retain release evidence under ignored `artifacts/refactor-qa/` and in the task handoff.
+
+## Landing draft publication authorization — 21 October 2026
+
+- After the final responsive scroll-arrow correction, the user explicitly authorized pushing these changes to GitHub and deploying to the Cloudflare Workers site.
+- This release includes the reference-based `/landing-page-draft`, all subsequent copy/header/menu/reel refinements, source assets and validation. The existing homepage remains at `/`; further sections and the footer are deferred.
+- Push the verified repository's `main` to use the existing primary and preview Workers Builds pipelines. Confirm the build/version IDs for that exact commit and verify the published draft and responsive arrow behavior separately. Retain release evidence under ignored `artifacts/landing-page-release/`.
+- CMS migration, Studio publication, contact delivery, indexing mode and DNS are outside this release.

@@ -1,5 +1,29 @@
 /* Design controls. Start experiments here; component and page CSS uses these roles. */
 @font-face {
+  font-family: Microgramma;
+  src: url("/fonts/microgramma-bold.otf") format("opentype");
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "FK Grotesk";
+  src: url("/fonts/fk-grotesk-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "FK Grotesk";
+  src: url("/fonts/fk-grotesk-light.woff2") format("woff2");
+  font-weight: 200;
+  font-display: swap;
+}
+@font-face {
+  font-family: "FK Grotesk";
+  src: url("/fonts/fk-grotesk-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
   font-family: Questrial;
   src: url("/fonts/questrial.ttf");
   font-display: swap;
@@ -22,6 +46,8 @@
   --font-label: "Archivo Black", Arial, sans-serif;
   --font-quote: Questrial, Arial, sans-serif;
   --font-display: Anton, "Arial Black", Arial, sans-serif;
+  --font-logo: Microgramma, Arial, sans-serif;
+  --font-reference: "FK Grotesk", Arial, sans-serif;
   --body-scale: 1;
   --heading-scale: 1;
   --heading-weight: 400;

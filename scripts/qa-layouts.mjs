@@ -38,7 +38,9 @@ const page = await browser.newPage({ deviceScaleFactor: 1 });
 const result = { views: [], interactions: [], errors: [] };
 page.on("pageerror", (error) => result.errors.push(error.message));
 async function visit(route) {
-  const response = await page.goto(base + route, { waitUntil: "networkidle" });
+  const response = await page.goto(base + route, {
+    waitUntil: route.startsWith("/landing-page-draft") ? "load" : "networkidle",
+  });
   assert.equal(response.status(), 200, route);
   await page.evaluate(async () => {
     await document.fonts.ready;
@@ -70,7 +72,11 @@ try {
       assert.deepEqual(state.broken, [], `Broken images: ${route}`);
       assert.equal(state.headings, 1, `Page title: ${route}`);
       assert.equal(state.robots, "noindex, nofollow", `Indexing: ${route}`);
-      assert.equal(state.menu, width < 1200, `Navigation: ${width}px ${route}`);
+      assert.equal(
+        state.menu,
+        width < (route.startsWith("/landing-page-draft") ? 768 : 1200),
+        `Navigation: ${width}px ${route}`,
+      );
       result.views.push({ width, route, ...state });
       if ([390, 820, 1440].includes(width) && representative.includes(route)) {
         const name =

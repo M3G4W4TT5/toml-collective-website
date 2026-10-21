@@ -1,0 +1,121 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import LandingHeader from "../components/landing/LandingHeader.astro";
+import LandingReel from "../components/landing/LandingReel.astro";
+import LandingProject from "../components/landing/LandingProject.astro";
+import {
+  getHomepageDesign,
+  getLatestWebsiteProjects,
+} from "../lib/website-content";
+import arrowRight from "../../public/icons/arrow-right.svg?raw";
+import square from "../../public/icons/square.svg?raw";
+import "../styles/site.css";
+import "../styles/pages/landing-draft.css";
+
+const heroText =
+  "A creative agency powered by a global collective of storytellers";
+const [{ selectedWork }, latestProjects] = await Promise.all([
+  getHomepageDesign(),
+  getLatestWebsiteProjects(),
+]);
+---
+
+<BaseLayout
+  title="Landing page draft | TOML Collective"
+  description={heroText}
+  image="/media/showreel-poster.webp"
+  noindex={true}
+>
+  <script slot="head" is:inline>
+    document.documentElement.classList.add("landing-animations");
+  </script>
+  <link
+    slot="head"
+    rel="preload"
+    href="/fonts/fk-grotesk-regular.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin
+  />
+  <div class="landing-draft" data-landing-draft>
+    <a class="skip-link" href="#landing-main">
+      Skip to content
+    </a>
+    <LandingHeader latestProjects={latestProjects} />
+    <main id="landing-main" tabindex="-1">
+      <div class="landing-hero-heading landing-container" data-landing-reveal>
+        <h1 class="landing-main-title">{heroText}</h1>
+      </div>
+      <!-- Mirrors the fixed heading's natural height, including text reflow. -->
+      <div class="landing-hero-spacer landing-container" aria-hidden="true">
+        <div class="landing-main-title">{heroText}</div>
+      </div>
+      <div class="landing-surface">
+        <LandingReel />
+        <section
+          class="landing-stories landing-container"
+          id="tell-your-story"
+          aria-labelledby="landing-stories-heading"
+        >
+          <h2
+            class="landing-story-title"
+            id="landing-stories-heading"
+            aria-label="TELL YOUR STORY."
+          >
+            <span class="landing-story-line" aria-hidden="true">
+              TELL
+            </span>
+            <span class="landing-story-line" aria-hidden="true">
+              YOUR
+            </span>
+            <span class="landing-story-line" aria-hidden="true">
+              STORY
+              <span class="landing-story-square">
+                <Fragment set:html={square} />
+              </span>
+            </span>
+          </h2>
+        </section>
+        <div class="landing-intro landing-container" data-landing-reveal>
+          <div class="landing-prose">
+            <p>
+              With the focus of a boutique agency and the diversity of a
+              collective, we tell stories that inspire people and moves brands.
+            </p>
+            <p>
+              With teams in London, Prishtina and Toronto, and a pool of more
+              than 50 creatives, we have the right talent for every job and
+              deliver exceptional work for companies around the world.
+            </p>
+          </div>
+        </div>
+        <section class="landing-work" aria-labelledby="landing-selected-work">
+          <div
+            class="landing-work-heading landing-container"
+            data-landing-reveal
+          >
+            <h2 id="landing-selected-work">
+              <span class="landing-work-square" aria-hidden="true">
+                <Fragment set:html={square} />
+              </span>
+              Selected work
+            </h2>
+            <a href="/work">
+              View all work <Fragment set:html={arrowRight} />
+            </a>
+          </div>
+          <div class="landing-projects">
+            {selectedWork.slice(0, 4).map((project) => (
+              <LandingProject project={project} />
+            ))}
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+</BaseLayout>
+
+<script>
+  import "../scripts/dialogs";
+  import "../scripts/landing-draft";
+</script>

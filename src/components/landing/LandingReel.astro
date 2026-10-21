@@ -1,0 +1,59 @@
+---
+import arrowDown from "../../../public/icons/arrow-down.svg?raw";
+---
+
+<section
+  class="landing-reel"
+  aria-label="TOML Collective showreel"
+  data-landing-reveal
+>
+  <video
+    class="landing-reel-preview"
+    data-landing-preview
+    src="/media/toml-showreel.mp4"
+    poster="/media/showreel-poster.webp"
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    aria-hidden="true"
+  ></video>
+  <button
+    class="landing-reel-trigger"
+    data-open-dialog="landing-showreel"
+    aria-haspopup="dialog"
+    aria-label="Play showreel"
+  ></button>
+  <div class="landing-reel-controls">
+    <div class="landing-reel-sticky">
+      <a
+        class="landing-scroll-arrow"
+        href="#tell-your-story"
+        aria-label="Scroll to Tell your story"
+      >
+        <Fragment set:html={arrowDown} />
+      </a>
+    </div>
+  </div>
+</section>
+<dialog
+  class="landing-reel-dialog"
+  id="landing-showreel"
+  data-dialog
+  data-dismiss-backdrop
+  aria-label="TOML Collective showreel"
+>
+  <button class="landing-reel-close" data-close-dialog autofocus>
+    Close
+  </button>
+  <video
+    controls
+    playsinline
+    preload="none"
+    poster="/media/showreel-poster.webp"
+  >
+    <source src="/media/toml-showreel.mp4" type="video/mp4" />
+    Your browser does not support video.{" "}
+    <a href="/media/toml-showreel.mp4">Download the showreel.</a>
+  </video>
+</dialog>

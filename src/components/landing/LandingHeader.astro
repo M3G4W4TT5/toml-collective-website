@@ -1,0 +1,132 @@
+---
+import { mainNavigation } from "../../data/navigation";
+import type { Project } from "../../data/website";
+import ResponsiveImage from "../ResponsiveImage.astro";
+import menuIcon from "../../../public/icons/menu.svg?raw";
+import closeIcon from "../../../public/icons/close.svg?raw";
+import previousIcon from "../../../public/icons/menu-previous.svg?raw";
+import nextIcon from "../../../public/icons/menu-next.svg?raw";
+import squareIcon from "../../../public/icons/square.svg?raw";
+
+interface Props {
+  latestProjects: Project[];
+}
+const { latestProjects } = Astro.props;
+---
+
+<header
+  class="landing-header"
+  id="site-header"
+  data-landing-header
+  data-logo="wordmark"
+>
+  <a class="landing-brand" href="/" aria-label="TOML Collective home">
+    <span class="landing-wordmark" aria-hidden="true">
+      TOML<span class="landing-brand-dot">.</span>
+    </span>
+    <img
+      class="landing-milk"
+      src="/media/toml-milk.svg"
+      width="29"
+      height="44"
+      alt=""
+    />
+  </a>
+  <div class="landing-header-navigation">
+    <button
+      class="landing-menu-toggle menu-toggle"
+      aria-controls="landing-mobile-menu"
+      aria-expanded="false"
+      data-landing-menu
+    >
+      <span>Menu</span>
+      <span class="landing-menu-icon" aria-hidden="true">
+        <Fragment set:html={menuIcon} />
+      </span>
+    </button>
+    <nav id="landing-navigation" class="landing-navigation" aria-label="Main">
+      <ul>
+        {mainNavigation.map(({ href, title }) => (
+          <li>
+            <a href={href}>{title}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<dialog class="landing-mobile-menu" id="landing-mobile-menu" aria-label="Menu">
+  <div class="landing-menu-panel">
+    <div class="landing-menu-top">
+      <button class="landing-menu-close" data-landing-menu-close autofocus>
+        Close{" "}
+        <span aria-hidden="true">
+          <Fragment set:html={closeIcon} />
+        </span>
+      </button>
+      <div data-landing-menu-navigation></div>
+    </div>
+    {latestProjects.length > 0 && (
+      <section
+        class="landing-menu-latest"
+        aria-labelledby="landing-menu-latest-heading"
+      >
+        <div class="landing-menu-latest-heading">
+          <h2 id="landing-menu-latest-heading">Latest</h2>
+          <div class="landing-menu-arrows">
+            <button
+              type="button"
+              aria-label="Previous case article"
+              aria-controls="landing-menu-cases"
+              data-landing-cases-previous
+              disabled
+            >
+              <Fragment set:html={previousIcon} />
+            </button>
+            <button
+              type="button"
+              aria-label="Next case article"
+              aria-controls="landing-menu-cases"
+              data-landing-cases-next
+            >
+              <Fragment set:html={nextIcon} />
+            </button>
+          </div>
+        </div>
+        <ul
+          class="landing-menu-cases"
+          id="landing-menu-cases"
+          tabindex="0"
+          aria-label="Latest case articles"
+        >
+          {latestProjects.map((project) => (
+            <li>
+              <a class="landing-menu-case" href={`/work/${project.slug}`}>
+                <div class="landing-menu-case-copy">
+                  <div class="landing-menu-case-label">
+                    <span aria-hidden="true">
+                      <Fragment set:html={squareIcon} />
+                    </span>
+                    Project
+                  </div>
+                  <h3>{project.title}</h3>
+                </div>
+                {project.image && (
+                  <ResponsiveImage
+                    src={project.image}
+                    alt=""
+                    width="128"
+                    height="128"
+                    sizes="128px"
+                    loading="lazy"
+                  />
+                )}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </div>
+</dialog>

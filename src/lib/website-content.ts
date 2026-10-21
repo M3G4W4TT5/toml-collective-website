@@ -60,6 +60,18 @@ export async function getWebsiteProjects(): Promise<Project[]> {
   }
   return result;
 }
+export async function getLatestWebsiteProjects(): Promise<Project[]> {
+  const all = await getWebsiteProjects();
+  if (!client) return all.slice(0, 4);
+  const latest = await client.fetch<{ slug: string }[]>(
+    '*[_type=="caseStudy" && defined(slug.current)] | order(_createdAt desc, _id asc)[0...4]{"slug":slug.current}',
+  );
+  // Seed cases have no publication dates. Keep their existing order until
+  // published case articles are available, without inventing recency metadata.
+  return latest.length
+    ? latest.flatMap(({ slug }) => all.find((item) => item.slug === slug) ?? [])
+    : all.slice(0, 4);
+}
 export async function getWebsiteMembers(): Promise<Member[]> {
   const records = await getMembers();
   if (!client || !records.length) return members;
