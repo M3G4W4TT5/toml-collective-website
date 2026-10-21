@@ -100,6 +100,32 @@
     max-width: 100%;
     overflow-wrap: anywhere;
   }
+  .landing-footer-connections {
+    position: relative;
+  }
+  .landing-footer-newsletter {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    width: min(100%, 22rem);
+    margin-bottom: min(1.25rem, 2dvh);
+    font-size: clamp(0.8125rem, 1.8dvh, 1rem);
+    line-height: 1.3;
+  }
+  .landing-footer-newsletter picture {
+    display: block;
+    aspect-ratio: 3.5;
+    overflow: hidden;
+  }
+  .landing-footer-newsletter img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Remove excess canvas padding while retaining the animation's full travel. */
+    object-position: 50% 41%;
+    transform: scale(1.3);
+  }
   .landing-footer-social {
     display: flex;
     flex-wrap: wrap;
@@ -206,6 +232,14 @@
     .landing-footer-social {
       justify-content: flex-end;
     }
+    .landing-footer-newsletter {
+      position: absolute;
+      right: var(--landing-gutter);
+      bottom: calc(100% + 1.25rem);
+      width: clamp(18rem, 22vw, 34rem);
+      margin-bottom: 0;
+      font-size: clamp(0.8125rem, 1.1vw, var(--footer-copy));
+    }
     .landing-footer-legal {
       flex-direction: row;
       justify-content: space-between;
@@ -285,6 +319,18 @@
   @media (max-height: 40rem) {
     .landing-footer-legal {
       padding-block: 1rem max(1rem, env(safe-area-inset-bottom));
+    }
+  }
+  @media (max-width: 47.999rem) and (max-height: 50rem) {
+    .landing-footer-legal {
+      padding-block: 1rem max(1rem, env(safe-area-inset-bottom));
+    }
+  }
+  @media (min-width: 48rem) and (max-height: 40rem) {
+    .landing-footer-newsletter {
+      position: static;
+      margin-left: auto;
+      margin-bottom: min(1.25rem, 2dvh);
     }
   }
 }

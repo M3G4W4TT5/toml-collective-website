@@ -47,16 +47,20 @@ try {
   await page.evaluate(() => document.fonts.ready);
   for (const [width, height] of [
     [320, 568],
+    [320, 740],
     [390, 844],
     [560, 740],
+    [560, 700],
     [767, 390],
     [768, 1024],
+    [768, 640],
     [820, 1180],
     [844, 390],
     [1024, 768],
     [1199, 900],
     [1200, 800],
     [1440, 700],
+    [1440, 640],
     [1440, 900],
     [1920, 1080],
     [2460, 1522],
@@ -104,6 +108,29 @@ try {
     const layout = await page.evaluate(() => {
       const footer = document.querySelector(".landing-footer");
       const legal = footer.querySelector(".landing-footer-legal");
+      const newsletter = footer.querySelector(".landing-footer-newsletter");
+      const news = newsletter.getBoundingClientRect();
+      const image = newsletter.querySelector("picture").getBoundingClientRect();
+      const caption = newsletter.querySelector("span");
+      const contacts = document.createTreeWalker(
+        footer.querySelector(".landing-footer-offices"),
+        NodeFilter.SHOW_TEXT,
+      );
+      let overlap = false;
+      while (contacts.nextNode()) {
+        if (!contacts.currentNode.textContent.trim()) continue;
+        const range = document.createRange();
+        range.selectNodeContents(contacts.currentNode);
+        for (const rect of range.getClientRects()) {
+          if (
+            rect.left < news.right &&
+            rect.right > news.left &&
+            rect.top < news.bottom &&
+            rect.bottom > news.top
+          )
+            overlap = true;
+        }
+      }
       return {
         width: innerWidth,
         height: innerHeight,
@@ -123,6 +150,20 @@ try {
         heroVisibility: getComputedStyle(
           document.querySelector(".landing-hero-heading"),
         ).visibility,
+        newsletter: {
+          overlap,
+          right: news.right,
+          bottom: news.bottom,
+          imageWidth: image.width,
+          imageHeight: image.height,
+          socialTop: footer
+            .querySelector(".landing-footer-social")
+            .getBoundingClientRect().top,
+          captionLines: Math.round(
+            caption.getBoundingClientRect().height /
+              parseFloat(getComputedStyle(caption).lineHeight),
+          ),
+        },
       };
     });
     assert.equal(layout.horizontalOverflow, false, JSON.stringify(layout));
@@ -130,8 +171,34 @@ try {
       layout.mainBottom <= 0 && layout.mainBottom >= -2,
       JSON.stringify(layout),
     );
-    assert.ok(layout.footerOverflow <= 1, JSON.stringify(layout));
-    assert.ok(layout.legalBottom <= height + 1, JSON.stringify(layout));
+    const shortScreen = (width < 576 && height < 800) || height <= 640;
+    if (shortScreen) {
+      const legalBottom = await page
+        .locator(".landing-footer")
+        .evaluate((el) => {
+          el.scrollTop = el.scrollHeight;
+          const bottom = el
+            .querySelector(".landing-footer-legal")
+            .getBoundingClientRect().bottom;
+          el.scrollTop = 0;
+          return bottom;
+        });
+      assert.ok(legalBottom <= height + 1, JSON.stringify(layout));
+    } else {
+      assert.ok(layout.footerOverflow <= 1, JSON.stringify(layout));
+      assert.ok(layout.legalBottom <= height + 1, JSON.stringify(layout));
+    }
+    assert.equal(layout.newsletter.overlap, false, JSON.stringify(layout));
+    assert.ok(
+      layout.newsletter.bottom < layout.newsletter.socialTop,
+      JSON.stringify(layout),
+    );
+    assert.equal(layout.newsletter.captionLines, 1, JSON.stringify(layout));
+    assert.ok(
+      Math.abs(
+        layout.newsletter.imageWidth / layout.newsletter.imageHeight - 3.5,
+      ) < 0.01,
+    );
     assert.deepEqual(layout.postal, ["block", "block", "block"]);
     assert.equal(
       layout.clocks,
@@ -199,6 +266,56 @@ try {
   result.interactions.push(
     "Source social destinations, four links, orange squares and continuous left-moving marquee verified",
   );
+  const newsletter = page.getByRole("link", {
+    name: "Subscribe to our newsletter on TOML Journal",
+    exact: true,
+  });
+  assert.equal(
+    await newsletter.getAttribute("href"),
+    "https://www.tomljournal.com/subscribe",
+  );
+  assert.equal(
+    await newsletter.locator("span").textContent(),
+    "SUBSCRIBE TO OUR NEWSLETTER",
+  );
+  await page.waitForFunction(() => {
+    const img = document.querySelector(".landing-footer-newsletter img");
+    return (
+      img.complete &&
+      img.naturalWidth === 800 &&
+      img.currentSrc.endsWith("tomljournal-logo-animation.gif")
+    );
+  });
+  const destination = await context.newPage();
+  await destination.goto(base + "/landing-page-draft", {
+    waitUntil: "domcontentloaded",
+  });
+  await destination.waitForFunction(
+    () => document.querySelector("[data-landing-draft]").dataset.enhanced,
+  );
+  await destination.evaluate(() =>
+    scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "instant",
+    }),
+  );
+  await destination.route("https://www.tomljournal.com/subscribe", (route) =>
+    route.fulfill({
+      contentType: "text/html",
+      body: "<title>Newsletter destination</title>",
+    }),
+  );
+  await destination
+    .getByRole("link", {
+      name: "Subscribe to our newsletter on TOML Journal",
+      exact: true,
+    })
+    .click();
+  assert.equal(destination.url(), "https://www.tomljournal.com/subscribe");
+  await destination.close();
+  result.interactions.push(
+    "Newsletter caption and supplied animated image appear above socials without covering contacts; clicking the image reaches the exact subscription URL",
+  );
   await page.locator(".landing-footer-back").click();
   await page.waitForFunction(() => scrollY < 1);
   await page.waitForFunction(
@@ -236,7 +353,16 @@ try {
     await marquee.evaluate((el) => getComputedStyle(el).animationName),
     "none",
   );
+  await page.waitForFunction(() => {
+    const img = document.querySelector(".landing-footer-newsletter img");
+    return (
+      img.complete && img.currentSrc.endsWith("tomljournal-logo-still.webp")
+    );
+  });
   result.interactions.push("Reduced motion stops the marquee");
+  result.interactions.push(
+    "Reduced motion selects a static frame of the supplied newsletter animation",
+  );
   const noJs = await browser.newContext({
     javaScriptEnabled: false,
     viewport: { width: 390, height: 844 },

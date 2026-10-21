@@ -9,6 +9,7 @@
 - Mobile Menu now opens the reference's full-screen black panel, sliding in from the right and closing back right over 700ms. It retains TOML's four links and adds a bottom Latest case carousel using published CMS articles, with existing seeded cases as fallback.
 - The final arrow correction scrolls immediately past the showreel at every screen size. The user subsequently authorized pushing this draft increment to GitHub and deploying through the existing Workers pipelines; see the authorization below.
 - The footer is fixed beneath the scrolling page and fills the viewport. It includes supplied London, Prishtina and Calgary contact blocks, desktop live clocks, a white milk mark, original TOML social destinations, an orange-square `TELL YOUR STORY` marquee and the reference's legal layout. The latest mobile instruction retains every address/phone/email and removes only the clocks. Short layouts adapt columns or allow internal footer scrolling.
+- Added the subsequent newsletter component above the footer socials: supplied animated TOML Journal image, `SUBSCRIBE TO OUR NEWSLETTER` caption and direct `/subscribe` destination on tomljournal.com. Desktop follows the annotated right-hand placement; phone/short-landscape layouts retain all content in flow. Reduced motion uses a still frame of the supplied GIF.
 
 | Field | Current value |
 | --- | --- |

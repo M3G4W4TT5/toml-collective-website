@@ -79,16 +79,36 @@ const socials = [
     </div>
   </div>
   <div class="landing-footer-lower">
-    <nav
-      class="landing-footer-social landing-container"
-      aria-label="Social media"
-    >
-      {socials.map(({ label, href }) => (
-        <a href={href} target="_blank" rel="noopener noreferrer">
-          {label}
-        </a>
-      ))}
-    </nav>
+    <div class="landing-footer-connections landing-container">
+      <a
+        class="landing-footer-newsletter"
+        href="https://www.tomljournal.com/subscribe"
+        aria-label="Subscribe to our newsletter on TOML Journal"
+      >
+        <span>SUBSCRIBE TO OUR NEWSLETTER</span>
+        <picture>
+          <source
+            media="(prefers-reduced-motion: reduce)"
+            srcset="/media/tomljournal-logo-still.webp"
+          />
+          <img
+            src="/media/tomljournal-logo-animation.gif"
+            alt=""
+            width="800"
+            height="450"
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
+      </a>
+      <nav class="landing-footer-social" aria-label="Social media">
+        {socials.map(({ label, href }) => (
+          <a href={href} target="_blank" rel="noopener noreferrer">
+            {label}
+          </a>
+        ))}
+      </nav>
+    </div>
     <div
       class="landing-footer-marquee"
       role="img"

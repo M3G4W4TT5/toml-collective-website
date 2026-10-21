@@ -55,6 +55,8 @@ The reference's FK Grotesk, responsive font sizes, shared gutters, 54px mark, sq
 
 LinkedIn, Instagram, Behance and Vimeo URLs were read from the current `tomlcollective.com` page and retained in `artifacts/landing-footer/toml-social-links.json`. Cookies and Privacy use the existing local routes; Terms uses the original TOML terms/privacy PDF already referenced by the site's privacy page. No legal text, contact details or social destinations were invented. Source captures, equal-size comparisons and final browser results are under ignored `artifacts/landing-footer/`.
 
+The later newsletter addition places `SUBSCRIBE TO OUR NEWSLETTER` and the supplied TOML Journal animated image above the socials, linking directly to `https://www.tomljournal.com/subscribe`. At desktop sizes it occupies the annotated right-hand area without moving the existing social/marquee/legal rows; its 22vw-wide image frame has a 3.5:1 ratio, approximately 541 × 155px at a 2460px viewport. The original GIF stays unchanged; CSS frames its padded canvas while retaining every animated element's travel. Visitors requesting reduced motion receive a still extracted from the same image. On phones the component sits in normal flow above the socials, and short landscape screens use the same flow to prevent overlap with the offices. Small windows retain every contact/link through the existing internal-footer scroll fallback. There is no local signup form or subscription submission.
+
 ## Asset provenance
 
 | Local asset | Source |
@@ -66,6 +68,8 @@ LinkedIn, Instagram, Behance and Vimeo URLs were read from the current `tomlcoll
 | `public/icons/{arrow-down,arrow-up,arrow-right,square,play,menu,close,menu-next,menu-previous}.svg` | Actual SVG paths copied from the supplied reference homepage. Fills inherit the local component color. |
 | `public/media/showreel-poster.webp` | Frame at eight seconds from the existing supplied `public/media/toml-showreel.mp4`. |
 | Showreel and project images | Existing TOML local assets and current homepage project selection. |
+| `public/media/tomljournal-logo-animation.gif` | Supplied Website Resources folder, file [tomljournal-logo-animation.gif](https://drive.google.com/file/d/12yRO0-TW2njp13-I6u5vgurHpDlkUroJ/view), unchanged 800 × 450px animated GIF. |
+| `public/media/tomljournal-logo-still.webp` | Frame 90 of the supplied newsletter GIF, used only by the reduced-motion picture source. |
 
 The draft does not hotlink Wonder Vision media, fonts or scripts. Reference screenshots, style measurements and browser results are retained under ignored `artifacts/landing-page-draft/`. Latest visual comparison and validation results are in the landing-page section of `design-qa.md`.
 

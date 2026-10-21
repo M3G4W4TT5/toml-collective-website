@@ -1,4 +1,19 @@
-# Landing footer QA — 21 October 2026
+# Footer newsletter addition — 21 October 2026
+
+final result: passed
+
+Scope: the supplied newsletter image link above the landing draft's footer socials. The annotated rectangle determines the desktop frame's right alignment, approximately 22% viewport width and 3.5:1 ratio. The caption uses the existing white footer typography; annotation red is a positioning guide.
+
+- Retrieved `tomljournal-logo-animation.gif` from the supplied Drive folder through Google Drive. The original 800 × 450px, 176-frame, 210,407-byte image is preserved. CSS frames excess canvas padding; a pixel-bound inspection of all frames and a maximum-travel frame capture confirmed the moving artwork remains inside the image area. Reduced motion selects a still from frame 90.
+- Opened final 1440 × 900 and 390 × 844 captures and inspected the newsletter at 2460 × 1522 against the user's annotated position. Desktop retains the prior socials, marquee and legal row positions. Mobile places the link above socials in normal flow; every address, phone and email remains available. Short landscape switches to flow to prevent the newsletter covering Calgary's details. Small windows use the established internal-footer scrolling fallback.
+- The caption stays on one line. The entire image/caption link is keyboard accessible and points directly to `https://www.tomljournal.com/subscribe`; a real browser click verified the navigation URL with the external response intercepted, without submitting a signup.
+- Formatting, Astro/TypeScript checks (zero diagnostics), and the 35-page build passed. Full-site browser regression passed 142 views and 8 interactions. The extended footer runner passed 19 layouts and 8 interaction groups, including contact overlap, frame ratio, link navigation, clocks, reveal, reduced motion and no-JS fallback.
+
+Evidence: `artifacts/landing-newsletter/`, including `final-{1440,390}-footer.png`, `animation-maximum-travel.png` and `browser-results.json`. Existing Playwright permission was reused. No dependency, CMS, mail or homepage change was required.
+
+---
+
+# Earlier landing footer QA — 21 October 2026
 
 final result: passed
 
