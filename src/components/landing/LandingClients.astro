@@ -1,0 +1,55 @@
+---
+import { clientLogos } from "../../data/landing-trust";
+import "../../styles/pages/landing-trust.css";
+---
+
+<section
+  class="landing-clients"
+  id="clients-and-partners"
+  aria-label="Clients and partners"
+  data-landing-clients
+  data-landing-reveal
+>
+  <div
+    class="landing-clients-window"
+    tabindex="0"
+    aria-label="Client and partner logos; focus to pause movement"
+  >
+    <div class="landing-clients-track">
+      {[false, true].map((duplicate) => (
+        <ul
+          class="landing-clients-group"
+          role="list"
+          aria-hidden={duplicate ? "true" : undefined}
+        >
+          {clientLogos.map((logo) => (
+            <li>
+              <img
+                src={`/media/clients/${logo.file}`}
+                alt={duplicate ? "" : logo.name}
+                class:list={{
+                  "landing-client-raster": logo.file.endsWith(".png"),
+                }}
+                width="180"
+                height="64"
+                loading="lazy"
+                decoding="async"
+              />
+            </li>
+          ))}
+        </ul>
+      ))}
+    </div>
+  </div>
+  <button
+    class="landing-clients-pause"
+    type="button"
+    aria-pressed="false"
+    hidden
+  >
+    Pause logos
+  </button>
+</section>
+<script>
+  import "../../scripts/landing-clients";
+</script>

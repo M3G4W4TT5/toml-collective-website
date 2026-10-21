@@ -1,6 +1,6 @@
 # Landing page draft — 21 October 2026
 
-Route: `/landing-page-draft`. This explicitly unindexed draft contains the homepage through Selected Work and the subsequently requested full-screen footer. The existing `/` route remains the V4 implementation. The draft is published through the existing primary and preview Workers pipelines.
+Route: `/landing-page-draft`. This explicitly unindexed draft contains the homepage through Selected Work, clients/partners, services, testimonials, the contact invitation, Instagram and the full-screen footer. The existing `/` route remains the V4 implementation. The latest request lifts the prior publication hold and authorizes committing/pushing this accumulated draft and deploying through the existing Workers pipelines.
 
 ## Reference review
 
@@ -17,6 +17,7 @@ Reviewed only [Wonder Vision's homepage](https://www.wonder-vision.com/): the re
 | Intro prose | Right-aligned 58% column from 768px; 17–30px responsive type with 1.5 leading. | Supplied TOML paragraphs; the source's column, type scale, leading and section spacing. |
 | Recent work | Four stacked panels; 1440:607 desktop and 335:418 phone crops; white captions; black section square; right-side work link. | Four existing selected TOML projects through `getHomepageDesign()`, retaining current CMS overrides: Siebert Financial, ETH Zürich Space, UBS / Red Thread and Vvitaverse. The square before SELECTED WORK uses TOML orange, following the later user instruction. |
 | Footer | Black surface, fixed under the foreground page on desktop; source type/gutters, upper-right mark, live UK clock, stacked offices, social links, 20-second two-track marquee and bottom legal row. Mobile uses a normal-flow black footer. | Full-viewport fixed reveal on desktop and mobile as requested. Three clocks and supplied TOML offices, white carton, four existing socials and `TELL YOUR STORY` with orange squares. Mobile retains every address, phone and email, hiding only the clocks. |
+| Instagram | `instagramFeed.js` inserts a white intro tile into the Smash Balloon 6.13.0 feed. Responsive 2/4/5/6-column square grid, zero gutters, with 6/8/10/12 total tiles. The plugin provides a 300px caption sidebar, local image fallback, image/video carousels, post navigation and touch gestures. | The same grid geometry, source SVGs/sprite, type, intro padding and popup proportions, with `Posts from the collective` and TOML's real posts. Native Astro markup, HTML dialog and a small local script replace the WordPress plugin; no Instagram credentials, plugin runtime or external feed scripts are shipped. |
 
 The source's `absolute inset-0 z-40` element is an overlay, rather than the video player itself. The fixed hero comes from `#main-heading` and its spacer, not from that overlay.
 
@@ -32,6 +33,12 @@ The public bundle initializes site-wide WordPress features, jQuery plugins, Vime
 - `scripts/qa-landing-draft.mjs`: focused layout and interaction verification, including the three-line hero requirement.
 - `src/components/landing/LandingFooter.astro`, `src/styles/pages/landing-footer.css`, `src/scripts/landing-footer.ts`: draft-only footer content, responsive reveal and live time zones.
 - `scripts/qa-landing-footer.mjs`: viewport, reveal, clock, marquee, keyboard and progressive-fallback checks.
+- `src/components/landing/LandingInstagram.astro`, `src/styles/pages/landing-instagram.css`, `src/scripts/landing-instagram.ts`: source-based Instagram grid and accessible media viewer.
+- `src/components/landing/LandingContact.astro` and the `.landing-contact` rules in `src/styles/pages/landing-draft.css`: contact invitation immediately before Instagram, using the existing reveal script and a normal `/contact/` link.
+- `src/components/landing/LandingServices.astro` and the `.landing-services` rules in the same page stylesheet: static six-item service grid before the contact invitation, sharing label/link typography and existing source SVG assets.
+- `src/components/landing/LandingClients.astro`, `LandingTestimonials.astro`, `src/styles/pages/landing-trust.css`, `src/scripts/landing-clients.ts` and `landing-testimonials.ts`: logo strip, accessible motion controls and manual testimonial carousel. `src/data/landing-trust.ts` contains supplied names/assets and the six transcribed quotes.
+- `src/data/instagram-snapshot.json`, `src/data/instagram.ts`: dated, local post metadata and captions, with typed access.
+- `scripts/qa-landing-instagram.mjs`: grid counts, layout, post/carousel/media navigation, actual video playback, mobile touch, keyboard, sharing and no-JS checks.
 
 The whole reel is a transparent, keyboard-accessible play target that opens the full showreel dialog. Following the user's screenshot feedback, the visible “Play Showreel” and background pause controls are removed; the separate down arrow remains above the play target and keeps its own scroll action. Playback retains keyboard/Escape handling, focus restoration, offscreen video pausing and reduced-motion support.
 
@@ -70,8 +77,44 @@ The later newsletter addition places `SUBSCRIBE TO OUR NEWSLETTER` and the suppl
 | Showreel and project images | Existing TOML local assets and current homepage project selection. |
 | `public/media/tomljournal-logo-animation.gif` | Supplied Website Resources folder, file [tomljournal-logo-animation.gif](https://drive.google.com/file/d/12yRO0-TW2njp13-I6u5vgurHpDlkUroJ/view), unchanged 800 × 450px animated GIF. |
 | `public/media/tomljournal-logo-still.webp` | Frame 90 of the supplied newsletter GIF, used only by the reduced-motion picture source. |
+| `public/icons/instagram-*.svg`, `instagram-post-nav.png` | Actual source homepage SVGs and the plugin's `img/sbi-sprite.png` navigation sprite. No substitute or hand-drawn icons. |
+| `public/media/instagram-*.webp`, `instagram-*.mp4` | Public media from the 11 dated posts on the supplied TOML Instagram profile, retrieved 21 October 2026. Images resized within 1600 × 1600 and encoded as WebP at quality 90; original 720px video files retained. Author avatars are 96px WebP. |
 
 The draft does not hotlink Wonder Vision media, fonts or scripts. Reference screenshots, style measurements and browser results are retained under ignored `artifacts/landing-page-draft/`. Latest visual comparison and validation results are in the landing-page section of `design-qa.md`.
+
+## Clients, partners and testimonials
+
+The latest supplied Drive folders contain 10 client logos and five partner logos. All 15 appear in the rolling banner: UK Research and Innovation, Harry Potter, UBS, VVITA, ETH Zürich, Siebert, Ripjar, RH45, McKinsey & Company, Save the Children, Le Polish Bureau, Red Bull Media House, W, UNIT9 and IDEO. The narrow single row, generous spacing, white background and muted logo treatment follow the supplied visual reference. Original transparent PNGs are preserved and rendered dark gray with CSS; SVG derivatives preserve the supplied paths/view boxes, replacing foreground colors with `#656565` while retaining white/transparent cutouts. Source metadata is omitted from the recolored derivatives. No logos were redrawn or generated. Folder sources: [clients](https://drive.google.com/drive/folders/1uxCuJVfJz9NM2a6SCzfIrUFHIwljuCmI), [partners](https://drive.google.com/drive/folders/1chneF_VfTyNTf2G0B2vJ0sHII1SZ9UEl). Originals and collection evidence remain under ignored `artifacts/landing-trust/`.
+
+Two equal logo groups create a continuous 150-second leftward loop, approximately 19px/s on phones and 24px/s on desktop. One group is hidden from assistive technology. Movement starts only after enhancement and while visible, pauses offscreen, on hover or logo-window focus, and can be persistently paused/resumed with the control. The static reduced-motion/no-JavaScript layout shows all 15 logos without duplication. The banner occupies the preceding Selected Work gap, avoiding an additional empty section margin.
+
+The testimonial content comes from the six supplied client screenshots, retaining the shortened Stefano excerpt and the supplied roles. His blurred ending was cross-checked against the current TOML public testimonial; it ends “they pushed the brand to a whole new level.” The final white-background reference guides the large sans-serif quote and separate desktop attribution column; the requested solid `--accent` background and white text replace its colors. There are no portraits. Name and role/company are separate blocks, with natural wrapping on phones. Padding above/below the panel is exactly one quote line height, and panel height follows the active quote. Previous/next controls, Left/Right keys and horizontal phone swipes cycle all six; quotes never auto-advance. No-JavaScript exposes all six complete testimonials. Source files, all final slide captures, motion/swipe checks and comparisons are under `artifacts/landing-trust/`; `scripts/qa-landing-trust.mjs` is the repeatable check.
+
+The general square-marker instruction now applies to Services, Instagram and the mobile-menu Project label as well as the earlier story/Selected Work/footer markers. All inherit the brand orange; outlined carousel/stack icons retain their own functional colors.
+
+## Services
+
+Recreated the reference homepage's Our Services section from its live markup and ten responsive measurements. At 768px upward, the label occupies four columns and the list eight columns of a 12-column grid with 64px gaps. On phones the label precedes the full-width list with 24px spacing. The service list retains two columns on every size, with three rows in the supplied order: Strategy / Film & content; Brand identity / Motion; Campaigns / Digital experiences. Source type is 18/25/28/32/36/38/40px, with 1.5 leading, 8px vertical cell padding (12px from 1024px), black 1px bottom borders, and an 8px upward list offset from 1024px. Text wraps naturally inside its cell on narrow screens.
+
+The label reuses the reference heading size/weight/tracking and actual square SVG, using brand orange after the latest marker correction, with its 2px upward offset. The section's bottom margins are 60/110/145/180px across the source breakpoints. The requested “How we work” link is 24px below the list and aligned to its right edge; it reuses View all work's responsive link type and actual arrow SVG. Its normal `/work/` anchor reaches the existing work page, including in no-JavaScript mode. The existing 1500ms once-per-load fade and reduced-motion support apply. No new script, media, route, CMS fields or dependencies are introduced. Source captures, comparisons and checks are under ignored `artifacts/landing-services/`; the latest request authorizes publication.
+
+## Contact invitation
+
+Copied the reference homepage's `.heading-right` layout from its public markup and live desktop/mobile measurements. It has 70/110/140px bottom padding at phone/tablet/desktop sizes, a right-half column from 768px, a 2px desktop downward offset, a 624px text maximum and responsive 40/45/50/56/62/68/80px type with 1.1 leading. The question is black; the 500-weight link is `#737677`, retaining that color on hover. The source's misspelled `2xl-[10.625rem]` class does not alter the measured 140px large-screen padding, which is preserved. TOML's local FK Grotesk is reused.
+
+The requested copy is “What have you got in mind?” followed by “Start a conversation.” Natural wrapping accommodates the longer wording. The same 1500ms once-per-load reveal used elsewhere on the draft applies, with existing reduced-motion and no-JavaScript fallbacks. A normal relative `/contact/` link opens the existing contact page on the current Worker origin when published, and remains testable in local preview; no contact form or route is added. Reference measurements, screenshots, equal-size comparisons and browser navigation checks are retained under ignored `artifacts/landing-contact/`. The latest request authorizes publication of this addition.
+
+## Instagram snapshot and viewer
+
+The supplied public profile was accessible without account connection. Its first tile was an older pinned post, `DSnGTVUDDO8` (23 December 2025). The next 11 entries were verified against each public post's `taken_at` timestamp and sorted newest first, from `DecG7XFjMnm` (13 October 2026) through `DXZVCtfEdP6` (21 April 2026). Collaborative posts retain their actual author/profile attribution: TOML Collective, TOML Journal or Gebbia Media. Caption text, mentions, hashtags, dates and canonical post links come from those public records; no posts or captions were invented. Source records and collection evidence stay in ignored `artifacts/landing-instagram/`.
+
+The grid shows 5 posts below 768px, 7 at 768–1023px, 9 at 1024–1199px and 11 at 1200px upward, plus the introduction tile. These intermediate counts match the reference's two complete rows; phone is three rows. The Instagram icon opens the requested TOML profile. Opening any tile shows its post; all 11 cached posts remain accessible in the viewer even when the grid is reduced, as in the reference.
+
+Desktop uses a 300px white caption column and the reference's 50px top position / viewport-height-minus-150px media limit. Small desktop windows reserve enough room for outer post arrows. At 640px and below the caption stacks under the media and the popup scrolls vertically. The background is a 90% black backdrop. Source intro type is FK Grotesk; the source popup font stack is Open Sans, Helvetica, Arial, sans-serif at 13px with 1.3 leading. Source round media controls, pagination dots, stack/play markers, close icon, share icon and outer arrow sprite are retained.
+
+Outer arrows and Left/Right keys navigate posts. Inner arrows and dots navigate carousel items. Horizontal swipes on carousel media move through that carousel, matching the reference; swipes on single-image media or the caption move between posts. Vertical gestures retain scrolling. Videos have native controls, pause when the post/media changes or the document is hidden, and avoid autoplay for reduced motion. Native modality plus explicit Tab wrapping keep keyboard focus in the popup; Escape, Close and the backdrop dismiss it and restore the original tile's focus. Without JavaScript, the visible tile links open the original Instagram posts. Share invokes browser sharing where available and otherwise copies the original permalink.
+
+All 50 image/poster assets, 16 videos and three author avatars are served locally. The popup creates media only as needed; the grid uses the site's responsive image pipeline. No Instagram/Meta request is made merely to load or use the component. Clicking an external profile, post, mention or hashtag is an explicit navigation to Instagram. The snapshot will not update automatically; replacing it or adding a real feed connection is separate future work. The latest request lifts the earlier hold and authorizes publication of this increment.
 
 ## Recheck locally
 
@@ -85,6 +128,7 @@ In another terminal, with an installed Playwright browser or the selected Chrome
 ```bash
 TOML_QA_BASE_URL=http://127.0.0.1:4326 TOML_BROWSER_PATH=/opt/google/chrome/chrome node scripts/qa-landing-draft.mjs
 TOML_QA_BASE_URL=http://127.0.0.1:4326 TOML_BROWSER_PATH=/opt/google/chrome/chrome node scripts/qa-landing-footer.mjs
+TOML_QA_BASE_URL=http://127.0.0.1:4326 TOML_BROWSER_PATH=/opt/google/chrome/chrome node scripts/qa-landing-instagram.mjs
 TOML_QA_BASE_URL=http://127.0.0.1:4326 TOML_BROWSER_PATH=/opt/google/chrome/chrome npm run test:browser
 ```
 

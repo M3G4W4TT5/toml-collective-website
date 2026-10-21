@@ -1,0 +1,42 @@
+---
+import square from "../../../public/icons/square.svg?raw";
+import arrowRight from "../../../public/icons/arrow-right.svg?raw";
+
+const services = [
+  "Strategy",
+  "Film & content",
+  "Brand identity",
+  "Motion",
+  "Campaigns",
+  "Digital experiences",
+];
+---
+
+<section
+  class="landing-services"
+  id="our-services"
+  aria-labelledby="landing-services-heading"
+  data-landing-reveal
+>
+  <div class="landing-services-layout landing-container">
+    <div class="landing-services-label">
+      <h2 id="landing-services-heading">
+        <span class="landing-services-square" aria-hidden="true">
+          <Fragment set:html={square} />
+        </span>
+        Our services
+      </h2>
+    </div>
+    <div class="landing-services-content">
+      <ul class="landing-services-list" role="list">
+        {services.map((service) => (
+          <li>{service}</li>
+        ))}
+      </ul>
+      <a class="landing-services-link" href="/work/">
+        How we work
+        <Fragment set:html={arrowRight} />
+      </a>
+    </div>
+  </div>
+</section>

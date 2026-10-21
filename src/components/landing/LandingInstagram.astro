@@ -1,0 +1,174 @@
+---
+import ResponsiveImage from "../ResponsiveImage.astro";
+import { instagramSnapshot } from "../../data/instagram";
+import profileIcon from "../../../public/icons/instagram-profile.svg?raw";
+import square from "../../../public/icons/instagram-label-square.svg?raw";
+import stack from "../../../public/icons/instagram-stack.svg?raw";
+import play from "../../../public/icons/instagram-play.svg?raw";
+import previous from "../../../public/icons/instagram-media-prev.svg?raw";
+import next from "../../../public/icons/instagram-media-next.svg?raw";
+import close from "../../../public/icons/instagram-close.svg?raw";
+import share from "../../../public/icons/instagram-share.svg?raw";
+import instagram from "../../../public/icons/instagram-action.svg?raw";
+import "../../styles/pages/landing-instagram.css";
+
+const { posts, profileUrl } = instagramSnapshot;
+const sizes =
+  "(min-width: 1200px) 16.667vw, (min-width: 1024px) 20vw, (min-width: 768px) 25vw, 50vw";
+---
+
+<section
+  class="landing-instagram"
+  id="instagram"
+  aria-labelledby="landing-instagram-heading"
+  data-landing-reveal
+>
+  <div class="landing-instagram-intro">
+    <div>
+      <div class="landing-instagram-label">
+        <Fragment set:html={square} /> Instagram
+      </div>
+      <h2 id="landing-instagram-heading">Posts from the collective</h2>
+    </div>
+    <a
+      href={profileUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label="TOML Collective on Instagram"
+    >
+      <Fragment set:html={profileIcon} />
+    </a>
+  </div>
+  {posts.map((post, index) => (
+    <a
+      class="landing-instagram-post"
+      href={post.permalink}
+      target="_blank"
+      rel="noopener noreferrer"
+      data-instagram-post={index}
+      aria-label={`Open Instagram post: ${post.caption.split("\n")[0]}`}
+      aria-haspopup="dialog"
+      aria-controls="landing-instagram-dialog"
+    >
+      <ResponsiveImage
+        src={post.media[0].image}
+        alt={post.media[0].alt}
+        width={post.media[0].width}
+        height={post.media[0].height}
+        sizes={sizes}
+        loading="lazy"
+        decoding="async"
+      />
+      {post.media.length > 1 && (
+        <span class="landing-instagram-stack" aria-hidden="true">
+          <Fragment set:html={stack} />
+        </span>
+      )}
+      {post.media[0].type === "video" && (
+        <span class="landing-instagram-play" aria-hidden="true">
+          <Fragment set:html={play} />
+        </span>
+      )}
+    </a>
+  ))}
+</section>
+
+<dialog
+  class="instagram-dialog"
+  id="landing-instagram-dialog"
+  aria-labelledby="instagram-dialog-title"
+>
+  <div class="instagram-dialog-card">
+    <h2 class="sr-only" id="instagram-dialog-title">
+      Instagram post
+    </h2>
+    <div class="instagram-post-media" data-instagram-swipe>
+      <div class="instagram-media-content" data-instagram-media></div>
+      <span class="instagram-media-stack" aria-hidden="true">
+        <Fragment set:html={stack} />
+      </span>
+      <button
+        class="instagram-media-previous"
+        type="button"
+        aria-label="Previous image in post"
+      >
+        <Fragment set:html={previous} />
+      </button>
+      <button
+        class="instagram-media-next"
+        type="button"
+        aria-label="Next image in post"
+      >
+        <Fragment set:html={next} />
+      </button>
+      <div class="instagram-media-dots" aria-label="Images in this post"></div>
+    </div>
+    <div class="instagram-post-panel">
+      <button
+        class="instagram-post-close"
+        type="button"
+        aria-label="Close Instagram post"
+        autofocus
+      >
+        <Fragment set:html={close} />
+      </button>
+      <div class="instagram-post-body">
+        <div class="instagram-post-details">
+          <a
+            class="instagram-post-author"
+            href={posts[0].profileUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <img
+              src={posts[0].avatar}
+              alt=""
+              width="32"
+              height="32"
+              loading="lazy"
+            />
+            <span></span>
+          </a>
+          <div class="instagram-post-caption" data-instagram-swipe></div>
+          <div class="instagram-post-actions">
+            <span class="instagram-post-number"></span>
+            <button class="instagram-post-share" type="button">
+              <Fragment set:html={share} /> Share
+            </button>
+            <a
+              class="instagram-post-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Fragment set:html={instagram} /> Instagram
+            </a>
+          </div>
+          <span class="instagram-post-status sr-only" role="status"></span>
+        </div>
+      </div>
+    </div>
+    <button
+      class="instagram-post-previous"
+      type="button"
+      aria-label="Previous Instagram post"
+    >
+      <span aria-hidden="true"></span>
+    </button>
+    <button
+      class="instagram-post-next"
+      type="button"
+      aria-label="Next Instagram post"
+    >
+      <span aria-hidden="true"></span>
+    </button>
+  </div>
+</dialog>
+
+<script
+  type="application/json"
+  id="landing-instagram-data"
+  set:html={JSON.stringify(posts).replaceAll("<", "\\u003c")}
+/>
+<script>
+  import "../../scripts/landing-instagram";
+</script>

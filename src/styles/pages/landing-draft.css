@@ -12,6 +12,8 @@
     --landing-prose-size: 1.0625rem;
     --landing-label-size: 0.9375rem;
     --landing-link-size: 0.8125rem;
+    --landing-contact-size: 2.5rem;
+    --landing-services-size: 1.125rem;
     --landing-reel-edge: 1.25rem;
     isolation: isolate;
     background: #fff;
@@ -275,6 +277,7 @@
     text-transform: uppercase;
   }
   .landing-menu-case-label svg {
+    color: var(--accent);
     display: block;
     width: 7px;
     height: 7px;
@@ -468,13 +471,62 @@
   .landing-work {
     margin-block: 0 3.75rem;
   }
+  .landing-contact {
+    padding-bottom: 4.375rem;
+  }
+  .landing-services {
+    margin-bottom: 3.75rem;
+  }
+  .landing-services-label {
+    margin-bottom: 1.5rem;
+  }
+  .landing-services-square {
+    color: var(--accent);
+    position: relative;
+    top: -2px;
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+  }
+  .landing-services-square svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  .landing-services-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .landing-services-list li {
+    min-width: 0;
+    padding-block: 0.5rem;
+    border-bottom: 1px solid #000;
+    font: 400 var(--landing-services-size) / 1.5 var(--font-reference);
+  }
+  .landing-services-link {
+    width: fit-content;
+    margin-top: 1.5rem;
+    margin-left: auto;
+  }
+  .landing-contact h2 {
+    max-width: 39rem;
+    margin: 0;
+    color: #000;
+    font: 400 var(--landing-contact-size) / 1.1 var(--font-reference);
+    letter-spacing: normal;
+  }
+  .landing-contact h2 a {
+    color: #737677;
+    font-weight: 500;
+  }
   .landing-work-heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
   }
-  .landing-work-heading h2 {
+  .landing-work-heading h2,
+  .landing-services h2 {
     display: flex;
     align-items: center;
     gap: 0.625rem;
@@ -493,14 +545,16 @@
     width: 100%;
     height: 100%;
   }
-  .landing-work-heading > a {
+  .landing-work-heading > a,
+  .landing-services-link {
     display: flex;
     align-items: center;
     gap: 0.5rem;
     font-size: var(--landing-link-size);
     white-space: nowrap;
   }
-  .landing-work-heading > a svg {
+  .landing-work-heading > a svg,
+  .landing-services-link svg {
     width: 14px;
     height: 14px;
   }
@@ -572,6 +626,7 @@
       --landing-prose-size: 1.125rem;
       --landing-label-size: 1rem;
       --landing-link-size: 0.875rem;
+      --landing-services-size: 1.5625rem;
       --landing-reel-edge: 2.5rem;
     }
     .landing-hero-heading,
@@ -601,6 +656,30 @@
     .landing-work {
       margin-block: 7rem;
     }
+    .landing-contact {
+      --landing-contact-size: 2.8125rem;
+      padding-bottom: 6.875rem;
+    }
+    .landing-services {
+      margin-bottom: 6.875rem;
+    }
+    .landing-services-layout {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: 4rem;
+    }
+    .landing-services-label {
+      grid-column: span 4;
+    }
+    .landing-services-content {
+      grid-column: span 8;
+      min-width: 0;
+    }
+    .landing-contact-column {
+      width: 50%;
+      margin-left: auto;
+      transform: translateY(2px);
+    }
     .landing-projects {
       padding-inline: 0;
     }
@@ -625,6 +704,7 @@
       --landing-prose-size: 1.25rem;
       --landing-label-size: 1.125rem;
       --landing-link-size: 1.125rem;
+      --landing-services-size: 1.75rem;
     }
     .landing-reel-controls {
       padding: 2.5rem;
@@ -634,6 +714,23 @@
     }
     .landing-work {
       margin-block: 9.375rem;
+    }
+    .landing-contact {
+      --landing-contact-size: 3.125rem;
+      padding-bottom: 8.75rem;
+    }
+    .landing-services {
+      margin-bottom: 9.0625rem;
+    }
+    .landing-services-list {
+      margin-top: -0.5rem;
+    }
+    .landing-services-list li {
+      padding-block: 0.75rem;
+    }
+    .landing-services-square {
+      width: 16px;
+      height: 16px;
     }
     .landing-work-square {
       width: 16px;
@@ -650,12 +747,16 @@
       --landing-prose-size: 1.375rem;
       --landing-label-size: 1.1875rem;
       --landing-nav-size: 1.375rem;
+      --landing-services-size: 2rem;
     }
     .landing-intro {
       margin-block: 10.9375rem;
     }
     .landing-project {
       margin-block: 2.5rem;
+    }
+    .landing-contact {
+      --landing-contact-size: 3.5rem;
     }
   }
   @media (min-width: 90rem) {
@@ -668,6 +769,7 @@
       --landing-hero-width: 53.625rem;
       --landing-prose-size: 1.625rem;
       --landing-label-size: 1.3125rem;
+      --landing-services-size: 2.25rem;
     }
     .landing-header-navigation {
       margin-top: 0.375rem;
@@ -675,12 +777,25 @@
     .landing-work {
       margin-block: 11.25rem;
     }
+    .landing-contact {
+      --landing-contact-size: 3.875rem;
+    }
+    .landing-services {
+      margin-bottom: 11.25rem;
+    }
+    .landing-services-square {
+      width: 18px;
+      height: 18px;
+    }
     .landing-work-square {
       width: 18px;
       height: 18px;
     }
   }
   @media (min-width: 120rem) {
+    .landing-contact {
+      --landing-contact-size: 4.25rem;
+    }
     .landing-draft {
       --landing-nav-size: 1.75rem;
       --landing-heading-min: max(510px, 32svh);
@@ -688,9 +803,13 @@
       --landing-hero-width: 60.625rem;
       --landing-prose-size: 1.75rem;
       --landing-label-size: 1.5rem;
+      --landing-services-size: 2.375rem;
     }
   }
   @media (min-width: 160rem) {
+    .landing-contact {
+      --landing-contact-size: 5rem;
+    }
     .landing-draft {
       --landing-nav-size: 2rem;
       --landing-nav-gap: 3.125rem;
@@ -699,6 +818,7 @@
       --landing-hero-width: 80rem;
       --landing-prose-size: 1.875rem;
       --landing-label-size: 1.625rem;
+      --landing-services-size: 2.5rem;
     }
   }
   @media (prefers-reduced-motion: no-preference) {

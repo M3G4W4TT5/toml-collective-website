@@ -1,3 +1,94 @@
+# Client logos, testimonials and orange markers — 21 October 2026
+
+final result: passed
+
+Scope: the latest supplied logo-strip and testimonial references, plus the general orange-square instruction, on `/landing-page-draft`. The latest user request lifts the earlier hold and authorizes publishing the accumulated Instagram, services, contact invitation and current additions. The original homepage remains in place.
+
+## Visual evidence and fidelity
+
+- Inspected all 15 supplied logos in a native source contact sheet before implementation. The exact original PNGs are retained; SVG derivatives preserve path geometry and transparent/white cutouts, with dark-gray foregrounds. No generated or substitute logos, portraits or client names were introduced. Opened `artifacts/landing-trust/comparison-clients.png`: the supplied 2434 × 292px strip above the draft's 2434 × 253px native capture, with white padding to equal frame height and a 20px separator. There is no density resampling. Different logos and the requested darker gray are intentional.
+- The six black-background attachments supply quote content only. The final supplied 1597 × 460px image supplies the quote/attribution composition; the requested TOML orange/white colors and narrow frame supersede its background and padding. Inspected native draft captures at 1597px and 1440px, plus 390px and 320px phones: `final-{1597,1440,390}-testimonial-{1,5}.png` and `draft-320-testimonials-region.png`. The first and fifth slides include the longest quote and company attribution. All six were also measured at every viewport. Desktop preserves the quote/attribution split and vertical rule; mobile stacks the attribution without portraits. No exact pixel-clone claim is made for this intentionally adapted style reference.
+- Fonts/content: retained local FK Grotesk to match the rest of the draft. Names and roles occupy separate blocks. All six supplied quotes were transcribed; the blurred ending of Stefano's shortened excerpt was checked against TOML's current public testimonial. Natural text wrapping is preserved, without truncation or fixed-height clipping.
+- Layout/rhythm: the logo strip uses balanced, unwarped native proportions in evenly spaced slots. Two equal groups form a 150-second loop, approximately 19–24px/s. The logo strip occupies the preceding work gap. Testimonial top/bottom padding equals exactly one quote line height; its height adapts to the active quote. The third-party reference's large empty vertical padding is intentionally reduced following the user's direction.
+- Colors/assets: all heading markers, including Services, Instagram and the menu's Project label, resolve to `rgb(255, 83, 47)`. Logo foregrounds are dark gray on white. Testimonials use solid `#ff532f` and white text with existing source arrow SVGs. Square corners, thin rules and the shared gutters match the established page; no portrait artwork or alternate branding is shipped.
+
+## Functional and responsive checks
+
+- `scripts/qa-landing-trust.mjs`: 14 sizes, 320–2560px, and five interaction groups passed. All six slides were checked at every size for exact author order, one active slide, no portraits/overflow/clipping, orange/white colors and one-line vertical padding. The right section order is Work → clients/partners → Services → testimonials → conversation → Instagram → footer.
+- Verified real leftward logo movement, equal loop-group widths, Pause/Resume, logo-window keyboard pause and offscreen gating. A focused Pause button no longer suppresses Resume after leaving the strip. Reduced motion/no JavaScript expose all 15 logos without duplicates. No-JavaScript exposes all six complete testimonials.
+- Testimonial previous/next buttons wrap; Left/Right keys, Enter, white focus outline and an actual CDP mobile touch gesture passed. Quotes never auto-advance. No JavaScript page errors occurred.
+- Full-site browser regression: 142 views and eight interactions passed. Instagram: 14 layouts and eight groups passed with no Instagram/Meta runtime requests. Footer/newsletter: 19 layouts and eight groups passed. Formatting, Astro/TypeScript checks (61 files, zero diagnostics), 18 unit tests and the 35-page build passed.
+
+No actionable P0/P1/P2 finding remains. Previously authorized Chrome/Playwright verification was reused. Evidence is in `artifacts/landing-trust/browser-results.json`, the native captures/comparison above and the existing Instagram/footer/refactor result files. Publication proof is recorded separately in the release commit's GitHub/Workers checks and ignored `artifacts/landing-page-release/` after deployment; this report establishes the completed local design gate.
+
+---
+
+# Services section — 21 October 2026
+
+final result: passed
+
+Scope: the reference homepage's Our Services section, added immediately above the contact invitation on `/landing-page-draft`. The six supplied services appear in two columns and three rows, in row order: Strategy / Film & content; Brand identity / Motion; Campaigns / Digital experiences. The right-aligned “How we work” link below the rows opens the existing `/work/` page. Publication remains on hold.
+
+- Captured live source desktop/mobile views and computed layout/type at ten widths from 320 through 2560px before implementation. Opened equal-size `artifacts/landing-services/comparison-{1440,390}.png` pairs at 1440 × 900 and 390 × 844, DPR 1, with 20px separators. Also opened `comparison-1440-rows.png`, a 1940 × 330px pair of unscaled 960px-wide row crops, to inspect type, rule weight and spacing. The following source Vimeo frame is outside the services target and not part of the fidelity assessment.
+- Fonts and typography: retained FK Grotesk, source bold uppercase label size/tracking, 18/25/28/32/36/38/40px service type and 1.5 leading. Layout: source third/two-thirds desktop split with 64px grid gaps, stacked phone label, two list columns, 24px label/link spacing, 8/12px cell padding, negative 8px desktop list offset and 60/110/145/180px section margins. Labels wrap within their cells on the narrowest phone size.
+- Colors and assets: black text, black 1px continuous row rules, white surface and the reference's black square with its 2px upward offset. Reused the actual local source square/arrow SVGs; no images or asset substitutions. Copy: every supplied service and link label matches the request. The additional third row and work link are intentional requested additions. Link typography matches the draft's existing View all work component.
+- Ten source-matched responsive checks passed: exact copy/order, two columns / three rows, source typography/geometry/rules, right-edge link alignment, immediate contact-section placement, scroll fade and no horizontal overflow. Desktop/mobile keyboard activation reached `/work/`; focus styling, reduced motion and no-JavaScript reading/navigation passed. No JavaScript page errors occurred.
+- Formatting, Astro/TypeScript checks (56 files, zero diagnostics), the 35-page build and required site-wide browser regression (142 views and eight interaction checks) passed. Evidence: `artifacts/landing-services/reference-metrics.json`, `browser-results.json`, comparison images and `artifacts/refactor-qa/browser-results.json`.
+
+The first visual comparison passed with no actionable P0/P1/P2 findings. Existing authorized Chrome/Playwright verification was reused. No new script, route, dependency, CMS content, homepage change, commit or deployment was required.
+
+---
+
+# Contact invitation — 21 October 2026
+
+final result: passed
+
+Scope: the reference homepage's `.heading-right` section, inserted immediately above Instagram on `/landing-page-draft`. Requested text is exactly “What have you got in mind?” followed by the gray “Start a conversation.” link. The existing `/contact/` route is reused. Changes remain local and uncommitted under the publication hold.
+
+- Captured the live reference on desktop and mobile before implementation, including hover. Measured nine widths from 320 to 2560px. Opened equal-size source/draft comparisons at 1440 × 900 and 390 × 844, DPR 1: `artifacts/landing-contact/comparison-{1440,390}.png`. Each pair uses a 20px separator. The longer requested link naturally occupies two lines on phones; different copy and Instagram media are intentional.
+- Reused the source FK Grotesk font, 40/45/50/56/62/68/80px size steps, 1.1 leading, 624px text limit, 20/30/40px gutters, right-half desktop column, 2px downward column offset and 70/110/140px bottom padding. Link weight is 500 and color is `#737677`, including hover; text remains black. No image, icon, radius or additional visual treatment is introduced.
+- Reused the draft's source-based 1500ms once-per-load scroll fade. Reduced motion and no-JavaScript render readable content immediately. The normal anchor retains the existing orange keyboard focus outline and opens the current origin's contact page.
+- Nine source-matched layout checks passed, including exact copy, computed typography/spacing/color, immediate Instagram placement and no horizontal overflow. Real desktop and phone keyboard activation reached the existing contact route; hover, fade, reduced-motion and no-JavaScript navigation checks passed. The deployed Workers contact URL separately returned HTTP 200; no form was submitted.
+- Formatting, Astro/TypeScript checks (55 files, zero diagnostics), the 35-page build and required site-wide browser regression (142 views and eight interaction checks) passed. No JavaScript page errors occurred. Evidence is in `artifacts/landing-contact/reference-metrics.json`, `browser-results.json`, source/draft screenshots and `artifacts/refactor-qa/browser-results.json`.
+
+No actionable P0/P1/P2 finding remains. Existing authorized Chrome/Playwright verification was reused. No route, dependency, CMS, contact form, homepage or deployment change was required.
+
+---
+
+# Instagram section and viewer — 21 October 2026
+
+final result: passed
+
+Scope: the last scrolling section of `/landing-page-draft`, immediately before the fixed footer. The original homepage is unchanged. This increment remains local and uncommitted under the user's latest publication hold; no push or deployment was made.
+
+## Source and comparison evidence
+
+- Inspected only the supplied Wonder Vision homepage, its `instagramFeed.js`, and the loaded Smash Balloon Instagram Feed Pro 6.13.0 JavaScript/CSS. Retained public DOM, computed styles, source icons and navigation sprite under ignored `artifacts/landing-instagram/`.
+- Captured reference and draft at 1440 × 900 and 390 × 844, DPR 1. Grid-only images are 1440 × 480 and 390 × 585; popup captures retain the entire viewport. Opened final equal-size source/draft pairs: `comparison-{1440,390}-grid-region.png` and `comparison-{1440,390}-popup.png`. Each pair has a 20px separator. Source and draft use different media and captions intentionally.
+- Fonts and typography: source FK Grotesk, 11px bold label, 24/28/36.8px responsive title and 24px profile icon. The popup retains the source's Open Sans/Helvetica/Arial/sans-serif stack, 13px type and 1.3 leading. The requested title is exactly `Posts from the collective`.
+- Layout and spacing: square edge-to-edge tiles, 20px intro padding, source responsive 2/4/5/6-column layout and 6/8/10/12 total visible tiles. This produces 5 phone and 11 full-desktop posts plus the introduction, with the source's intermediate tablet counts. The 300px desktop caption column stacks below media at 640px and narrower. Media preserves its aspect ratio with a viewport-height-minus-150px limit, 50px top position and source rounded corners.
+- Colors and controls: black/white grid, 90% black modal backdrop, actual source stack/play/profile/close/share icons, circular inner carousel arrows, source dot sizing and outer post-navigation sprite. The black Instagram section square follows the reference; the previously requested orange markers elsewhere remain unchanged.
+- Assets and copy: verified the 11 latest dated public TOML posts individually, excluding the older pinned post. Captions and collaborative author attribution are preserved. All 50 images/posters, 16 playable videos and three author avatars are local assets; thumbnails use the existing responsive image pipeline. No generated images, invented captions, expiring CDN links, feed tokens or Instagram runtime dependency are shipped.
+
+## Findings and resolution
+
+1. [P2, resolved] The draft's shared square-button reset overrode the inner carousel arrows' round shape. Scoped the component rule and opened fresh phone/desktop popup comparisons to confirm the source's circular controls. Also corrected the popup stack marker to the measured 16px size.
+2. [P2, resolved] A real Tab traversal could leave the dialog for browser chrome at the last control. Added explicit first/last focus wrapping and repeated keyboard opening, traversal, Escape and focus-return checks.
+3. [P2, resolved] The site-wide broken-image check caught the closed popup's initially empty author image. Initialized it with the first post's real avatar, preserving lazy loading; all 142 site-wide views then passed.
+
+No actionable P0/P1/P2 finding remains. Intentional differences are the requested heading and TOML content, the 11-post snapshot counter, native HTML modality in place of WordPress, and space reserved for outer arrows in narrow desktop windows. Reduced motion avoids autoplay and animation; plain links remain available without JavaScript.
+
+## Validation
+
+- Formatting, Astro/TypeScript checks (54 files, zero diagnostics) and the 35-page production build passed.
+- Dedicated Instagram runner: 14 responsive layouts from 320 × 568 through 2560 × 1440, plus eight interaction groups. Checks include exact visible post counts, square tiles, no horizontal overflow, flush grid/footer boundary, actual video playback and pause, all 11 posts, carousel arrows/dots/wrap, keyboard focus, closing, sharing, real mobile touch gestures, vertical popup scrolling, reduced motion and no-JavaScript links.
+- Existing site-wide browser regression: 142 views and eight interaction checks passed. Existing footer regression: 19 layouts and eight interaction groups passed, including the centered newsletter caption and fixed reveal.
+- No JavaScript page errors or Instagram/Meta runtime requests occurred in the dedicated runner. External profile/post/mention/hashtag links remain explicit user navigations.
+
+Evidence: `artifacts/landing-instagram/browser-results.json`, `artifacts/refactor-qa/browser-results.json`, `artifacts/landing-footer/browser-results.json`, the source/draft comparisons above and `docs/landing-page-draft.md`. Browser checks use the previously authorized headless Chrome/Playwright fallback. Physical-device Safari/Firefox checks are outside this pass. The dated snapshot does not update automatically; a live feed connection is separate future work.
+
+---
+
 # Footer newsletter addition — 21 October 2026
 
 final result: passed

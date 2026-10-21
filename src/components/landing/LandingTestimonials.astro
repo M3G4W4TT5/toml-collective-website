@@ -1,0 +1,56 @@
+---
+import { testimonials } from "../../data/landing-trust";
+import arrowRight from "../../../public/icons/arrow-right.svg?raw";
+import "../../styles/pages/landing-trust.css";
+---
+
+<section
+  class="landing-testimonials"
+  id="client-testimonials"
+  aria-label="Client testimonials"
+  aria-roledescription="carousel"
+  data-landing-testimonials
+  data-landing-reveal
+>
+  <div class="landing-container">
+    <div
+      class="landing-testimonial-slides"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      {testimonials.map((testimonial, index) => (
+        <figure
+          class="landing-testimonial"
+          role="group"
+          aria-roledescription="slide"
+          aria-label={`${index + 1} of ${testimonials.length}`}
+          data-testimonial-slide
+        >
+          <blockquote>“{testimonial.quote}”</blockquote>
+          <figcaption>
+            <span class="landing-testimonial-name">{testimonial.name}</span>
+            <span class="landing-testimonial-role">{testimonial.role}</span>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+    <div class="landing-testimonial-controls" hidden>
+      <button
+        type="button"
+        data-testimonial-previous
+        aria-label="Previous testimonial"
+      >
+        <Fragment set:html={arrowRight} />
+      </button>
+      <span data-testimonial-count aria-live="off">
+        1 / {testimonials.length}
+      </span>
+      <button type="button" data-testimonial-next aria-label="Next testimonial">
+        <Fragment set:html={arrowRight} />
+      </button>
+    </div>
+  </div>
+</section>
+<script>
+  import "../../scripts/landing-testimonials";
+</script>

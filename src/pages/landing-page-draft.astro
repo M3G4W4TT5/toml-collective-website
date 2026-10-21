@@ -4,6 +4,11 @@ import LandingHeader from "../components/landing/LandingHeader.astro";
 import LandingReel from "../components/landing/LandingReel.astro";
 import LandingProject from "../components/landing/LandingProject.astro";
 import LandingFooter from "../components/landing/LandingFooter.astro";
+import LandingInstagram from "../components/landing/LandingInstagram.astro";
+import LandingContact from "../components/landing/LandingContact.astro";
+import LandingServices from "../components/landing/LandingServices.astro";
+import LandingClients from "../components/landing/LandingClients.astro";
+import LandingTestimonials from "../components/landing/LandingTestimonials.astro";
 import {
   getHomepageDesign,
   getLatestWebsiteProjects,
@@ -111,6 +116,11 @@ const [{ selectedWork }, latestProjects] = await Promise.all([
             ))}
           </div>
         </section>
+        <LandingClients />
+        <LandingServices />
+        <LandingTestimonials />
+        <LandingContact />
+        <LandingInstagram />
       </div>
     </main>
     <LandingFooter />
