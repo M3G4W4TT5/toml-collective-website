@@ -12,6 +12,7 @@ Read `PROJECT.md` at the start of a session, then the relevant brief and existin
 
 ## Implementation conventions
 
+- Read `docs/styling.md` before frontend changes. Use `src/styles/theme.css` for shared design controls, component styles for reusable patterns and page-family styles for composition. Preserve the CSS layer order and use explicit component variants instead of accumulating overrides. Run `npm run format` and the relevant checks; use `npm run test:browser` for layout/interaction changes.
 - Use static Astro and TypeScript by default. React is available for components; add client hydration only when an interaction needs it. Do not introduce SSR, a page builder, or another framework without a concrete project requirement.
 - `src/layouts/BaseLayout.astro` owns shared metadata. `src/components/ContactForm.astro` owns the reusable form. `worker/` handles API requests; ordinary pages are Cloudflare Static Assets. Preserve bounded validation, Turnstile hostname checks, fixed mail sender and local simulation when changing the form.
 - `PUBLIC_SITE_MODE=demo|review|live` controls configuration and indexing. Demo and review stay `noindex`; only the approved live deployment uses `live`. Never remove indexing protection as part of replacing a design. Non-production Workers Builds branches are automatically treated as review.

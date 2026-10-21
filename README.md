@@ -2,7 +2,7 @@
 
 Groundwork for the TOML Collective website, generated from [astro-sanity-cloudflare-starter](https://github.com/M3G4W4TT5/astro-sanity-cloudflare-starter). Static Astro, optional React, Sanity content at build time, and Cloudflare Workers Static Assets.
 
-The template demonstration is temporary. Design and final editorial content are a separate phase.
+The current frontend implements TOML's V4 design baseline. Fonts, colours and shared dimensions are configured in `src/styles/theme.css`. See [styling and responsive development](docs/styling.md) for component ownership, layout ranges and the local experimentation workflow. Final editorial content and CMS migration remain a separate phase.
 
 ## Environments
 

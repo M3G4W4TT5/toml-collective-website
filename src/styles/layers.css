@@ -1,0 +1,2 @@
+/* Every entry point declares this order before adding its own styles. */
+@layer theme, base, layout, components, pages;

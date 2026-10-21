@@ -1,0 +1,12 @@
+node_modules/
+dist/
+artifacts/
+.astro/
+.sanity/
+.wrangler/
+src/generated/
+public/
+package-lock.json
+worker/env.d.ts
+src/data/deck-assets.json
+src/data/legacy-content.json

@@ -1,4 +1,5 @@
 ---
+import ResponsiveImage from "./ResponsiveImage.astro";
 import { asset } from "../data/website";
 interface Props {
   variant?: "link" | "feature";
@@ -7,70 +8,59 @@ interface Props {
 const { variant = "link", id = "showreel" } = Astro.props;
 ---
 
-{
-  variant === "link" ? (
-    <button
-      class="link-button reel-link"
-      data-open-reel={id}
-      aria-haspopup="dialog"
-    >
-      Watch the reel
-    </button>
-  ) : (
-    <figure class="showreel-feature">
-      <>
-        <img
-          src={asset("p2-p2_i132")}
-          width="1280"
-          height="640"
-          alt="Floating architectural worlds — TOML showreel still"
-          loading="lazy"
-        />
-        <button class="pill" data-open-reel={id} aria-haspopup="dialog">
-          Play our showreel
-          <span class="plus" aria-hidden="true">
-            +
-          </span>
-        </button>
-      </>
-    </figure>
-  )
-}
-<dialog class="reel-dialog" id={id} aria-label="TOML Collective showreel">
-  <button class="close-reel" autofocus aria-label="Close showreel"
-    >Close ×</button
-  ><video controls playsinline preload="none" poster={asset("p2-p2_i132")}
-    ><source src="/media/toml-showreel.mp4" type="video/mp4" /><a
-      href="/media/toml-showreel.mp4">Download the TOML showreel</a
-    ></video
-  ><p>TOML Collective / Showreel</p>
+{variant === "link" ? (
+  <button
+    class="link-button reel-link"
+    data-open-dialog={id}
+    aria-haspopup="dialog"
+  >
+    Watch the reel
+  </button>
+) : (
+  <figure class="showreel-feature">
+    <>
+      <ResponsiveImage
+        src={asset("p2-p2_i132")}
+        width="1280"
+        height="640"
+        alt="Floating architectural worlds — TOML showreel still"
+        loading="lazy"
+      />
+      <button class="pill" data-open-dialog={id} aria-haspopup="dialog">
+        Play our showreel
+        <span class="plus" aria-hidden="true">
+          +
+        </span>
+      </button>
+    </>
+  </figure>
+)}
+<dialog
+  data-dialog
+  class="reel-dialog"
+  id={id}
+  aria-label="TOML Collective showreel"
+>
+  <button
+    data-close-dialog
+    class="close-reel"
+    autofocus
+    aria-label="Close showreel"
+  >
+    Close ×
+  </button>
+  <video controls playsinline preload="none" poster={asset("p2-p2_i132")}>
+    <source src="/media/toml-showreel.mp4" type="video/mp4" />
+    <a href="/media/toml-showreel.mp4">Download the TOML showreel</a>
+  </video>
+  <p>TOML Collective / Showreel</p>
 </dialog>
 <script>
-  for (const trigger of document.querySelectorAll<HTMLButtonElement>(
-    "[data-open-reel]",
-  )) {
-    const dialog = document.getElementById(
-      trigger.dataset.openReel || "",
-    ) as HTMLDialogElement | null;
-    const video = dialog?.querySelector("video");
-    trigger.addEventListener("click", () => {
-      dialog?.showModal();
-      document.body.classList.add("scroll-lock");
-      video?.load();
-    });
-    dialog
-      ?.querySelector(".close-reel")
-      ?.addEventListener("click", () => dialog.close());
-    dialog?.addEventListener("close", () => {
-      video?.pause();
-      document.body.classList.remove("scroll-lock");
-      trigger.focus();
-    });
-  }
+  import "../scripts/dialogs";
 </script>
 <style>
   .reel-link {
-    font-size: 18px;
+    font-size: calc(1.125rem * var(--body-scale));
   }
   .reel-dialog {
     border: 0;
@@ -82,7 +72,7 @@ const { variant = "link", id = "showreel" } = Astro.props;
     max-height: 95dvh;
   }
   .reel-dialog::backdrop {
-    background: rgb(0 0 0 / 0.85);
+    background: var(--reel-backdrop);
   }
   video {
     width: 100%;
@@ -99,7 +89,7 @@ const { variant = "link", id = "showreel" } = Astro.props;
     padding: 0 0 22px;
   }
   .reel-dialog p {
-    font-size: 13px;
+    font-size: calc(0.8125rem * var(--body-scale));
     margin: 18px 0 0;
   }
   .showreel-feature {
@@ -116,7 +106,7 @@ const { variant = "link", id = "showreel" } = Astro.props;
   }
   .showreel-feature > button.pill {
     min-width: 260px;
-    font-size: 17px;
+    font-size: calc(1.0625rem * var(--body-scale));
   }
   @media (max-width: 560px) {
     .showreel-feature > button {
@@ -126,7 +116,7 @@ const { variant = "link", id = "showreel" } = Astro.props;
     }
     .showreel-feature > button.pill {
       min-width: 220px;
-      font-size: 14px;
+      font-size: calc(0.875rem * var(--body-scale));
     }
     .showreel-feature > img {
       aspect-ratio: 1.4;
@@ -135,7 +125,7 @@ const { variant = "link", id = "showreel" } = Astro.props;
       padding: 18px;
     }
     .reel-link {
-      font-size: 16px;
+      font-size: calc(1rem * var(--body-scale));
     }
   }
 </style>

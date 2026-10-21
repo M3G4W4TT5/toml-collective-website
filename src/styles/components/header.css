@@ -1,0 +1,165 @@
+/* Narrow layouts first. Tablet: 48rem. Desktop: 75rem. */
+.brand .dot {
+  color: var(--accent);
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  height: 96px;
+}
+
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.brand {
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  text-decoration: none;
+  white-space: nowrap;
+  font-size: calc(2.125rem * var(--heading-scale));
+}
+
+.descriptor {
+  margin: 0;
+  font-size: calc(0.625rem * var(--body-scale));
+}
+
+.main-nav {
+  align-items: center;
+  font-size: calc(1rem * var(--body-scale));
+  display: none;
+  gap: 20px;
+}
+
+.main-nav > a {
+  text-decoration: none;
+  padding: 10px 0;
+}
+
+.main-nav > a[aria-current] {
+  border-bottom: 1px solid var(--ink);
+}
+
+.main-nav > a.pill {
+  font-size: calc(1.125rem * var(--body-scale));
+  min-width: 190px;
+  min-height: 60px;
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 0;
+}
+
+.menu-toggle {
+  background: none;
+  border: 1px solid var(--ink);
+  border-radius: 40px;
+  display: block;
+  padding: 10px 15px;
+}
+
+/* Full navigation fits compact desktops without changing the 1440px reference. */
+
+@media (width < 48rem) {
+  .menu-toggle {
+    font-size: calc(0.8125rem * var(--body-scale));
+  }
+}
+
+@media (width < 75rem) {
+  .site-header {
+    position: relative;
+  }
+
+  .descriptor {
+    max-width: 118px;
+  }
+
+  .main-nav {
+    position: absolute;
+    left: calc(-1 * var(--gutter));
+    right: calc(-1 * var(--gutter));
+    top: 96px;
+    padding: 30px var(--gutter) 40px;
+    background: var(--canvas);
+    z-index: 20;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .main-nav[data-open] {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .main-nav a {
+    font-size: calc(1.5rem * var(--body-scale));
+    align-self: flex-start;
+  }
+
+  .main-nav .pill {
+    width: 100%;
+  }
+}
+
+@media (min-width: 48rem) {
+  .brand-group {
+    gap: var(--space-3);
+  }
+
+  .descriptor {
+    font-size: calc(0.6875rem * var(--body-scale));
+  }
+
+  .menu-toggle {
+    padding: 12px 20px;
+  }
+}
+
+@media (48rem <= width < 75rem) {
+  .descriptor {
+    max-width: 130px;
+  }
+}
+
+@media (min-width: 75rem) {
+  .site-header {
+    height: 126px;
+  }
+
+  .brand-group {
+    gap: 68px;
+  }
+
+  .brand {
+    font-size: calc(2.375rem * var(--heading-scale));
+  }
+
+  .descriptor {
+    font-size: calc(0.875rem * var(--body-scale));
+  }
+
+  .main-nav {
+    display: flex;
+    gap: 44px;
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+}
+@media (75rem <= width < 90rem) {
+  .brand-group {
+    gap: 30px;
+  }
+  .descriptor {
+    max-width: 150px;
+  }
+  .main-nav {
+    gap: 25px;
+  }
+}

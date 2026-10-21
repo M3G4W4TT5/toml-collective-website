@@ -1,20 +1,49 @@
 ---
+import "../styles/pages/playlist.css";
 import SitePage from "../layouts/SitePage.astro";
 import ContactBand from "../components/ContactBand.astro";
 import { playlists, enquire } from "../data/website";
 ---
 
-<SitePage title="TOML Playlist"
-  ><section class="page-intro container">
-    <p class="eyebrow">Music at TOML</p><h1>
-      Good company.<br />Good music.
-    </h1><p class="lead">
+<SitePage title="TOML Playlist">
+  <section class="page-intro container">
+    <p class="eyebrow">Music at TOML</p>
+    <h1>
+      Good company.
+      <br />
+      Good music.
+    </h1>
+    <p class="lead">
       What we put on while we make things. For finding focus, changing the mood
       or seeing where a track takes you.
     </p>
-  </section><section class="container playlist-grid">
-    {
-      playlists.slice(0, 2).map((p, i) => (
+  </section>
+  <section class="container playlist-grid">
+    {playlists.slice(0, 2).map((p, i) => (
+      <article>
+        <>
+          <div class="playlist-art" style={`--tile:${p.colour}`}>
+            <>
+              <div class="tile-top">
+                <>
+                  <span>TOML / SELECTS</span>
+                  <span>0{i + 1}</span>
+                </>
+              </div>
+              <strong>{p.art}</strong>
+            </>
+          </div>
+          <h3>{p.title}</h3>
+          <p>{p.description}</p>
+          <span class="unavailable">Playlist coming soon</span>
+        </>
+      </article>
+    ))}
+  </section>
+  <section class="section container">
+    <p class="eyebrow">What we’re playing lately</p>
+    <div class="playlist-grid small-grid">
+      {playlists.slice(2).map((p, i) => (
         <article>
           <>
             <div class="playlist-art" style={`--tile:${p.colour}`}>
@@ -22,7 +51,7 @@ import { playlists, enquire } from "../data/website";
                 <div class="tile-top">
                   <>
                     <span>TOML / SELECTS</span>
-                    <span>0{i + 1}</span>
+                    <span>0{i + 3}</span>
                   </>
                 </div>
                 <strong>{p.art}</strong>
@@ -33,51 +62,35 @@ import { playlists, enquire } from "../data/website";
             <span class="unavailable">Playlist coming soon</span>
           </>
         </article>
-      ))
-    }
-  </section><section class="section container">
-    <p class="eyebrow">What we’re playing lately</p><div
-      class="playlist-grid small-grid"
-    >
-      {
-        playlists.slice(2).map((p, i) => (
-          <article>
-            <>
-              <div class="playlist-art" style={`--tile:${p.colour}`}>
-                <>
-                  <div class="tile-top">
-                    <>
-                      <span>TOML / SELECTS</span>
-                      <span>0{i + 3}</span>
-                    </>
-                  </div>
-                  <strong>{p.art}</strong>
-                </>
-              </div>
-              <h3>{p.title}</h3>
-              <p>{p.description}</p>
-              <span class="unavailable">Playlist coming soon</span>
-            </>
-          </article>
-        ))
-      }
+      ))}
     </div>
-  </section><section class="dark section">
+  </section>
+  <section class="dark section">
     <div class="split container">
       <div>
-        <p class="eyebrow">Pass it on</p><h2>
-          Heard something<br />we should hear?
+        <p class="eyebrow">Pass it on</p>
+        <h2>
+          Heard something
+          <br />
+          we should hear?
         </h2>
-      </div><div>
+      </div>
+      <div>
         <p class="lead">
-          A track on repeat.<br />An album you keep sharing.<br />We’re all
-          ears.
-        </p><a class="text-link" href={enquire("Sharing a track")}
-          >Send us a track</a>
+          A track on repeat.
+          <br />
+          An album you keep sharing.
+          <br />
+          We’re all ears.
+        </p>
+        <a class="text-link" href={enquire("Sharing a track")}>
+          Send us a track
+        </a>
       </div>
     </div>
-  </section><ContactBand
+  </section>
+  <ContactBand
     heading={"Good music travels.\nSo do good ideas."}
     copy="Send us yours."
-  /></SitePage
->
+  />
+</SitePage>

@@ -1,0 +1,274 @@
+@import "../layers.css";
+
+@layer pages {
+  /* Narrow layouts first. Tablet: 48rem. Desktop: 75rem. */
+  .contact-intro {
+    max-width: 1000px;
+    padding-bottom: 60px;
+  }
+
+  .contact-intro h1 {
+    font-size: calc(3.4375rem * var(--heading-scale));
+    line-height: 1.2;
+  }
+
+  .contact-intro .lead {
+    max-width: 950px;
+    margin-top: 30px;
+  }
+
+  .contact-grid {
+    display: grid;
+    padding-block: 56px 110px;
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  .contact-details .eyebrow {
+    font-size: calc(0.8125rem * var(--body-scale));
+    margin-bottom: 28px;
+  }
+
+  .detail {
+    margin-bottom: 45px;
+  }
+
+  .contact-details .email {
+    font-size: calc(1.625rem * var(--body-scale));
+  }
+
+  .locations {
+    font-size: calc(1.4375rem * var(--body-scale));
+  }
+
+  .contact-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+
+  .contact-details h2 {
+    line-height: 1.25;
+    margin-bottom: 36px;
+    font-size: calc(2.4375rem * var(--heading-scale));
+  }
+
+  .reassurance {
+    max-width: 470px;
+    color: var(--muted);
+    font-size: calc(1.125rem * var(--body-scale));
+  }
+
+  .contact-people {
+    display: grid;
+    margin-top: 40px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+
+  .contact-people img {
+    object-fit: cover;
+    width: 75px;
+    height: 75px;
+    margin-bottom: 18px;
+  }
+
+  .contact-people a {
+    font-size: calc(0.875rem * var(--body-scale));
+  }
+
+  .contact-people small {
+    display: block;
+    color: var(--muted);
+    margin-top: var(--space-1);
+    overflow-wrap: anywhere;
+    font-size: calc(0.625rem * var(--body-scale));
+  }
+
+  .house-feature {
+    padding-block: 60px 180px;
+  }
+
+  .house-feature img {
+    aspect-ratio: 1.08;
+    object-fit: cover;
+  }
+
+  .house-feature h2 {
+    margin: 35px 0 60px;
+    font-size: calc(3.25rem * var(--heading-scale));
+  }
+
+  .house-feature .lead {
+    font-size: calc(1.3125rem * var(--body-scale));
+  }
+
+  .house-feature .text-link {
+    margin-top: 25px;
+  }
+
+  .contact-followup {
+    margin-top: 70px;
+  }
+
+  @media (width < 48rem) {
+    .contact-intro .lead {
+      font-size: calc(1.3125rem * var(--body-scale));
+    }
+
+    .contact-grid {
+      padding-top: 35px;
+      padding-bottom: 60px;
+    }
+    .contact-people article img {
+      margin-bottom: 18px;
+    }
+  }
+
+  @media (width < 75rem) {
+    .contact-details .email {
+      overflow-wrap: anywhere;
+    }
+
+    .contact-people img {
+      margin: 0;
+    }
+
+    .house-feature {
+      padding-bottom: 90px;
+    }
+
+    .house-feature h2 {
+      margin-block: 20px 30px;
+    }
+
+    .contact-people article {
+      gap: 20px;
+      align-items: center;
+      display: block;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .contact-intro h1 {
+      font-size: calc(4.6875rem * var(--heading-scale));
+      line-height: 1.4;
+    }
+
+    .contact-intro .lead {
+      margin-top: 35px;
+    }
+
+    .contact-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 45px;
+    }
+
+    .contact-details .email {
+      font-size: calc(1.375rem * var(--body-scale));
+    }
+
+    .locations {
+      font-size: calc(1.375rem * var(--body-scale));
+    }
+
+    .contact-details h2 {
+      font-size: calc(2.3125rem * var(--heading-scale));
+    }
+
+    .reassurance {
+      font-size: calc(1.25rem * var(--body-scale));
+    }
+
+    .contact-people {
+      grid-template-columns: 1fr;
+      gap: 25px;
+    }
+
+    .contact-people img {
+      width: 70px;
+      height: 70px;
+      margin-bottom: var(--space-3);
+    }
+
+    .contact-people small {
+      font-size: calc(0.75rem * var(--body-scale));
+    }
+
+    .house-feature .lead {
+      font-size: calc(1.4375rem * var(--body-scale));
+    }
+  }
+
+  @media (48rem <= width < 75rem) {
+    .contact-people article {
+      display: flex;
+    }
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+    .contact-intro {
+      padding-bottom: 70px;
+    }
+  }
+
+  @media (min-width: 75rem) {
+    .contact-intro {
+      max-width: none;
+      padding-bottom: 55px;
+    }
+
+    .contact-intro h1 {
+      font-size: calc(6.875rem * var(--heading-scale));
+      line-height: 1.25;
+    }
+
+    .contact-grid {
+      gap: 115px;
+    }
+
+    .detail {
+      margin-bottom: var(--space-10);
+    }
+
+    .contact-details .email {
+      font-size: calc(1.9375rem * var(--body-scale));
+    }
+
+    .locations {
+      font-size: calc(1.6875rem * var(--body-scale));
+    }
+
+    .contact-socials {
+      gap: 34px;
+    }
+
+    .contact-details h2 {
+      margin-bottom: 70px;
+      font-size: calc(3.625rem * var(--heading-scale));
+    }
+
+    .contact-people {
+      margin-top: 100px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 28px;
+    }
+
+    .contact-people img {
+      width: 110px;
+      height: 110px;
+    }
+
+    .contact-people a {
+      font-size: calc(1rem * var(--body-scale));
+    }
+
+    .house-feature h2 {
+      font-size: calc(4.75rem * var(--heading-scale));
+    }
+
+    .house-feature .text-link {
+      margin-top: 65px;
+    }
+  }
+}

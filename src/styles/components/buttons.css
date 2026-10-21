@@ -1,0 +1,64 @@
+/* Narrow layouts first. Tablet: 48rem. Desktop: 75rem. */
+.text-link {
+  display: inline-block;
+  font-size: calc(1rem * var(--body-scale));
+  line-height: 1.5;
+  text-decoration: underline;
+  text-underline-offset: 10px;
+  padding-bottom: 10px;
+}
+
+.pill {
+  max-width: 100%;
+  border: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 36px;
+  min-height: 60px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-pill);
+  background: var(--ink);
+  color: var(--canvas);
+  text-decoration: none;
+  font-size: calc(1.125rem * var(--body-scale));
+  line-height: 1.25;
+  transition: background 0.18s;
+  min-width: 240px;
+}
+
+.pill:hover {
+  background: var(--button-hover);
+}
+
+.pill .plus {
+  font-size: calc(1.5rem * var(--body-scale));
+  line-height: 1;
+}
+
+.pill.inverse {
+  background: var(--canvas);
+  color: var(--ink);
+}
+
+.link-button {
+  border: 0;
+  background: none;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 10px;
+  line-height: 2;
+  font-size: calc(0.8125rem * var(--body-scale));
+}
+
+@media (min-width: 48rem) {
+  .link-button {
+    font-size: calc(0.9375rem * var(--body-scale));
+  }
+}
+
+@media (min-width: 75rem) {
+  .pill {
+    min-width: 300px;
+  }
+}

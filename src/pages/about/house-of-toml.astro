@@ -1,4 +1,6 @@
 ---
+import ResponsiveImage from "../../components/ResponsiveImage.astro";
+import "../../styles/pages/contact.css";
 import SitePage from "../../layouts/SitePage.astro";
 import Subnav from "../../components/Subnav.astro";
 import ContactBand from "../../components/ContactBand.astro";
@@ -6,36 +8,48 @@ import Pill from "../../components/Pill.astro";
 import { asset, enquire } from "../../data/website";
 ---
 
-<SitePage title="House of TOML"
-  ><Subnav /><section class="page-intro container">
-    <p class="eyebrow">House of TOML</p><h1>
-      A place to<br />come together.
-    </h1><p class="lead">
+<SitePage title="House of TOML">
+  <Subnav />
+  <section class="page-intro container">
+    <p class="eyebrow">House of TOML</p>
+    <h1>
+      A place to
+      <br />
+      come together.
+    </h1>
+    <p class="lead">
       Our creative home in Prishtina. A place to work, share ideas and spend
       time together.
     </p>
-  </section><section class="house-feature container split">
+  </section>
+  <section class="house-feature container split">
     <div>
-      <img
+      <ResponsiveImage
         src={asset("p16-p16_i618")}
         width="800"
         height="750"
         alt="House of TOML — reference photograph of the shared workspace"
-      /><p class="portfolio-credit">
+      />
+      <p class="portfolio-credit">
         House of TOML / Prishtina · Reference photograph
       </p>
-    </div><div>
-      <p class="eyebrow">Planning a visit?</p><h2>
-        Good company.<br />Shared ideas.
-      </h2><p class="lead">Planning a visit? Get in touch.</p><div
-        class="actions"
-      >
+    </div>
+    <div>
+      <p class="eyebrow">Planning a visit?</p>
+      <h2>
+        Good company.
+        <br />
+        Shared ideas.
+      </h2>
+      <p class="lead">Planning a visit? Get in touch.</p>
+      <div class="actions">
         <Pill href={enquire("Visiting the House")}>Arrange a visit</Pill>
       </div>
     </div>
-  </section><ContactBand
+  </section>
+  <ContactBand
     heading={"Let’s get\ntogether."}
     copy="Tell us what you have in mind."
     href={enquire("Visiting the House")}
-  /></SitePage
->
+  />
+</SitePage>

@@ -16,7 +16,14 @@
     "worker:check": "npm run worker:types -- --check && wrangler deploy --dry-run --outdir .wrangler/dry-run",
     "deploy": "npm run build && wrangler deploy",
     "studio:dev": "npm run dev -w studio",
-    "studio:build": "npm run build -w studio"
+    "studio:build": "npm run build -w studio",
+    "images:prepare": "node scripts/prepare-images.mjs",
+    "predev": "npm run images:prepare",
+    "precheck": "npm run images:prepare",
+    "prebuild": "npm run images:prepare",
+    "format": "prettier --write src scripts",
+    "format:check": "prettier --check src scripts",
+    "test:browser": "node scripts/qa-layouts.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.1.0",
@@ -27,12 +34,16 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@cloudflare/workers-types": "^5.20261019.1",
     "@types/node": "^24.19.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "playwright": "1.64.1",
+    "prettier": "3.9.10",
+    "prettier-plugin-astro": "1.1.1",
+    "sharp": "0.35.5",
     "typescript": "~5.9.3",
-    "wrangler": "^4.151.1",
-    "@cloudflare/workers-types": "^5.20261019.1"
+    "wrangler": "^4.151.1"
   },
   "engines": {
     "node": ">=24 <25",

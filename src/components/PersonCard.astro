@@ -1,0 +1,43 @@
+---
+import { imageSizes } from "../lib/responsive-images";
+import ResponsiveImage from "./ResponsiveImage.astro";
+import ProfileDialog from "./ProfileDialog.astro";
+import type { team } from "../data/website";
+interface Props {
+  person: (typeof team)[number];
+}
+const { person: p } = Astro.props;
+---
+
+<article class="person-card">
+  {p.image ? (
+    <ResponsiveImage
+      sizes={imageSizes.third}
+      src={p.image}
+      width="600"
+      height="600"
+      alt={p.name}
+      loading="lazy"
+    />
+  ) : (
+    <div
+      class="initials"
+      role="img"
+      aria-label={`${p.name} — portrait to come`}
+    >
+      {p.initials}
+    </div>
+  )}
+  <h3>{p.name.toUpperCase()}</h3>
+  <>
+    <p>{p.role}</p>
+    <button
+      class="link-button"
+      data-open-dialog={`profile-${p.name.toLowerCase()}`}
+      aria-haspopup="dialog"
+    >
+      Meet {p.name}
+    </button>
+    <ProfileDialog person={p} />
+  </>
+</article>

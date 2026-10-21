@@ -1,0 +1,83 @@
+---
+import ResponsiveImage from "./ResponsiveImage.astro";
+import assets from "../data/deck-assets.json";
+import { mainNavigation as nav } from "../data/navigation";
+interface Props {
+  variant?: "default" | "home";
+}
+const { variant = "default" } = Astro.props;
+---
+
+<footer
+  class:list={["site-footer", { "site-footer--home": variant === "home" }]}
+>
+  <div class="container">
+    <div class="footer-top">
+      <p>
+        The collective of
+        <br />
+        visual storytellers.
+      </p>
+      <p>
+        London / Prishtina / Toronto
+        <br />
+        Working worldwide.
+      </p>
+      <div class="social">
+        <a href="https://instagram.com/toml.collective">Instagram</a>
+        <a href="http://www.linkedin.com/company/19117671/">LinkedIn</a>
+      </div>
+      <a class="playlist-link" href="/playlist">
+        TOML Playlist
+      </a>
+      <a class="top-link" href="#top">
+        Back to top
+      </a>
+    </div>
+    <div class="footer-main">
+      <div>
+        <nav class="footer-nav" aria-label="Footer navigation">
+          {nav.map((n) => (
+            <a href={n.href}>{n.title}</a>
+          ))}
+          <a href="/contact">Let’s talk</a>
+        </nav>
+        <a class="wordmark" href="/" aria-label="TOML Collective home">
+          TOML<span class="dot">.</span>
+        </a>
+      </div>
+      <div class="recognition">
+        <div>
+          <ResponsiveImage
+            class="drum"
+            src={assets["p1-p1_i112"].src}
+            width="235"
+            height="74"
+            alt="The Drum Recommends"
+            loading="lazy"
+          />
+          <p>Recommended by our clients</p>
+        </div>
+        <div class="council">
+          <ResponsiveImage
+            src={assets["p1-p1_i114"].src}
+            width="112"
+            height="76"
+            alt="Fast Company Impact Council"
+            loading="lazy"
+          />
+          <p>
+            Fast Company Impact Council
+            <br />
+            Virtyt Pula / Member
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TOML Collective</span>
+      <a href="mailto:hello@tomlcollective.com">hello@tomlcollective.com</a>
+      <a href="/privacy-policy">Privacy Policy</a>
+    </div>
+  </div>
+</footer>

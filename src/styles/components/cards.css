@@ -1,0 +1,289 @@
+/* Narrow layouts first. Tablet: 48rem. Desktop: 75rem. */
+.project-card {
+  min-width: 0;
+}
+
+.image-link {
+  display: block;
+  overflow: hidden;
+}
+
+.project-card img {
+  aspect-ratio: 1.32;
+  object-fit: cover;
+  transition: transform 0.4s;
+}
+
+.image-link:hover img {
+  transform: scale(1.025);
+}
+
+.card-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-top: 26px;
+  gap: var(--space-1);
+}
+
+.card-heading h3 {
+  font-size: calc(1.5625rem * var(--heading-scale));
+}
+
+.card-heading h3 a {
+  text-decoration: none;
+}
+
+.card-heading .text-link {
+  font-size: calc(0.875rem * var(--body-scale));
+  flex-shrink: 0;
+}
+
+.project-card p {
+  color: var(--muted);
+  margin-top: var(--space-2);
+  margin-bottom: 0;
+  font-size: calc(1.0625rem * var(--body-scale));
+}
+
+.project-card .category {
+  text-transform: uppercase;
+  font-size: calc(0.6875rem * var(--body-scale));
+}
+
+.project-card--selected img {
+  aspect-ratio: 2.2;
+}
+
+.project-card--selected .card-heading {
+  margin-top: var(--space-2);
+}
+
+.project-card--selected p {
+  margin-top: 10px;
+}
+
+.project-card--related img {
+  aspect-ratio: 2.2;
+}
+
+.person-card img {
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.person-card .initials {
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--placeholder);
+  color: var(--accent);
+  font-size: calc(3.375rem * var(--heading-scale));
+}
+
+.person-card h3 {
+  margin-top: 22px;
+  font-size: calc(1.25rem * var(--heading-scale));
+}
+
+.person-card p {
+  color: var(--muted);
+  font-size: calc(0.875rem * var(--body-scale));
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.member-card img {
+  aspect-ratio: 1.33;
+  object-fit: cover;
+}
+
+.writing-tile {
+  aspect-ratio: 1.33;
+  object-fit: cover;
+  background: var(--accent);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 14px;
+}
+
+.member-card .card-heading {
+  margin-top: 18px;
+}
+
+.member-card p {
+  color: var(--muted);
+  font-size: calc(0.8125rem * var(--body-scale));
+  margin-top: 10px;
+}
+
+.writing-tile span {
+  font-size: calc(0.5rem * var(--body-scale));
+}
+
+.writing-tile strong {
+  font-weight: 400;
+  font-size: calc(1.625rem * var(--heading-scale));
+}
+
+@media (width < 48rem) {
+  .person-card p {
+    min-height: 40px;
+  }
+
+  .member-card .card-heading {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .member-card .card-heading h3 {
+    font-size: calc(1.375rem * var(--heading-scale));
+  }
+
+  .member-card .text-link {
+    font-size: calc(0.75rem * var(--body-scale));
+  }
+}
+
+@media (width < 75rem) {
+  .card-heading {
+    flex-wrap: nowrap;
+  }
+}
+
+@media (min-width: 48rem) {
+  .card-heading h3 {
+    font-size: calc(1.5rem * var(--heading-scale));
+  }
+
+  .project-card .category {
+    font-size: calc(0.75rem * var(--body-scale));
+  }
+
+  .project-card--selected img {
+    aspect-ratio: 2.747;
+  }
+
+  .initials {
+    font-size: calc(4.0625rem * var(--heading-scale));
+  }
+
+  .person-card h3 {
+    font-size: calc(1.4375rem * var(--heading-scale));
+  }
+
+  .person-card p {
+    font-size: calc(1rem * var(--body-scale));
+    margin-top: 14px;
+    margin-bottom: 22px;
+  }
+
+  .writing-tile {
+    padding: 28px;
+  }
+
+  .member-card .card-heading {
+    margin-top: var(--space-3);
+  }
+
+  .member-card p {
+    font-size: calc(1rem * var(--body-scale));
+    margin-top: 12px;
+  }
+
+  .writing-tile span {
+    font-size: calc(0.8125rem * var(--body-scale));
+  }
+
+  .writing-tile strong {
+    font-size: calc(3rem * var(--heading-scale));
+  }
+}
+
+@media (48rem <= width < 75rem) {
+  .card-heading {
+    flex-wrap: wrap;
+  }
+}
+
+@media (min-width: 75rem) {
+  .card-heading {
+    gap: 20px;
+  }
+
+  .card-heading h3 {
+    font-size: calc(1.75rem * var(--heading-scale));
+  }
+
+  .project-card p {
+    font-size: calc(1.125rem * var(--body-scale));
+  }
+
+  .project-card .category {
+    font-size: calc(0.875rem * var(--body-scale));
+  }
+
+  .initials {
+    font-size: calc(6.25rem * var(--heading-scale));
+  }
+
+  .person-card h3 {
+    font-size: calc(1.6875rem * var(--heading-scale));
+  }
+
+  .person-card p {
+    font-size: calc(1.125rem * var(--body-scale));
+  }
+
+  .member-card p {
+    font-size: calc(1.125rem * var(--body-scale));
+  }
+
+  .project-card--related {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    grid-template-rows: auto 1fr;
+    column-gap: 25px;
+    align-items: start;
+  }
+
+  .project-card--related .image-link {
+    grid-row: 1/3;
+  }
+
+  .project-card--related .card-heading {
+    margin-top: 10px;
+  }
+
+  .project-card--related .card-heading h3 {
+    font-size: calc(1.625rem * var(--heading-scale));
+  }
+
+  .project-card--related .card-heading .text-link {
+    display: none;
+  }
+
+  .project-card--related p {
+    margin-top: 14px;
+    font-size: calc(1rem * var(--body-scale));
+  }
+
+  .project-card--compact > p:not(.category) {
+    display: none;
+  }
+
+  .project-card--compact .category {
+    text-transform: none;
+    font-size: calc(0.875rem * var(--body-scale));
+  }
+
+  .project-card--compact .card-heading h3 {
+    font-size: calc(1.6875rem * var(--heading-scale));
+  }
+}

@@ -1,4 +1,6 @@
 ---
+import ResponsiveImage from "../components/ResponsiveImage.astro";
+import "../styles/pages/contact.css";
 import SitePage from "../layouts/SitePage.astro";
 import ContactForm from "../components/ContactForm.astro";
 import ContactBand from "../components/ContactBand.astro";
@@ -22,86 +24,115 @@ const contacts = [
 ];
 ---
 
-<SitePage title="Let’s talk"
-  ><section class="page-intro contact-intro container">
-    <p class="eyebrow">Let’s talk</p><h1>What have you<br />got in mind?</h1><p
-      class="lead"
-    >
+<SitePage title="Let’s talk">
+  <section class="page-intro contact-intro container">
+    <p class="eyebrow">Let’s talk</p>
+    <h1>
+      What have you
+      <br />
+      got in mind?
+    </h1>
+    <p class="lead">
       A new brand, a campaign, a next chapter or an idea that won’t leave you
-      alone.<br />Let’s see where it could go.
+      alone.
+      <br />
+      Let’s see where it could go.
     </p>
   </section>
   <section class="contact-grid container rule">
     <div class="contact-details">
       <div class="detail">
-        <p class="eyebrow">Prefer email?</p><a
-          class="email"
-          href="mailto:hello@tomlcollective.com">hello@tomlcollective.com</a>
-      </div><div class="detail">
-        <p class="eyebrow">Where we are</p><p class="locations">
-          London / Prishtina / Toronto<br />Working worldwide.
-        </p><p class="small muted">London / Clockwise Wood Green</p>
-      </div><div class="detail">
-        <p class="eyebrow">A little more from us</p><div
-          class="contact-socials"
-        >
-          <a class="text-link" href="https://instagram.com/toml.collective"
-            >Instagram</a
-          ><a class="text-link" href="http://www.linkedin.com/company/19117671/"
-            >LinkedIn</a
-          ><a class="text-link" href="https://www.behance.net/toml-collective/"
-            >Behance</a
-          ><a class="text-link" href="https://vimeo.com/tomlcollective"
-            >Vimeo</a>
+        <p class="eyebrow">Prefer email?</p>
+        <a class="email" href="mailto:hello@tomlcollective.com">
+          hello@tomlcollective.com
+        </a>
+      </div>
+      <div class="detail">
+        <p class="eyebrow">Where we are</p>
+        <p class="locations">
+          London / Prishtina / Toronto
+          <br />
+          Working worldwide.
+        </p>
+        <p class="small muted">London / Clockwise Wood Green</p>
+      </div>
+      <div class="detail">
+        <p class="eyebrow">A little more from us</p>
+        <div class="contact-socials">
+          <a class="text-link" href="https://instagram.com/toml.collective">
+            Instagram
+          </a>
+          <a class="text-link" href="http://www.linkedin.com/company/19117671/">
+            LinkedIn
+          </a>
+          <a class="text-link" href="https://www.behance.net/toml-collective/">
+            Behance
+          </a>
+          <a class="text-link" href="https://vimeo.com/tomlcollective">
+            Vimeo
+          </a>
         </div>
-      </div><h2>It’s fine if you’re still<br />figuring things out.</h2><p
-        class="reassurance"
-      >
+      </div>
+      <h2>
+        It’s fine if you’re still
+        <br />
+        figuring things out.
+      </h2>
+      <p class="reassurance">
         A few lines on the idea, what you need and any timing are enough to
         start. Include a budget if you have one.
-      </p><div class="contact-people">
-        {
-          contacts.map((c) => (
-            <article>
-              <>
-                <img
-                  src={c.image}
-                  width="110"
-                  height="110"
-                  alt={c.name}
-                  loading="lazy"
-                />
-                <a href={`mailto:${c.email}`}>
-                  Talk to {c.name}
-                  <small>{c.email}</small>
-                </a>
-              </>
-            </article>
-          ))
-        }
+      </p>
+      <div class="contact-people">
+        {contacts.map((c) => (
+          <article>
+            <>
+              <ResponsiveImage
+                src={c.image}
+                width="110"
+                height="110"
+                alt={c.name}
+                loading="lazy"
+              />
+              <a href={`mailto:${c.email}`}>
+                Talk to {c.name}
+                <small>{c.email}</small>
+              </a>
+            </>
+          </article>
+        ))}
       </div>
-    </div><ContactForm />
+    </div>
+    <ContactForm />
   </section>
   <section class="house-feature split container rule">
     <div>
-      <p class="eyebrow">House of TOML</p><h2>
-        A place to<br />come together.
-      </h2><p class="lead">
+      <p class="eyebrow">House of TOML</p>
+      <h2>
+        A place to
+        <br />
+        come together.
+      </h2>
+      <p class="lead">
         Our creative home in Prishtina. A place to work, share ideas and spend
         time together.
-      </p><p style="margin-top:70px">
-        Planning a visit? <a href={enquire("Visiting the House")}
-          >Get in touch.</a>
-      </p><a class="text-link" href="/about/house-of-toml"
-        >Discover House of TOML</a>
-    </div><figure>
-      <img
+      </p>
+      <p class="contact-followup">
+        Planning a visit?{" "}
+        <a href={enquire("Visiting the House")}>Get in touch.</a>
+      </p>
+      <a class="text-link" href="/about/house-of-toml">
+        Discover House of TOML
+      </a>
+    </div>
+    <figure>
+      <ResponsiveImage
         src={asset("p16-p16_i618")}
         width="650"
         height="610"
         alt="House of TOML — reference photograph of the shared workspace"
         loading="lazy"
-      /><figcaption class="portfolio-credit">
+      />
+      <figcaption class="portfolio-credit">
         House of TOML / Prishtina
       </figcaption>
     </figure>
@@ -111,5 +142,5 @@ const contacts = [
     copy="hello@tomlcollective.com"
     label="Email TOML"
     href="mailto:hello@tomlcollective.com"
-  /></SitePage
->
+  />
+</SitePage>

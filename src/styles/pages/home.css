@@ -1,0 +1,437 @@
+@import "../layers.css";
+
+@layer pages {
+  /* Narrow layouts first. Tablet: 48rem. Desktop: 75rem. */
+  .home-work .project-grid {
+    gap: 55px 28px;
+  }
+
+  .home-work .all-work {
+    margin-top: 44px;
+  }
+
+  .home-hero {
+    display: grid;
+    min-height: 565px;
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .home-hero .hero-copy {
+    padding: 36px 0 0;
+  }
+
+  .home-hero .eyebrow {
+    margin-bottom: 26px;
+    color: var(--ink);
+  }
+
+  .home-hero h1 {
+    line-height: 1.23;
+    letter-spacing: -0.03em;
+    font-size: calc(2.875rem * var(--heading-scale));
+  }
+
+  .home-hero .lead {
+    margin-top: 26px;
+    max-width: 620px;
+    font-size: calc(1.3125rem * var(--body-scale));
+  }
+
+  .home-hero img {
+    object-fit: cover;
+    object-position: center;
+    height: auto;
+  }
+
+  .home-hero .actions {
+    margin-left: 0;
+    margin-top: var(--space-4);
+    gap: 30px;
+  }
+
+  .home-work {
+    padding-top: 42px;
+    padding-bottom: 40px;
+  }
+
+  .home-work .eyebrow {
+    margin-bottom: 28px;
+  }
+
+  .company {
+    padding-top: 36px;
+    padding-bottom: 30px;
+  }
+
+  .company h2 {
+    margin-bottom: 36px;
+  }
+
+  .company .eyebrow {
+    margin-bottom: 15px;
+  }
+
+  .company p {
+    font-size: calc(1.125rem * var(--body-scale));
+  }
+
+  .services {
+    padding-top: 30px;
+    padding-bottom: var(--space-10);
+  }
+
+  .services .eyebrow {
+    margin-bottom: 12px;
+  }
+
+  .services h2 {
+    max-width: 560px;
+    line-height: 1.4;
+  }
+
+  .services .text-link {
+    margin-top: 25px;
+  }
+
+  .service-list {
+    line-height: 1.6;
+    padding-left: 0;
+    padding-top: 0;
+    font-size: calc(1.5rem * var(--body-scale));
+  }
+
+  .testimonial {
+    background: var(--feature-background);
+    color: var(--feature-text);
+    padding-block: 40px;
+  }
+
+  .testimonial .container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .testimonial .eyebrow {
+    font-family: var(--font-label);
+    color: var(--feature-accent);
+    margin-bottom: 20px;
+    font-size: calc(0.6875rem * var(--body-scale));
+  }
+
+  .testimonial blockquote {
+    font-family: var(--font-quote);
+    line-height: 1.5;
+    letter-spacing: -0.02em;
+    font-size: calc(1.5625rem * var(--body-scale));
+  }
+
+  .testimonial .attribution {
+    font-family: var(--font-quote);
+    padding-top: 0;
+    font-size: calc(1.3125rem * var(--body-scale));
+  }
+
+  .testimonial .attribution small {
+    display: block;
+    color: var(--feature-muted);
+    font-size: calc(0.9375rem * var(--body-scale));
+    margin-top: 12px;
+  }
+
+  .journal-house {
+    display: grid;
+    padding-block: 60px;
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  .journal-house h2 {
+    font-size: calc(2rem * var(--heading-scale));
+  }
+
+  .journal-heading {
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-3);
+    display: block;
+    margin-bottom: var(--space-2);
+  }
+
+  .journal-house p {
+    color: var(--muted);
+    max-width: 570px;
+    font-size: calc(1.125rem * var(--body-scale));
+  }
+
+  .journal-articles {
+    display: grid;
+    font-size: calc(0.9375rem * var(--body-scale));
+    gap: 20px;
+  }
+
+  .house-teaser img {
+    object-fit: cover;
+    margin-bottom: 20px;
+    aspect-ratio: 2.7;
+  }
+
+  .house-teaser p:not(.eyebrow) {
+    font-size: calc(1.125rem * var(--body-scale));
+  }
+
+  .house-teaser .text-link {
+    margin-top: 18px;
+  }
+
+  .house-teaser .eyebrow {
+    font-size: calc(0.75rem * var(--body-scale));
+  }
+
+  @media (width < 48rem) {
+    .home-work .project-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .home-hero .eyebrow {
+      font-size: calc(0.6875rem * var(--body-scale));
+    }
+
+    .company h2 {
+      font-size: calc(2.25rem * var(--heading-scale));
+    }
+
+    .company .eyebrow {
+      font-size: calc(0.6875rem * var(--body-scale));
+    }
+
+    .home-hero .pill {
+      width: 100%;
+    }
+
+    .company .grid-2 {
+      gap: 25px;
+    }
+
+    .services .split {
+      gap: 28px;
+    }
+
+    .journal-house .eyebrow {
+      font-size: calc(0.75rem * var(--body-scale));
+      margin-bottom: var(--space-3);
+    }
+  }
+
+  @media (width < 75rem) {
+    .home-hero .hero-copy {
+      padding-left: 0;
+    }
+
+    .home-hero img {
+      aspect-ratio: 1.1;
+    }
+
+    .services {
+      padding-block: 36px 55px;
+    }
+
+    .services h2 {
+      font-size: calc(2.25rem * var(--heading-scale));
+    }
+
+    .journal-heading a {
+      margin-top: 20px;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .home-hero h1 {
+      font-size: calc(clamp(2.875rem, 8.7vw, 4.25rem) * var(--heading-scale));
+    }
+
+    .home-hero .lead {
+      font-size: calc(1.375rem * var(--body-scale));
+    }
+
+    .home-hero .actions {
+      gap: var(--space-3);
+    }
+
+    .company .eyebrow {
+      margin-bottom: 20px;
+    }
+
+    .services .text-link {
+      margin-top: 40px;
+    }
+
+    .service-list {
+      padding-left: 15px;
+      padding-top: var(--space-3);
+      font-size: calc(1.4375rem * var(--body-scale));
+    }
+
+    .testimonial {
+      padding-block: var(--space-6);
+    }
+
+    .testimonial .eyebrow {
+      font-size: calc(0.8125rem * var(--body-scale));
+    }
+
+    .testimonial blockquote {
+      font-size: calc(1.6875rem * var(--body-scale));
+    }
+
+    .journal-house {
+      grid-template-columns: 1.4fr 1fr;
+      gap: 35px;
+    }
+
+    .journal-heading {
+      margin-bottom: var(--space-3);
+    }
+
+    .house-teaser img {
+      aspect-ratio: 1.5;
+    }
+
+    .house-teaser .text-link {
+      margin-top: 36px;
+    }
+    .house-teaser .eyebrow {
+      font-size: calc(1.125rem * var(--body-scale));
+    }
+  }
+
+  @media (48rem <= width < 75rem) {
+    .home-hero img {
+      aspect-ratio: 1.4;
+    }
+
+    .services h2 {
+      font-size: calc(2.3125rem * var(--heading-scale));
+    }
+  }
+
+  @media (min-width: 75rem) {
+    .home-work .project-grid {
+      gap: 28px 44px;
+      row-gap: 10px;
+    }
+
+    .home-work .all-work {
+      margin-top: 60px;
+    }
+
+    .home-hero {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .home-hero .hero-copy {
+      padding: var(--space-8) 0 20px 18px;
+    }
+
+    .home-hero .eyebrow {
+      margin-bottom: 20px;
+    }
+
+    .home-hero h1 {
+      letter-spacing: -0.015em;
+      font-size: calc(4.625rem * var(--heading-scale));
+    }
+
+    .home-hero .lead {
+      max-width: 570px;
+      font-size: calc(1.5625rem * var(--body-scale));
+    }
+
+    .home-hero img {
+      height: 565px;
+    }
+
+    .home-hero .actions {
+      margin-left: -18px;
+      margin-top: 50px;
+      gap: 40px;
+    }
+
+    .company {
+      padding-bottom: 60px;
+    }
+
+    .company p {
+      font-size: calc(1.25rem * var(--body-scale));
+    }
+
+    .services {
+      padding-bottom: 65px;
+    }
+
+    .services .text-link {
+      margin-top: 84px;
+    }
+
+    .service-list {
+      padding-left: 120px;
+      font-size: calc(1.6875rem * var(--body-scale));
+    }
+
+    .testimonial {
+      padding-block: 40px;
+    }
+
+    .testimonial .container {
+      grid-template-columns: 3fr 1.1fr;
+      gap: 70px;
+    }
+
+    .testimonial blockquote {
+      font-size: calc(1.875rem * var(--body-scale));
+    }
+
+    .testimonial .attribution {
+      padding-top: var(--space-4);
+      font-size: calc(1.4375rem * var(--body-scale));
+    }
+
+    .testimonial .attribution small {
+      margin-top: 20px;
+    }
+
+    .journal-house {
+      padding-block: 70px;
+      grid-template-columns: 2.2fr 1fr;
+      gap: 140px;
+      padding-bottom: 34px;
+    }
+
+    .journal-house h2 {
+      font-size: calc(2.25rem * var(--heading-scale));
+    }
+
+    .journal-heading {
+      display: flex;
+    }
+
+    .journal-house p {
+      font-size: calc(1.25rem * var(--body-scale));
+    }
+
+    .journal-articles {
+      font-size: calc(1rem * var(--body-scale));
+      gap: 18px;
+    }
+
+    .house-teaser img {
+      aspect-ratio: 3.5;
+    }
+
+    .services .service-list {
+      padding-top: 0;
+    }
+  }
+}

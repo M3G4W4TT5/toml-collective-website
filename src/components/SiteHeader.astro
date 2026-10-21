@@ -1,0 +1,38 @@
+---
+import Pill from "./Pill.astro";
+import { mainNavigation as nav } from "../data/navigation";
+const path = Astro.url.pathname;
+---
+
+<header data-site-header id="top" class="site-header container">
+  <div class="brand-group">
+    <a class="brand" href="/" aria-label="TOML Collective home">
+      TOML<span class="dot">.</span>
+    </a>
+    <p class="descriptor">The collective of visual storytellers.</p>
+  </div>
+  <button
+    type="button"
+    class="menu-toggle"
+    aria-expanded="false"
+    aria-controls="main-navigation"
+  >
+    Menu
+  </button>
+  <nav class="main-nav" id="main-navigation" aria-label="Main navigation">
+    {nav.map((n) => (
+      <a
+        href={n.href}
+        aria-current={
+          n.href.startsWith("/") && path.startsWith(n.href) ? "page" : undefined
+        }
+      >
+        {n.title}
+      </a>
+    ))}
+    <Pill href="/contact">Let’s talk</Pill>
+  </nav>
+</header>
+<script>
+  import "../scripts/menu";
+</script>

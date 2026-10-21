@@ -1,0 +1,61 @@
+/* Narrow layouts first. Tablet: 48rem. Desktop: 75rem. */
+.profile-dialog {
+  position: fixed;
+  inset: 0 0 0 auto;
+  width: min(620px, 100%);
+  max-width: 100%;
+  max-height: 100dvh;
+  height: 100dvh;
+  margin: 0;
+  border: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  overflow-y: auto;
+  padding: var(--space-3);
+}
+
+.profile-dialog::backdrop {
+  background: var(--drawer-backdrop);
+}
+
+.close-dialog {
+  display: block;
+  margin-left: auto;
+  background: none;
+  border: 0;
+  padding: 12px;
+  font-size: calc(1rem * var(--body-scale));
+}
+
+.profile-dialog img {
+  max-height: 400px;
+  object-fit: cover;
+  object-position: top;
+  margin-block: 30px;
+}
+
+.profile-dialog h2 {
+  margin: 30px 0 14px;
+}
+
+.bio {
+  margin-block: 30px;
+  font-size: calc(1.25rem * var(--body-scale));
+}
+
+@media (width < 48rem) {
+  .profile-dialog .pill {
+    min-width: 0;
+    width: 100%;
+  }
+}
+
+@media (min-width: 48rem) {
+  .profile-dialog {
+    padding: 50px;
+  }
+
+  .bio {
+    font-size: calc(1.4375rem * var(--body-scale));
+  }
+}

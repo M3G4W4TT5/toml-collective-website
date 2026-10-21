@@ -1,0 +1,55 @@
+/* Narrow layouts first. Tablet: 48rem. Desktop: 75rem. */
+.filters {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  border-top: 1px solid var(--rule);
+  padding: 30px 0 44px;
+  gap: var(--space-1);
+}
+
+.filters button {
+  background: none;
+  border: 0;
+  border-radius: 30px;
+  font-size: calc(0.8125rem * var(--body-scale));
+  padding: 10px 12px;
+}
+
+.filters button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--canvas);
+}
+
+.filters .count {
+  margin-left: auto;
+  font-size: calc(0.875rem * var(--body-scale));
+  color: var(--muted);
+}
+
+.empty {
+  padding: 60px 0;
+  font-size: calc(1.5rem * var(--body-scale));
+}
+
+@media (width < 48rem) {
+  .filters {
+    padding-block: 22px;
+  }
+
+  .filters .count {
+    width: 100%;
+    margin-top: 12px;
+  }
+}
+
+@media (min-width: 48rem) {
+  .filters {
+    gap: 20px;
+  }
+
+  .filters button {
+    font-size: calc(1rem * var(--body-scale));
+    padding: 10px 20px;
+  }
+}

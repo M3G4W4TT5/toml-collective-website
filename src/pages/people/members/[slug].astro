@@ -1,4 +1,6 @@
 ---
+import ResponsiveImage from "../../../components/ResponsiveImage.astro";
+import "../../../styles/pages/work.css";
 import SitePage from "../../../layouts/SitePage.astro";
 import Pill from "../../../components/Pill.astro";
 import ContactBand from "../../../components/ContactBand.astro";
@@ -21,85 +23,85 @@ const enquiry = enquire("Working with a TOML member", m.fullName);
 >
   <section class="case-hero member-detail container">
     <div>
-      <a class="text-link" href="/people/members">Back to TOML Members</a><p
-        class="eyebrow"
-      >
-        TOML Member / {m.discipline}
-      </p><h1>{m.fullName}</h1><p class="lead">
-        {
-          m.bio ||
-            `${m.discipline}. Explore ${m.name}’s portfolio, or talk to us about bringing ${m.name} into your next project.`
-        }
-      </p><div class="actions">
-        <Pill href={enquiry}>Discuss a project with {m.name}</Pill>{
-          m.source && (
-            <a class="text-link" href={m.source}>
-              View full portfolio
-            </a>
-          )
-        }
+      <a class="text-link" href="/people/members">
+        Back to TOML Members
+      </a>
+      <p class="eyebrow">TOML Member / {m.discipline}</p>
+      <h1>{m.fullName}</h1>
+      <p class="lead">
+        {m.bio ||
+          `${m.discipline}. Explore ${m.name}’s portfolio, or talk to us about bringing ${m.name} into your next project.`}
+      </p>
+      <div class="actions">
+        <Pill href={enquiry}>Discuss a project with {m.name}</Pill>
+        {m.source && (
+          <a class="text-link" href={m.source}>
+            View full portfolio
+          </a>
+        )}
       </div>
-    </div><figure class="hero-image">
-      {
-        m.image ? (
-          <img
-            src={m.image}
-            width="900"
-            height="800"
-            alt={`From ${m.fullName}’s independent portfolio`}
-            fetchpriority="high"
-          />
-        ) : (
-          <div class="writing-tile">
-            <>
-              <span>{m.discipline.toUpperCase()}</span>
-              <strong>{m.name.toUpperCase()}</strong>
-            </>
-          </div>
-        )
-      }
+    </div>
+    <figure class="hero-image">
+      {m.image ? (
+        <ResponsiveImage
+          src={m.image}
+          width="900"
+          height="800"
+          alt={`From ${m.fullName}’s independent portfolio`}
+          fetchpriority="high"
+        />
+      ) : (
+        <div class="writing-tile">
+          <>
+            <span>{m.discipline.toUpperCase()}</span>
+            <strong>{m.name.toUpperCase()}</strong>
+          </>
+        </div>
+      )}
     </figure>
   </section>
-  {
-    m.gallery.length > 0 && (
-      <section class="container section rule">
-        <p class="portfolio-credit">
-          {m.fullName} / {m.discipline} · Independent portfolio work
-          {m.galleryDescriptions?.[0]?.credit &&
-            ` / ${m.galleryDescriptions[0].credit}`}
-        </p>
-        {m.gallery.length > 1 && (
-          <div class="portfolio-gallery">
-            {m.gallery.slice(1).map((src, i) => (
-              <figure>
-                <img
-                  src={src}
-                  width="1000"
-                  height="1000"
-                  alt={
-                    m.galleryDescriptions?.[i + 1]?.alt ||
-                    `${m.fullName} — independent portfolio selection ${i + 2}`
-                  }
-                  loading="lazy"
-                />
-                {m.galleryDescriptions?.[i + 1]?.credit && (
-                  <figcaption class="portfolio-credit">
-                    {m.galleryDescriptions[i + 1].credit}
-                  </figcaption>
-                )}
-              </figure>
-            ))}
-          </div>
-        )}
-      </section>
-    )
-  }
+  {m.gallery.length > 0 && (
+    <section class="container section rule">
+      <p class="portfolio-credit">
+        {m.fullName} / {m.discipline} · Independent portfolio work
+        {m.galleryDescriptions?.[0]?.credit &&
+          ` / ${m.galleryDescriptions[0].credit}`}
+      </p>
+      {m.gallery.length > 1 && (
+        <div class="portfolio-gallery">
+          {m.gallery.slice(1).map((src, i) => (
+            <figure>
+              <ResponsiveImage
+                src={src}
+                width="1000"
+                height="1000"
+                alt={
+                  m.galleryDescriptions?.[i + 1]?.alt ||
+                  `${m.fullName} — independent portfolio selection ${i + 2}`
+                }
+                loading="lazy"
+              />
+              {m.galleryDescriptions?.[i + 1]?.credit && (
+                <figcaption class="portfolio-credit">
+                  {m.galleryDescriptions[i + 1].credit}
+                </figcaption>
+              )}
+            </figure>
+          ))}
+        </div>
+      )}
+    </section>
+  )}
   <section class="story-row split container">
     <div>
-      <p class="eyebrow">{m.discipline}</p><h2>
-        A perspective<br />for your project.
+      <p class="eyebrow">{m.discipline}</p>
+      <h2>
+        A perspective
+        <br />
+        for your project.
       </h2>
-    </div><p class="lead body">
+    </div>
+    <p class="lead body">
       Tell us what you’re making and where you need support. We’ll discuss the
       brief with {m.name} and shape the collaboration around the work.
     </p>
@@ -107,22 +109,28 @@ const enquiry = enquire("Working with a TOML member", m.fullName);
   <section class="dark section">
     <div class="container split">
       <div>
-        <p class="eyebrow">Working through TOML</p><h2>
-          One conversation.<br />The right collaboration.
+        <p class="eyebrow">Working through TOML</p>
+        <h2>
+          One conversation.
+          <br />
+          The right collaboration.
         </h2>
-      </div><p class="lead">
+      </div>
+      <p class="lead">
         We connect the brief, the artist and the project. Scope and availability
         are agreed together.
       </p>
     </div>
-  </section><section class="section container">
-    <h2>Explore the wider collective.</h2><a
-      class="text-link"
-      style="margin-top:35px"
-      href="/people/members">Meet TOML Members</a>
-  </section><ContactBand
+  </section>
+  <section class="section container">
+    <h2>Explore the wider collective.</h2>
+    <a class="text-link portfolio-link" href="/people/members">
+      Meet TOML Members
+    </a>
+  </section>
+  <ContactBand
     heading={`A project\nfor ${m.name}?`}
     copy="Tell us what you have in mind."
     href={enquiry}
-  /></SitePage
->
+  />
+</SitePage>

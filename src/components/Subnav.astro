@@ -20,16 +20,14 @@ const links =
   class="subnav container"
   aria-label={type === "about" ? "About navigation" : "People navigation"}
 >
-  {
-    links.map(([href, label]) => (
-      <a
-        href={href}
-        aria-current={
-          Astro.url.pathname.replace(/\/$/, "") === href ? "page" : undefined
-        }
-      >
-        {label}
-      </a>
-    ))
-  }
+  {links.map(([href, label]) => (
+    <a
+      href={href}
+      aria-current={
+        Astro.url.pathname.replace(/\/$/, "") === href ? "page" : undefined
+      }
+    >
+      {label}
+    </a>
+  ))}
 </nav>

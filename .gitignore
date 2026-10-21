@@ -18,3 +18,7 @@ dist/
 
 # Local visual references and browser evidence
 artifacts/
+
+# Rebuilt by images:prepare before dev, check and build.
+public/media/responsive/
+src/generated/

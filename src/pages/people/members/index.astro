@@ -1,25 +1,37 @@
 ---
+import ResponsiveImage from "../../../components/ResponsiveImage.astro";
+import "../../../styles/pages/people.css";
 import SitePage from "../../../layouts/SitePage.astro";
 import Subnav from "../../../components/Subnav.astro";
 import Filters from "../../../components/Filters.astro";
+import MemberCard from "../../../components/MemberCard.astro";
 import Pill from "../../../components/Pill.astro";
 import { getWebsiteMembers } from "../../../lib/website-content";
 import { asset, enquire } from "../../../data/website";
 const members = await getWebsiteMembers();
 ---
 
-<SitePage title="TOML Members"
-  ><section class="members-intro container">
+<SitePage title="TOML Members">
+  <section class="members-intro container">
     <div>
-      <p class="eyebrow">The people / The collective</p><h1>
-        Independent minds.<br />Worth knowing.
-      </h1><p class="lead">
+      <p class="eyebrow">The people / The collective</p>
+      <h1>
+        Independent minds.
+        <br />
+        Worth knowing.
+      </h1>
+      <p class="lead">
         Meet the independent creatives we represent. Each brings a distinct
-        perspective and craft.<br /><br />We know their work, believe in their
-        talent and build opportunities together.
-      </p><p class="eyebrow">A selection of our members’ independent work.</p>
-    </div><figure>
-      <img
+        perspective and craft.
+        <br />
+        <br />
+        We know their work, believe in their talent and build opportunities
+        together.
+      </p>
+      <p class="eyebrow">A selection of our members’ independent work.</p>
+    </div>
+    <figure>
+      <ResponsiveImage
         src={asset("p11-p11_i612")}
         width="720"
         height="540"
@@ -27,7 +39,8 @@ const members = await getWebsiteMembers();
         fetchpriority="high"
       />
     </figure>
-  </section><Subnav type="people" />
+  </section>
+  <Subnav type="people" />
   <div class="container" data-filter-scope>
     <Filters
       categories={[
@@ -38,73 +51,52 @@ const members = await getWebsiteMembers();
       ]}
       count={members.length}
       kind="members"
-    /><div class="member-grid">
-      {
-        members.map((m) => (
-          <article
-            class="member-card"
-            data-filter-item
-            data-categories={JSON.stringify(m.categories)}
-          >
-            <>
-              <a
-                class="image-link"
-                href={`/people/members/${m.slug}`}
-                aria-label={`Explore ${m.fullName}’s portfolio`}
-              >
-                {m.image ? (
-                  <img
-                    src={m.image}
-                    width="720"
-                    height="540"
-                    alt={`Independent portfolio work by ${m.fullName}`}
-                    loading="lazy"
-                  />
-                ) : (
-                  <div class="writing-tile">
-                    <span>{m.discipline.toUpperCase()}</span>
-                    <strong>{m.name.toUpperCase()}</strong>
-                  </div>
-                )}
-              </a>
-              <div class="card-heading">
-                <>
-                  <h3>{m.name}</h3>
-                  <a class="text-link" href={`/people/members/${m.slug}`}>
-                    {m.slug === "debora" ? "View profile" : "View work"}
-                  </a>
-                </>
-              </div>
-              <p>{m.discipline}</p>
-            </>
-          </article>
-        ))
-      }
-    </div><div class="empty" data-filter-empty hidden>
+    />
+    <div class="member-grid">
+      {members.map((m) => (
+        <MemberCard member={m} />
+      ))}
+    </div>
+    <div class="empty" data-filter-empty hidden>
       <p>
         No one in this selection yet. Tell us about the brief and we’ll help
         find the right people.
-      </p><a class="text-link" href={enquire("Working with a TOML member")}
-        >Discuss a project</a>
+      </p>
+      <a class="text-link" href={enquire("Working with a TOML member")}>
+        Discuss a project
+      </a>
     </div>
   </div>
   <section class="dual-cta">
     <article>
-      <p class="eyebrow">A project in mind</p><h2>
-        Someone caught<br />your eye?
-      </h2><p>
+      <p class="eyebrow">A project in mind</p>
+      <h2>
+        Someone caught
+        <br />
+        your eye?
+      </h2>
+      <p>
         Tell us about the brief and who caught your eye. We’ll help shape the
         collaboration.
-      </p><Pill href={enquire("Working with a TOML member")}
-        >Discuss a project</Pill>
-    </article><article>
-      <p class="eyebrow">Join the conversation</p><h2>
-        Want to be<br />in the mix?
-      </h2><p>
+      </p>
+      <Pill href={enquire("Working with a TOML member")}>
+        Discuss a project
+      </Pill>
+    </article>
+    <article>
+      <p class="eyebrow">Join the conversation</p>
+      <h2>
+        Want to be
+        <br />
+        in the mix?
+      </h2>
+      <p>
         Send us a little about yourself and a link to your work. We like meeting
         people with a point of view.
-      </p><Pill inverse href={enquire("Joining the collective")}
-        >Introduce yourself</Pill>
+      </p>
+      <Pill inverse href={enquire("Joining the collective")}>
+        Introduce yourself
+      </Pill>
     </article>
-  </section></SitePage
->
+  </section>
+</SitePage>

@@ -42,7 +42,7 @@
 
 ## Next task / blockers
 
-- Full V4 visual implementation is prepared locally. Review the design at the local preview, then finalize content and the CMS migration described in `docs/design-brief.md`.
+- The approved styling/component cleanup and responsive foundation are implemented and locally verified against the V4 design baseline. See `docs/styling.md` and `docs/refactor-qa.md`. Publication through the existing `main` pipelines was approved on 21 October; CMS migration remains separate.
 - Both Workers currently track `main`. Choose a separate trusted design branch later if primary and preview need independent releases.
 - Open the new Studio to confirm the owner's editing workflow. Do not repeat completed provisioning.
 - Final domain, mail delivery, policy wording, indexing, analytics and failure-notification ownership remain launch/handoff decisions. No failure notifier has been configured.
@@ -60,3 +60,15 @@
 - After the local implementation handoff, the user explicitly requested “push to main!”. This authorizes committing this V4 implementation and pushing to the verified repository’s `main`, which starts the existing website pipelines.
 - Local source checks, 16 tests, site/Studio builds, Worker dry run and browser QA passed before this push. Local browser evidence remains ignored by Git; the QA report and source inventory are included.
 - This code push does not migrate the Sanity dataset, deploy Studio separately, enable contact sending, change indexing mode or switch DNS. Hosted build status must be verified separately from Git acceptance.
+
+## Local frontend refactor — 21 October 2026
+
+- Implemented the approved theme controls, CSS/component organization, responsive ranges and image sources. Preserved the current desktop and phone baseline; tablet compositions use the new responsive foundation.
+- Formatting/type checks, 18 tests, site/Studio builds, Worker dry run, 140 browser viewport checks and 8 interaction checks passed. Evidence and limitations are in `docs/refactor-qa.md`.
+- This increment was initially held locally. The subsequent publication authorization below supersedes that hold; CMS migration remains separate.
+
+## Frontend publication authorization — 21 October 2026
+
+- After the local verification handoff, the user requested “Please push and deploy.” This authorizes committing the approved refactor and pushing to the verified repository's `main`, triggering the existing primary and preview website pipelines.
+- The release retains review indexing protection and disabled enquiry delivery. It does not migrate CMS content, deploy Studio/schema changes, change DNS or enable analytics.
+- GitHub's Cloudflare Workers Builds checks expose the build and version IDs for each exact source commit. Verify those checks and the hosted output separately from Git push acceptance; retain release evidence under ignored `artifacts/refactor-qa/` and in the task handoff.

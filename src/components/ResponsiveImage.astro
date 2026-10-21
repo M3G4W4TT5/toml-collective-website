@@ -1,0 +1,26 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import images from "../generated/images.json";
+import { imageSizes, sanityImageSources } from "../lib/responsive-images";
+
+interface Props extends HTMLAttributes<"img"> {
+  src: string;
+  alt: string;
+  sizes?: string;
+}
+const { src, alt, sizes = imageSizes.full, ...attributes } = Astro.props;
+const local = (
+  images as Record<string, { sources: { src: string; width: number }[] }>
+)[src];
+const srcset =
+  local?.sources.map((source) => `${source.src} ${source.width}w`).join(", ") ??
+  sanityImageSources(src);
+---
+
+<img
+  {...attributes}
+  src={src}
+  alt={alt}
+  srcset={srcset}
+  sizes={srcset ? sizes : undefined}
+/>

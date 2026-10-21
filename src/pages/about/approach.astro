@@ -1,4 +1,6 @@
 ---
+import ResponsiveImage from "../../components/ResponsiveImage.astro";
+import "../../styles/pages/about.css";
 import SitePage from "../../layouts/SitePage.astro";
 import Subnav from "../../components/Subnav.astro";
 import ContactBand from "../../components/ContactBand.astro";
@@ -49,44 +51,54 @@ const rhythm = [
 ];
 ---
 
-<SitePage title="Our approach"
-  ><Subnav /><section class="page-intro split container">
+<SitePage title="Our approach">
+  <Subnav />
+  <section class="page-intro split container">
     <div>
-      <p class="eyebrow">Our approach</p><h1>Built around<br />the work.</h1>
-    </div><p class="lead intro-copy">
+      <p class="eyebrow">Our approach</p>
+      <h1>
+        Built around
+        <br />
+        the work.
+      </h1>
+    </div>
+    <p class="lead intro-copy">
       We build the team around what the work needs. A core team to lead it, with
       independent creatives and specialist partners joining where they can take
       the idea further.
     </p>
   </section>
   <section class="approach-team container rule">
-    <p class="eyebrow">01 / One connected team</p><div class="split">
-      <img
+    <p class="eyebrow">01 / One connected team</p>
+    <div class="split">
+      <ResponsiveImage
         class="team-diagram"
         src="/media/approach-diagram.webp"
         width="610"
         height="610"
         alt="Nested circles: core team, collective members and specialist partners, connected around the work"
         loading="lazy"
-      /><div>
+      />
+      <div>
         <p class="lead">
-          The team can change.<br />The creative direction stays clear.
-        </p><div class="team-tiers">
-          {
-            tiers.map(([title, text], i) => (
-              <article>
-                <>
-                  <span class="eyebrow">0{i + 1}</span>
-                  <div>
-                    <>
-                      <h3>{title}</h3>
-                      <p>{text}</p>
-                    </>
-                  </div>
-                </>
-              </article>
-            ))
-          }
+          The team can change.
+          <br />
+          The creative direction stays clear.
+        </p>
+        <div class="team-tiers">
+          {tiers.map(([title, text], i) => (
+            <article>
+              <>
+                <span class="eyebrow">0{i + 1}</span>
+                <div>
+                  <>
+                    <h3>{title}</h3>
+                    <p>{text}</p>
+                  </>
+                </div>
+              </>
+            </article>
+          ))}
         </div>
       </div>
     </div>
@@ -94,68 +106,68 @@ const rhythm = [
   <section class="dark section approach-benefits">
     <div class="container split">
       <div>
-        <p class="eyebrow">02 / What that means for you</p><h2>
-          Close to<br />the makers.
+        <p class="eyebrow">02 / What that means for you</p>
+        <h2>
+          Close to
+          <br />
+          the makers.
         </h2>
-      </div><div class="rhythm">
-        {
-          benefits.map(([t, d]) => (
-            <article>
-              <>
-                <h3>{t}</h3>
-                <p>{d}</p>
-              </>
-            </article>
-          ))
-        }
       </div>
-    </div>
-  </section>
-  <section class="section container">
-    <p class="eyebrow">03 / The project rhythm</p><h2>
-      A clear direction. Room to develop.
-    </h2><div class="timeline rhythm">
-      {
-        rhythm.map(([t, d], i) => (
+      <div class="rhythm">
+        {benefits.map(([t, d]) => (
           <article>
             <>
-              <p class="eyebrow">0{i + 1}</p>
               <h3>{t}</h3>
               <p>{d}</p>
             </>
           </article>
-        ))
-      }
-    </div><div class="ways">
-      <p class="eyebrow">04 / Ways to work together</p><div class="grid-3">
-        {
+        ))}
+      </div>
+    </div>
+  </section>
+  <section class="section container">
+    <p class="eyebrow">03 / The project rhythm</p>
+    <h2>A clear direction. Room to develop.</h2>
+    <div class="timeline rhythm">
+      {rhythm.map(([t, d], i) => (
+        <article>
+          <>
+            <p class="eyebrow">0{i + 1}</p>
+            <h3>{t}</h3>
+            <p>{d}</p>
+          </>
+        </article>
+      ))}
+    </div>
+    <div class="ways">
+      <p class="eyebrow">04 / Ways to work together</p>
+      <div class="grid-3">
+        {[
           [
-            [
-              "A defined project",
-              "A brand, campaign, film or digital experience, with a clear scope and a team built around it.",
-            ],
-            [
-              "An ongoing partnership",
-              "Creative support that develops alongside your brand, content and priorities.",
-            ],
-            [
-              "An agency collaboration",
-              "Direction, design or production expertise, working closely with your team.",
-            ],
-          ].map(([t, d]) => (
-            <article class="story-row">
-              <>
-                <h3>{t}</h3>
-                <p>{d}</p>
-              </>
-            </article>
-          ))
-        }
+            "A defined project",
+            "A brand, campaign, film or digital experience, with a clear scope and a team built around it.",
+          ],
+          [
+            "An ongoing partnership",
+            "Creative support that develops alongside your brand, content and priorities.",
+          ],
+          [
+            "An agency collaboration",
+            "Direction, design or production expertise, working closely with your team.",
+          ],
+        ].map(([t, d]) => (
+          <article class="story-row">
+            <>
+              <h3>{t}</h3>
+              <p>{d}</p>
+            </>
+          </article>
+        ))}
       </div>
     </div>
   </section>
   <ContactBand
     heading={"What are you\nworking on?"}
     copy="We’ll help shape the brief and bring the team together."
-  /></SitePage
->
+  />
+</SitePage>

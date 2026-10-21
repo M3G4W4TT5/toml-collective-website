@@ -1,4 +1,5 @@
 ---
+import "../styles/pages/policy.css";
 import SitePage from "../layouts/SitePage.astro";
 export function getStaticPaths() {
   return [
@@ -9,29 +10,28 @@ export function getStaticPaths() {
 const { title } = Astro.props;
 ---
 
-<SitePage title={title}
-  ><section class="policy container">
-    <p class="eyebrow">TOML Collective</p><h1>{title}</h1>{
-      title === "Privacy Policy" ? (
+<SitePage title={title}>
+  <section class="policy container">
+    <p class="eyebrow">TOML Collective</p>
+    <h1>{title}</h1>
+    {title === "Privacy Policy" ? (
+      <>
         <>
-          <>
-            <p>The current policy is available on TOML’s existing website.</p>
-            <a
-              class="text-link"
-              href="https://www.tomlcollective.com/_files/ugd/a9f050_70bc6255c34544fbb10b9350f10a8611.pdf"
-            >
-              Read TOML’s current Terms & Conditions / Privacy Policy
-            </a>
-          </>
+          <p>The current policy is available on TOML’s existing website.</p>
+          <a
+            class="text-link"
+            href="https://www.tomlcollective.com/_files/ugd/a9f050_70bc6255c34544fbb10b9350f10a8611.pdf"
+          >
+            Read TOML’s current Terms & Conditions / Privacy Policy
+          </a>
         </>
-      ) : (
-        <p>
-          Cookie information for the new website will be available before
-          launch. For questions, email{" "}
-          <a href="mailto:hello@tomlcollective.com">hello@tomlcollective.com</a>
-          .
-        </p>
-      )
-    }
-  </section></SitePage
->
+      </>
+    ) : (
+      <p>
+        Cookie information for the new website will be available before launch.
+        For questions, email{" "}
+        <a href="mailto:hello@tomlcollective.com">hello@tomlcollective.com</a>.
+      </p>
+    )}
+  </section>
+</SitePage>

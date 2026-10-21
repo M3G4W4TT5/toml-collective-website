@@ -1,0 +1,243 @@
+/* Narrow layouts first. Tablet: 48rem. Desktop: 75rem. */
+.site-footer {
+  padding-block: 50px var(--space-4);
+}
+
+.footer-top {
+  display: grid;
+  line-height: 1.5;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  font-size: calc(0.8125rem * var(--body-scale));
+  gap: var(--space-3);
+}
+
+.footer-top p {
+  margin: 0;
+}
+
+.footer-top a {
+  display: block;
+}
+
+.social a {
+  text-decoration: none;
+}
+
+.footer-main {
+  display: grid;
+  align-items: start;
+  grid-template-columns: 1fr;
+  gap: 35px;
+  margin-top: 25px;
+}
+
+.footer-nav {
+  display: flex;
+  color: var(--muted);
+  font-size: calc(0.8125rem * var(--body-scale));
+  gap: var(--space-3);
+}
+
+.footer-nav a {
+  text-decoration: none;
+}
+
+.wordmark {
+  font-weight: 700;
+  letter-spacing: -0.065em;
+  line-height: 1.05;
+  text-decoration: none;
+  display: inline-block;
+  font-size: calc(clamp(6.25rem, 29vw, 10.625rem) * var(--heading-scale));
+  margin-top: 30px;
+}
+
+.wordmark .dot {
+  color: var(--accent);
+}
+
+.recognition .drum {
+  width: 150px;
+}
+
+.recognition p {
+  color: var(--muted);
+  margin-top: var(--space-1);
+  font-size: calc(0.6875rem * var(--body-scale));
+}
+
+.recognition .council {
+  align-items: center;
+  margin-top: 0;
+  gap: 10px;
+  display: block;
+}
+
+.council img {
+  width: 80px;
+}
+
+.council p {
+  font-size: calc(0.625rem * var(--body-scale));
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  border-top: 1px solid var(--rule);
+  padding-top: 26px;
+  margin-top: 34px;
+  color: var(--muted);
+  gap: 18px;
+  font-size: calc(0.6875rem * var(--body-scale));
+}
+
+.footer-bottom a {
+  text-decoration: none;
+}
+
+@media (width < 48rem) {
+  .site-footer {
+    padding-top: 35px;
+  }
+
+  .recognition .council {
+    max-width: 180px;
+  }
+
+  .council img {
+    margin-bottom: var(--space-1);
+  }
+
+  .footer-bottom {
+    flex-wrap: wrap;
+  }
+
+  .footer-top .social {
+    grid-row: 2;
+  }
+
+  .recognition {
+    display: flex;
+    align-items: start;
+    gap: 25px;
+  }
+
+  .footer-bottom > a:last-child {
+    margin-left: auto;
+  }
+}
+
+@media (width < 75rem) {
+  .footer-nav {
+    flex-wrap: wrap;
+  }
+
+  .footer-top .playlist-link {
+    grid-row: 2;
+  }
+
+  .footer-top .top-link {
+    grid-row: 3;
+  }
+
+  .council {
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+@media (min-width: 48rem) {
+  .footer-top {
+    grid-template-columns: 1.5fr 1.5fr 1fr;
+    font-size: calc(1rem * var(--body-scale));
+    gap: 30px;
+  }
+
+  .footer-main {
+    grid-template-columns: 1.5fr 1fr;
+    margin-top: 36px;
+  }
+
+  .footer-nav {
+    font-size: calc(0.875rem * var(--body-scale));
+    gap: 20px;
+  }
+
+  .wordmark {
+    font-size: calc(clamp(6.25rem, 16.7vw, 15rem) * var(--heading-scale));
+    margin-top: 18px;
+  }
+
+  .recognition .drum {
+    width: min(100%, 235px);
+  }
+
+  .recognition p {
+    font-size: calc(0.875rem * var(--body-scale));
+  }
+
+  .recognition .council {
+    margin-top: 20px;
+    gap: 18px;
+    display: flex;
+  }
+
+  .council p {
+    font-size: calc(0.8125rem * var(--body-scale));
+  }
+
+  .footer-bottom {
+    gap: var(--space-3);
+    font-size: calc(0.75rem * var(--body-scale));
+  }
+}
+
+@media (48rem <= width < 75rem) {
+  .footer-top .top-link {
+    grid-row: 2;
+  }
+}
+
+@media (min-width: 75rem) {
+  .footer-top {
+    grid-template-columns: 1.4fr 1.7fr 0.8fr 1fr 0.65fr;
+  }
+
+  .footer-main {
+    grid-template-columns: 2.4fr 1fr;
+    gap: 120px;
+  }
+
+  .footer-nav {
+    gap: 50px;
+  }
+
+  .recognition .drum {
+    width: 235px;
+  }
+
+  .council img {
+    width: 112px;
+  }
+
+  .footer-bottom {
+    font-size: calc(0.875rem * var(--body-scale));
+  }
+
+  .site-footer--home .wordmark {
+    font-size: calc(10.625rem * var(--heading-scale));
+  }
+
+  .site-footer--home .footer-main {
+    margin-top: var(--space-3);
+  }
+
+  .site-footer--home .recognition {
+    margin-top: -38px;
+  }
+
+  .site-footer--home .footer-bottom {
+    margin-top: 18px;
+  }
+}

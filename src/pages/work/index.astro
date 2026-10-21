@@ -1,4 +1,5 @@
 ---
+import "../../styles/pages/work.css";
 import SitePage from "../../layouts/SitePage.astro";
 import ProjectCard from "../../components/ProjectCard.astro";
 import Filters from "../../components/Filters.astro";
@@ -8,11 +9,17 @@ import { getWebsiteProjects } from "../../lib/website-content";
 const projects = await getWebsiteProjects();
 ---
 
-<SitePage title="Our work"
-  ><section class="page-intro split container">
+<SitePage title="Our work">
+  <section class="page-intro split container">
     <div>
-      <p class="eyebrow">Our work</p><h1>Ideas, out<br />in the world.</h1>
-    </div><p class="lead intro-copy">
+      <p class="eyebrow">Our work</p>
+      <h1>
+        Ideas, out
+        <br />
+        in the world.
+      </h1>
+    </div>
+    <p class="lead intro-copy">
       Brands, campaigns and digital experiences. Different briefs, with a clear
       idea behind each one.
     </p>
@@ -22,27 +29,40 @@ const projects = await getWebsiteProjects();
       categories={["Branding", "Digital", "Film & content", "Campaigns"]}
       count={projects.length}
       kind="work"
-    /><div class="project-grid">
-      {projects.map((p) => <ProjectCard project={p} />)}
-    </div><div class="empty" data-filter-empty hidden>
-      <p>No projects in this selection yet.</p><button
-        class="link-button"
-        data-reset-filter>View all work</button>
+    />
+    <div class="project-grid">
+      {projects.map((p) => (
+        <ProjectCard project={p} />
+      ))}
+    </div>
+    <div class="empty" data-filter-empty hidden>
+      <p>No projects in this selection yet.</p>
+      <button class="link-button" data-reset-filter>
+        View all work
+      </button>
     </div>
   </div>
   <section class="section container">
     <div class="story-row split">
       <div>
-        <p class="eyebrow">How the work happens</p><h2>
-          The team fits<br />the idea.
+        <p class="eyebrow">How the work happens</p>
+        <h2>
+          The team fits
+          <br />
+          the idea.
         </h2>
-      </div><div class="body">
+      </div>
+      <div class="body">
         <p>
           We build teams around what each person brings to the work. Our core
           team leads, with the collective joining around each brief.
-        </p><a class="text-link" href="/about/approach">Explore our approach</a>
+        </p>
+        <a class="text-link" href="/about/approach">
+          Explore our approach
+        </a>
       </div>
-    </div><Showreel variant="feature" />
+    </div>
+    <Showreel variant="feature" />
   </section>
   <ContactBand
     heading={"What’s your\nnext chapter?"}

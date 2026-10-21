@@ -1,0 +1,37 @@
+@import "../layers.css";
+
+@layer pages {
+  /* Narrow layouts first. Tablet: 48rem. Desktop: 75rem. */
+  .policy {
+    max-width: 850px;
+    padding-block: 70px 140px;
+    min-height: 60vh;
+  }
+
+  .policy h1 {
+    margin-bottom: 40px;
+    font-size: calc(2.8125rem * var(--heading-scale));
+  }
+
+  .policy p {
+    font-size: calc(1.1875rem * var(--body-scale));
+  }
+
+  .not-found {
+    padding-block: 120px;
+  }
+
+  .not-found h1 {
+    margin-bottom: 40px;
+  }
+
+  @media (min-width: 48rem) {
+    .policy h1 {
+      font-size: calc(4rem * var(--heading-scale));
+    }
+
+    .policy p {
+      font-size: calc(1.3125rem * var(--body-scale));
+    }
+  }
+}

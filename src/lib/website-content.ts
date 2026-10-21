@@ -1,5 +1,4 @@
-import { createClient } from "@sanity/client";
-import { site } from "./site";
+import { sanityClient as client } from "./sanity-client";
 import { getCases, getMembers } from "./collections";
 import { projects, members, type Project, type Member } from "../data/website";
 type Media = { src?: string; alt?: string; credit?: string };
@@ -11,15 +10,6 @@ type MemberDocument = Omit<Partial<Member>, "gallery"> & {
   portfolioUrl?: string;
   gallery?: Media[];
 };
-const client = site.projectId
-  ? createClient({
-      projectId: site.projectId,
-      dataset: site.dataset,
-      apiVersion: "2025-05-01",
-      perspective: "published",
-      useCdn: false,
-    })
-  : null;
 // The supplied V4 deck is the baseline. Published editorial records override it by slug.
 // No baseline documents are created or published as a side effect of building.
 const media = (value: unknown, fallback: string) =>

@@ -6,6 +6,11 @@ interface Props {
 const { href, inverse = false } = Astro.props;
 ---
 
-<a href={href} class:list={["pill", { inverse }]}
-  ><span><slot /></span><span class="plus" aria-hidden="true">+</span></a
->
+<a href={href} class:list={["pill", { inverse }]}>
+  <span>
+    <slot />
+  </span>
+  <span class="plus" aria-hidden="true">
+    +
+  </span>
+</a>

@@ -1,0 +1,48 @@
+---
+import { imageSizes } from "../lib/responsive-images";
+import ResponsiveImage from "./ResponsiveImage.astro";
+import type { Member } from "../data/website";
+interface Props {
+  member: Member;
+}
+const { member: m } = Astro.props;
+---
+
+<article
+  class="member-card"
+  data-filter-item
+  data-categories={JSON.stringify(m.categories)}
+>
+  <>
+    <a
+      class="image-link"
+      href={`/people/members/${m.slug}`}
+      aria-label={`Explore ${m.fullName}’s portfolio`}
+    >
+      {m.image ? (
+        <ResponsiveImage
+          sizes={imageSizes.third}
+          src={m.image}
+          width="720"
+          height="540"
+          alt={`Independent portfolio work by ${m.fullName}`}
+          loading="lazy"
+        />
+      ) : (
+        <div class="writing-tile">
+          <span>{m.discipline.toUpperCase()}</span>
+          <strong>{m.name.toUpperCase()}</strong>
+        </div>
+      )}
+    </a>
+    <div class="card-heading">
+      <>
+        <h3>{m.name}</h3>
+        <a class="text-link" href={`/people/members/${m.slug}`}>
+          {m.slug === "debora" ? "View profile" : "View work"}
+        </a>
+      </>
+    </div>
+    <p>{m.discipline}</p>
+  </>
+</article>

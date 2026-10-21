@@ -1,0 +1,130 @@
+@import "../layers.css";
+
+@layer pages {
+  /* Let narrow tiles set their own type size without changing the desktop artwork. */
+  /* Narrow layouts first. Tablet: 48rem. Desktop: 75rem. */
+  .playlist-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 45px;
+  }
+
+  .playlist-grid.small-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 40px;
+  }
+
+  .playlist-art {
+    background: var(--tile);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    aspect-ratio: 1.5;
+    padding: 28px;
+  }
+
+  .tile-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: calc(0.8125rem * var(--body-scale));
+  }
+
+  .playlist-art strong {
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    white-space: pre-line;
+    font-size: calc(4rem * var(--heading-scale));
+  }
+
+  .small-grid .playlist-art strong {
+    font-size: calc(4rem * var(--heading-scale));
+  }
+
+  .playlist-grid h3 {
+    margin-top: 28px;
+  }
+
+  .playlist-grid p {
+    color: var(--muted);
+    margin-top: var(--space-2);
+  }
+
+  .unavailable {
+    display: inline-block;
+    color: var(--muted);
+    font-size: calc(0.9375rem * var(--body-scale));
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 10px;
+  }
+  @media (width < 48rem) {
+    .playlist-art {
+      container-type: inline-size;
+    }
+    .playlist-art strong,
+    .small-grid .playlist-art strong {
+      font-size: calc(clamp(2.75rem, 22.4cqi, 4rem) * var(--heading-scale));
+    }
+    .playlist-grid.small-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (width < 75rem) {
+    .playlist-grid h3 {
+      font-size: calc(1.5625rem * var(--heading-scale));
+    }
+
+    .playlist-grid.small-grid {
+      gap: 45px;
+    }
+
+    .small-grid .playlist-art {
+      aspect-ratio: 1.7;
+    }
+  }
+
+  @media (min-width: 48rem) {
+    .playlist-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-10) 44px;
+    }
+
+    .playlist-art {
+      aspect-ratio: 1.6;
+      padding: var(--space-3);
+    }
+
+    .playlist-art strong {
+      font-size: calc(clamp(2.75rem, 5.5vw, 4.875rem) * var(--heading-scale));
+    }
+
+    .small-grid .playlist-art strong {
+      font-size: calc(2.1875rem * var(--heading-scale));
+    }
+  }
+
+  @media (48rem <= width < 75rem) {
+    .playlist-grid.small-grid {
+      gap: 25px;
+    }
+
+    .small-grid .playlist-art {
+      aspect-ratio: 1;
+    }
+  }
+
+  @media (min-width: 75rem) {
+    .playlist-art {
+      padding: 34px;
+    }
+
+    .tile-top {
+      font-size: calc(1rem * var(--body-scale));
+    }
+
+    .small-grid .playlist-art strong {
+      font-size: calc(3.375rem * var(--heading-scale));
+    }
+  }
+}

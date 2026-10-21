@@ -1,0 +1,43 @@
+/* Narrow layouts first. Tablet: 48rem. Desktop: 75rem. */
+.subnav {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--rule);
+  min-height: 65px;
+  gap: 25px;
+  font-size: calc(0.8125rem * var(--body-scale));
+}
+
+.subnav a {
+  text-decoration: none;
+  padding: 22px 0;
+}
+
+.subnav a[aria-current] {
+  border-bottom: 2px solid var(--accent);
+}
+
+@media (width < 48rem) {
+  .subnav {
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 48rem) {
+  .subnav {
+    gap: 35px;
+    font-size: calc(1rem * var(--body-scale));
+  }
+}
+
+@media (min-width: 75rem) {
+  .subnav {
+    min-height: 76px;
+    gap: 76px;
+  }
+
+  .subnav + .page-intro {
+    padding-top: 20px;
+  }
+}

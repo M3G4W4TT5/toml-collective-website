@@ -1,0 +1,39 @@
+---
+import ResponsiveImage from "./ResponsiveImage.astro";
+import Pill from "./Pill.astro";
+import { enquire, type team } from "../data/website";
+interface Props {
+  person: (typeof team)[number];
+}
+const { person: p } = Astro.props;
+---
+
+<dialog
+  data-dialog
+  data-dismiss-backdrop
+  class="profile-dialog"
+  id={`profile-${p.name.toLowerCase()}`}
+  aria-labelledby={`name-${p.name.toLowerCase()}`}
+>
+  <button
+    data-close-dialog
+    class="close-dialog"
+    autofocus
+    aria-label={`Close ${p.name}’s profile`}
+  >
+    Close ×
+  </button>
+  {p.image && (
+    <ResponsiveImage src={p.image} width="600" height="600" alt={p.name} />
+  )}
+  <p class="eyebrow">Core team</p>
+  <>
+    <h2 id={`name-${p.name.toLowerCase()}`}>{p.name}</h2>
+    <p class="muted">{p.role}</p>
+    <p class="bio">{p.bio}</p>
+    <Pill href={enquire("A new project", p.name)}>Talk about a project</Pill>
+  </>
+</dialog>
+<script>
+  import "../scripts/dialogs";
+</script>

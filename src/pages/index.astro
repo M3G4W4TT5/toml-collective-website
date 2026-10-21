@@ -1,4 +1,6 @@
 ---
+import ResponsiveImage from "../components/ResponsiveImage.astro";
+import "../styles/pages/home.css";
 import SitePage from "../layouts/SitePage.astro";
 import Pill from "../components/Pill.astro";
 import ContactBand from "../components/ContactBand.astro";
@@ -9,17 +11,18 @@ import { getHomepageDesign } from "../lib/website-content";
 const home = await getHomepageDesign();
 ---
 
-<SitePage title="Thoughtful ideas. Beautifully made.">
+<SitePage variant="home" title="Thoughtful ideas. Beautifully made.">
   <section class="home-hero container">
     <div class="hero-copy">
-      <p class="eyebrow">The collective of visual storytellers.</p><h1
-        style="white-space:pre-line"
-      >
-        {home.headline}
-      </h1><p class="lead">{home.intro}</p><div class="actions">
-        <Pill href="/work">Explore our work</Pill><Showreel />
+      <p class="eyebrow">The collective of visual storytellers.</p>
+      <h1 class="preserve-lines">{home.headline}</h1>
+      <p class="lead">{home.intro}</p>
+      <div class="actions">
+        <Pill href="/work">Explore our work</Pill>
+        <Showreel />
       </div>
-    </div><img
+    </div>
+    <ResponsiveImage
       src={home.hero}
       width="628"
       height="565"
@@ -28,79 +31,106 @@ const home = await getHomepageDesign();
     />
   </section>
   <section class="home-work container" aria-labelledby="selected-work">
-    <h2 class="eyebrow" id="selected-work">Selected work</h2><div
-      class="project-grid"
-    >
-      {home.selectedWork.map((p) => <ProjectCard project={p} home />)}
-    </div><a class="text-link all-work" href="/work">View all work</a>
+    <h2 class="eyebrow" id="selected-work">
+      Selected work
+    </h2>
+    <div class="project-grid">
+      {home.selectedWork.map((p) => (
+        <ProjectCard project={p} variant="selected" />
+      ))}
+    </div>
+    <a class="text-link all-work" href="/work">
+      View all work
+    </a>
   </section>
   <section class="company container rule">
-    <h2>In good company.</h2><div class="grid-2">
+    <h2>In good company.</h2>
+    <div class="grid-2">
       <div>
-        <p class="eyebrow">Brands and organisations</p><p>
-          Siebert Financial / ETH Zürich Space / UKRI<br />UBS Asset Management
-          / Save the Children
+        <p class="eyebrow">Brands and organisations</p>
+        <p>
+          Siebert Financial / ETH Zürich Space / UKRI
+          <br />
+          UBS Asset Management / Save the Children
         </p>
-      </div><div>
-        <p class="eyebrow">Agency and production partners</p><p>
-          UNIT9 / IDEO / Waste Creative<br />Red Bull Media House
+      </div>
+      <div>
+        <p class="eyebrow">Agency and production partners</p>
+        <p>
+          UNIT9 / IDEO / Waste Creative
+          <br />
+          Red Bull Media House
         </p>
       </div>
     </div>
   </section>
   <section class="services container">
-    <p class="eyebrow">What we do</p><div class="split">
+    <p class="eyebrow">What we do</p>
+    <div class="split">
       <div>
-        <h2>Storytelling, branding and digital experiences.</h2><a
-          class="text-link"
-          href="/about/approach">How we work</a>
-      </div><ul class="service-list">
-        {home.services.map((s) => <li>{s}</li>)}
+        <h2>Storytelling, branding and digital experiences.</h2>
+        <a class="text-link" href="/about/approach">
+          How we work
+        </a>
+      </div>
+      <ul class="service-list">
+        {home.services.map((s) => (
+          <li>{s}</li>
+        ))}
       </ul>
     </div>
   </section>
   <section class="testimonial">
     <div class="container">
       <div>
-        <p class="eyebrow">In their words.</p><blockquote>
+        <p class="eyebrow">In their words.</p>
+        <blockquote>
           “Working with them was a standout experience and one of the best
           decisions we made.”
         </blockquote>
-      </div><p class="attribution">
+      </div>
+      <p class="attribution">
         Stefano Marrone<small>CMO / Siebert Financial</small>
       </p>
     </div>
   </section>
   <section class="journal-house container">
     <div>
-      <p class="eyebrow">TOML Journal</p><div class="journal-heading">
-        <h2>A few things on our minds.</h2><a
-          class="text-link"
-          href="https://www.tomljournal.com">Read the Journal</a>
-      </div><p>
+      <p class="eyebrow">TOML Journal</p>
+      <div class="journal-heading">
+        <h2>A few things on our minds.</h2>
+        <a class="text-link" href="https://www.tomljournal.com">
+          Read the Journal
+        </a>
+      </div>
+      <p>
         Conversations with creatives. Notes on culture, craft and the things
         changing how we work.
-      </p><ul class="journal-articles">
-        {
-          journalArticles.map((a) => (
-            <li>
-              <a href={a.href}>{a.title}</a>
-            </li>
-          ))
-        }
+      </p>
+      <ul class="journal-articles">
+        {journalArticles.map((a) => (
+          <li>
+            <a href={a.href}>{a.title}</a>
+          </li>
+        ))}
       </ul>
-    </div><div class="house-teaser">
-      <p class="eyebrow">House of TOML</p><img
+    </div>
+    <div class="house-teaser">
+      <p class="eyebrow">House of TOML</p>
+      <ResponsiveImage
         src={asset("p1-p1_i83")}
         width="360"
         height="103"
         alt="House of TOML reference photograph — shared table and workspace"
         loading="lazy"
-      /><p>
+      />
+      <p>
         Our creative home in Prishtina. A place to work, share ideas and spend
         time together.
-      </p><a class="text-link" href="/about/house-of-toml"
-        >Discover House of TOML</a>
+      </p>
+      <a class="text-link" href="/about/house-of-toml">
+        Discover House of TOML
+      </a>
     </div>
   </section>
   <ContactBand />
