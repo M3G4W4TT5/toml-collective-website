@@ -49,7 +49,7 @@ async function visit(width, height) {
 }
 async function state() {
   return page.locator(".landing-testimonials").evaluate((el) => {
-    const slide = el.querySelector("figure:not([hidden])"),
+    const slide = el.querySelector('figure[aria-hidden="false"]'),
       quote = slide.querySelector("blockquote"),
       caption = slide.querySelector("figcaption"),
       controls = el.querySelector(".landing-testimonial-controls");
@@ -59,9 +59,11 @@ async function state() {
       rect: rect(el),
       quote: rect(quote),
       caption: rect(caption),
+      namePosition: rect(slide.querySelector(".landing-testimonial-name")),
+      rolePosition: rect(slide.querySelector(".landing-testimonial-role")),
       controls: rect(controls),
       name: slide.querySelector(".landing-testimonial-name").textContent,
-      visible: el.querySelectorAll("figure:not([hidden])").length,
+      visible: el.querySelectorAll('figure[aria-hidden="false"]').length,
       background: css.backgroundColor,
       color: getComputedStyle(quote).color,
       padding: parseFloat(css.paddingTop),
@@ -132,6 +134,14 @@ try {
         .locator(".landing-clients")
         .screenshot({ path: `${out}/final-${width}-clients.png` });
     await scrollTo(".landing-testimonials");
+    assert.equal(
+      await page
+        .locator(".landing-testimonials button, .landing-clients button")
+        .count(),
+      0,
+    );
+    const initial = await state();
+    await page.locator(".landing-testimonials").focus();
     for (let i = 0; i < names.length; i++) {
       const current = await state();
       assert.equal(current.name, names[i]);
@@ -140,6 +150,19 @@ try {
       assert.equal(current.color, "rgb(255, 255, 255)");
       assert.ok(Math.abs(current.padding - current.leading) < 0.1);
       assert.equal(current.portraits, 0);
+      assert.equal(current.count, `${i + 1} / 6`);
+      for (const [name, actual, expected] of [
+        ["panel height", current.rect.height, initial.rect.height],
+        ["quote top", current.quote.top, initial.quote.top],
+        ["attribution top", current.caption.top, initial.caption.top],
+        ["name top", current.namePosition.top, initial.namePosition.top],
+        ["role top", current.rolePosition.top, initial.rolePosition.top],
+        ["indicator top", current.controls.top, initial.controls.top],
+      ])
+        assert.ok(
+          Math.abs(actual - expected) < 0.1,
+          `${width}px ${names[i]} ${name}: ${actual} vs ${expected}`,
+        );
       assert.equal(current.overflow, false);
       assert.ok(
         current.controls.bottom <= current.rect.bottom - current.padding + 1,
@@ -152,15 +175,13 @@ try {
           path: `${out}/final-${width}-testimonial-${i + 1}.png`,
         });
       }
-      await page
-        .getByRole("button", { name: "Next testimonial", exact: true })
-        .click();
+      await page.keyboard.press("ArrowRight");
     }
     assert.equal((await state()).name, names[0]);
     result.views.push({ width, height, firstSlide: await state() });
   }
   result.interactions.push(
-    "14 responsive layouts; all six quotes, attribution, compact orange panel, source order, no portraits or clipping, and every section marker orange",
+    "14 responsive layouts; all six quotes, attribution, fixed orange panel and quote/name/title/indicator positions, source order, no portraits or clipping, and every section marker orange",
   );
   await visit(1440, 900);
   await scrollTo(".landing-clients");
@@ -182,44 +203,25 @@ try {
     .locator(".landing-clients-group")
     .evaluateAll((els) => els.map((el) => el.getBoundingClientRect().width));
   assert.ok(Math.abs(widths[0] - widths[1]) < 0.01);
-  await page.getByRole("button", { name: "Pause logos", exact: true }).click();
-  await page.mouse.move(0, 0);
-  const paused = await x();
-  await page.waitForTimeout(500);
-  assert.equal(await x(), paused);
-  await page.getByRole("button", { name: "Resume logos", exact: true }).click();
-  await page.mouse.move(0, 0);
-  const resumed = await x();
-  await page.waitForTimeout(500);
-  assert.ok((await x()) < resumed - 5);
-  await page.locator(".landing-clients-window").focus();
+  assert.equal(await page.locator(".landing-clients button").count(), 0);
+  await page.locator(".landing-clients").hover();
   assert.equal(
     await page
       .locator(".landing-clients-track")
       .evaluate((el) => getComputedStyle(el).animationPlayState),
-    "paused",
+    "running",
   );
   result.interactions.push(
-    "All 15 logos; identical seamless-loop groups; gentle leftward motion; persistent pause/resume and keyboard focus pause",
+    "All 15 logos move left gently in identical seamless-loop groups, with no pause controls or hover stop",
   );
   await scrollTo(".landing-testimonials");
-  await page
-    .getByRole("button", { name: "Next testimonial", exact: true })
-    .focus();
+  await page.locator(".landing-testimonials").focus();
   await page.keyboard.press("ArrowLeft");
   assert.equal((await state()).name, names[5]);
   await page.keyboard.press("ArrowRight");
   assert.equal((await state()).name, names[0]);
-  await page.keyboard.press("Enter");
-  assert.equal((await state()).name, names[1]);
-  assert.equal(
-    await page
-      .getByRole("button", { name: "Next testimonial", exact: true })
-      .evaluate((el) => getComputedStyle(el).outlineColor),
-    "rgb(255, 255, 255)",
-  );
   result.interactions.push(
-    "Carousel buttons wrap; keyboard arrows, Enter and white focus outline work",
+    "Keyboard arrows still wrap through all six quotes without visible arrow buttons",
   );
   await visit(390, 844);
   await scrollTo(".landing-testimonials");
@@ -242,6 +244,59 @@ try {
   await session.detach();
   assert.equal((await state()).name, names[1]);
   result.interactions.push("Actual mobile touch gesture advances testimonials");
+  const timed = await context.newPage();
+  await timed.clock.install();
+  await timed.goto(base + "/landing-page-draft", { waitUntil: "load" });
+  await timed.locator(".landing-testimonials").evaluate((el) =>
+    window.scrollTo({
+      top: el.getBoundingClientRect().top + scrollY - 100,
+      behavior: "instant",
+    }),
+  );
+  // Let the real compositor deliver visibility before pausing the timer clock.
+  await timed.waitForTimeout(1700);
+  await timed.clock.pauseAt(
+    await timed.evaluate(() => new Date(Date.now() + 100)),
+  );
+  await timed.locator(".landing-testimonials").focus();
+  await timed.keyboard.press("ArrowLeft");
+  await timed.keyboard.press("ArrowRight");
+  const words = await timed
+    .locator('figure[aria-hidden="false"] blockquote')
+    .textContent();
+  const delay = Math.max(
+    12000,
+    (words.trim().split(/\s+/).length / 180) * 60000 + 2000,
+  );
+  const counter = timed.locator("[data-testimonial-count]");
+  await timed.clock.runFor(delay - 1);
+  assert.equal(await counter.textContent(), "1 / 6");
+  await timed.clock.runFor(2);
+  assert.equal(await counter.textContent(), "2 / 6");
+  await timed.clock.runFor(8000);
+  await timed.keyboard.press("ArrowRight");
+  await timed.clock.runFor(11999);
+  assert.equal(
+    await counter.textContent(),
+    "3 / 6",
+    "Manual change starts a fresh reading period",
+  );
+  await timed.clock.runFor(2);
+  assert.equal(await counter.textContent(), "4 / 6");
+  await timed.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+  // IntersectionObserver delivery uses a browser frame, not the virtual timer.
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  await timed.clock.runFor(1000);
+  await timed.clock.runFor(60000);
+  assert.equal(
+    await counter.textContent(),
+    "4 / 6",
+    "No quote changes while offscreen",
+  );
+  await timed.close();
+  result.interactions.push(
+    "Automatic rotation honors quote reading time (12–17 seconds), resets after manual navigation and stops offscreen",
+  );
   for (const options of [
     { reducedMotion: "reduce" },
     { javaScriptEnabled: false },
@@ -265,10 +320,7 @@ try {
         .evaluate((el) => getComputedStyle(el).animationName),
       "none",
     );
-    assert.equal(
-      await plain.locator(".landing-clients-pause").isVisible(),
-      false,
-    );
+    assert.equal(await plain.locator(".landing-clients button").count(), 0);
     if (options.javaScriptEnabled === false)
       assert.equal(
         await plain.locator("[data-testimonial-slide]:visible").count(),

@@ -45,16 +45,6 @@
   .landing-client-raster {
     filter: brightness(0) opacity(0.604);
   }
-  .landing-clients-pause {
-    position: absolute;
-    right: var(--landing-gutter);
-    bottom: 0.25rem;
-    padding: 0.5rem 0;
-    border: 0;
-    background: transparent;
-    color: #656565;
-    font-size: 0.75rem;
-  }
   .landing-testimonials {
     --testimonial-size: 1.5rem;
     --testimonial-leading: calc(var(--testimonial-size) * 1.15);
@@ -72,8 +62,30 @@
   .landing-testimonial + .landing-testimonial {
     margin-top: 2em;
   }
+  /* All slides share tracks, so the longest quote and attribution reserve
+     their space even while invisible. Font loading and resizing reflow natively. */
+  .landing-testimonials.is-enhanced .landing-testimonial-slides {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    row-gap: 1.5rem;
+  }
   .landing-testimonials.is-enhanced .landing-testimonial {
+    display: grid;
+    grid-area: 1 / 1 / 3 / -1;
+    grid-template-rows: subgrid;
     margin-top: 0;
+    visibility: hidden;
+  }
+  .landing-testimonials.is-enhanced .landing-testimonial[aria-hidden="false"] {
+    visibility: visible;
+  }
+  .landing-testimonials.is-enhanced .landing-testimonial figcaption {
+    margin-top: 0;
+  }
+  .landing-testimonials:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: -4px;
   }
   .landing-testimonial blockquote {
     font: 400 var(--testimonial-size) / 1.15 var(--font-reference);
@@ -102,29 +114,6 @@
     font-size: 0.875rem;
     font-variant-numeric: tabular-nums;
   }
-  .landing-testimonial-controls button {
-    display: grid;
-    place-items: center;
-    width: 44px;
-    height: 44px;
-    padding: 0;
-    border: 1px solid rgb(255 255 255 / 50%);
-    background: transparent;
-    color: #fff;
-  }
-  .landing-testimonial-controls button:hover {
-    background: rgb(255 255 255 / 15%);
-  }
-  .landing-testimonial-controls button:focus-visible {
-    outline-color: #fff;
-  }
-  .landing-testimonial-controls svg {
-    width: 20px;
-    height: 20px;
-  }
-  [data-testimonial-previous] svg {
-    transform: rotate(180deg);
-  }
   .landing-testimonial-slides {
     touch-action: pan-y;
   }
@@ -148,6 +137,16 @@
       display: grid;
       grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
       gap: 4rem;
+    }
+    .landing-testimonials.is-enhanced .landing-testimonial-slides {
+      grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+      grid-template-rows: auto;
+      gap: 4rem;
+    }
+    .landing-testimonials.is-enhanced .landing-testimonial {
+      grid-area: 1 / 1 / -1 / -1;
+      grid-template-columns: subgrid;
+      grid-template-rows: subgrid;
     }
     .landing-testimonial figcaption {
       margin: 0;
@@ -201,12 +200,8 @@
     .landing-clients.is-active .landing-clients-track {
       animation-play-state: running;
     }
-    .landing-clients.is-paused .landing-clients-track,
-    .landing-clients:hover .landing-clients-track,
-    .landing-clients-window:focus-within .landing-clients-track {
-      animation-play-state: paused;
-    }
-    .landing-testimonials.is-enhanced .landing-testimonial:not([hidden]) {
+    .landing-testimonials.is-enhanced
+      .landing-testimonial[aria-hidden="false"] {
       animation: landing-testimonial-in 300ms ease-out;
     }
     @keyframes landing-clients-left {
@@ -221,11 +216,6 @@
       to {
         opacity: 1;
       }
-    }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .landing-clients-pause {
-      display: none;
     }
   }
 }

@@ -6,8 +6,7 @@
   }
   .landing-animations .landing-footer-reveal {
     display: block;
-    height: calc(100dvh + 1px);
-    scroll-margin-top: -1px;
+    height: 0;
     pointer-events: none;
   }
   .landing-footer {
@@ -23,13 +22,14 @@
     padding-top: max(clamp(1.25rem, 5dvh, 2.5rem), env(safe-area-inset-top));
     background: #000;
     color: #fff;
-    overflow-y: auto;
+    overflow: clip;
   }
   .landing-animations .landing-footer {
-    position: fixed;
-    inset: 0;
+    /* Reserve natural document height and pin beneath the foreground. Unlike
+       a fixed overflow scroller, gestures here always scroll the page itself. */
+    position: sticky;
+    bottom: 0;
     z-index: 0;
-    height: 100dvh;
   }
   .landing-footer-top {
     position: relative;

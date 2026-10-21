@@ -1,3 +1,21 @@
+# Landing draft corrections — 21 October 2026
+
+final result: passed
+
+Scope: the five requested corrections to `/landing-page-draft`: stable testimonial layout, automatic rotation without arrows, native scrolling over the pinned footer, header suppression at the footer, and removal of the logo Pause/Resume feature. No new visible controls, content, dependencies or routes were added.
+
+- Testimonials reserve the largest quote and attribution through shared CSS grid/subgrid tracks. All six slides retain identical panel height, quote origin, name/title positions and x/6 position at 14 viewport sizes from 320 to 2560px. Font loading and resizing reflow the same shared tracks. Opened normal-state phone/desktop captures of Stefano and Ina at 390 × 844 and 1440 × 900 (`artifacts/landing-refinements/final-{390,1440}-quote-{1,5}.png`) to compare wrapping, fixed attribution and white-on-orange treatment.
+- Removed both testimonial arrows; retained x/6, actual horizontal touch swipes and keyboard arrows. Timer verification uses the browser clock after compositor visibility settles: 180 words/minute plus two seconds, minimum 12 seconds, with a fresh full reading period after manual navigation. Offscreen rotation stops. Supplied quotes receive approximately 12–17 seconds.
+- Replaced the fixed footer's nested overflow scroller with a bottom-sticky footer in native document flow. It remains pinned beneath the opaque scrolling foreground, and short screens scroll the taller footer with the document. All addresses and legal links remain reachable. Actual mobile touch gestures starting in the middle of the footer, plus wheel gestures over the footer on mobile and desktop, move the document upward.
+- Header visibility is bounded by the foreground/footer edge and the actual header height. It is hidden and inert while the edge overlaps the header region, including upward gestures, resizes and a reload at the restored bottom position. It can return once the foreground covers its region. Opened final full-footer screenshots at 390 × 844 and 1440 × 900; layout, newsletter, mark and social links are retained, with no header over the footer.
+- Removed logo Pause/Resume markup, handlers, focus instructions and hover/focus pause rules. The existing gentle leftward loop remains; offscreen/hidden-document resource suspension and static reduced-motion/no-JavaScript layouts remain.
+
+Verification passed: 14 trust layouts / six interaction groups; 19 footer layouts / nine groups (including native touch and header boundary checks); 12 hero/header/menu layouts / 14 groups; 14 Instagram layouts / eight groups; and the required full-site regression of 142 views / eight groups. Astro/TypeScript checks (61 files, zero diagnostics), 18 unit tests, formatting, diff whitespace checks and the 35-page production build passed. No browser page errors occurred. Detailed JSON and screenshots are in the corresponding ignored `artifacts/landing-trust/`, `landing-footer/`, `landing-page-draft/`, `landing-instagram/`, `refactor-qa/` and `landing-refinements/` folders.
+
+Publication is authorized by the current request. Exact GitHub revision, Workers acceptance and hosted browser/asset proof are recorded separately after push in ignored `artifacts/landing-page-release/`.
+
+---
+
 # Client logos, testimonials and orange markers — 21 October 2026
 
 final result: passed

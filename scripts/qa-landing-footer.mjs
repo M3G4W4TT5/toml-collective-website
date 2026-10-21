@@ -97,8 +97,8 @@ try {
       ),
     }));
     assert.ok(Math.abs(half.main - height / 2) < 2);
-    assert.equal(half.footer.top, 0);
-    assert.equal(half.footer.height, height);
+    assert.ok(Math.abs(half.footer.bottom - height) < 1);
+    assert.ok(half.footer.height >= height - 1);
     assert.equal(half.revealed, true);
     if ([390, 1440].includes(width) && height > 800) {
       await page.waitForTimeout(600);
@@ -140,6 +140,10 @@ try {
         horizontalOverflow:
           document.documentElement.scrollWidth > innerWidth + 1,
         footerOverflow: footer.scrollHeight - footer.clientHeight,
+        footerHeight: footer.getBoundingClientRect().height,
+        footerPosition: getComputedStyle(footer).position,
+        headerHidden: document.querySelector(".landing-header").dataset.hidden,
+        headerInert: document.querySelector(".landing-header").inert,
         mainBottom: document
           .querySelector(".landing-draft main")
           .getBoundingClientRect().bottom,
@@ -173,27 +177,16 @@ try {
       };
     });
     assert.equal(layout.horizontalOverflow, false, JSON.stringify(layout));
+    assert.ok(layout.mainBottom <= 1, JSON.stringify(layout));
     assert.ok(
-      layout.mainBottom <= 0 && layout.mainBottom >= -2,
+      Math.abs(layout.mainBottom - (height - layout.footerHeight)) < 1,
       JSON.stringify(layout),
     );
-    const shortScreen = (width < 576 && height < 800) || height <= 640;
-    if (shortScreen) {
-      const legalBottom = await page
-        .locator(".landing-footer")
-        .evaluate((el) => {
-          el.scrollTop = el.scrollHeight;
-          const bottom = el
-            .querySelector(".landing-footer-legal")
-            .getBoundingClientRect().bottom;
-          el.scrollTop = 0;
-          return bottom;
-        });
-      assert.ok(legalBottom <= height + 1, JSON.stringify(layout));
-    } else {
-      assert.ok(layout.footerOverflow <= 1, JSON.stringify(layout));
-      assert.ok(layout.legalBottom <= height + 1, JSON.stringify(layout));
-    }
+    assert.equal(layout.footerPosition, "sticky");
+    assert.equal(layout.headerHidden, "true");
+    assert.equal(layout.headerInert, true);
+    assert.ok(layout.footerOverflow <= 1, JSON.stringify(layout));
+    assert.ok(layout.legalBottom <= height + 1, JSON.stringify(layout));
     assert.equal(layout.newsletter.overlap, false, JSON.stringify(layout));
     assert.ok(
       layout.newsletter.bottom < layout.newsletter.socialTop,
@@ -350,19 +343,101 @@ try {
   );
   await page.setViewportSize({ width: 320, height: 320 });
   await bottom();
-  const compact = await page.locator(".landing-footer").evaluate((el) => {
-    el.scrollTop = el.scrollHeight;
-    return {
-      scrollable: el.scrollHeight > el.clientHeight,
-      legalBottom: el
-        .querySelector(".landing-footer-legal")
-        .getBoundingClientRect().bottom,
-    };
-  });
-  assert.equal(compact.scrollable, true);
+  const compact = await page.locator(".landing-footer").evaluate((el) => ({
+    scrollable: el.scrollHeight > el.clientHeight,
+    height: el.getBoundingClientRect().height,
+    legalBottom: el
+      .querySelector(".landing-footer-legal")
+      .getBoundingClientRect().bottom,
+  }));
+  assert.equal(compact.scrollable, false);
+  assert.ok(compact.height > 320);
   assert.ok(compact.legalBottom <= 321);
   result.interactions.push(
-    "Extremely short mobile view retains every address and scrolls internally to the legal links",
+    "Very short view retains every address and legal link using document scrolling, without a nested footer scroll area",
+  );
+  // Gestures start well inside the footer, not along the top edge.
+  for (const [width, height] of [
+    [390, 844],
+    [320, 568],
+    [1440, 900],
+  ]) {
+    await page.setViewportSize({ width, height });
+    await bottom();
+    const before = await page.evaluate(() => scrollY);
+    await page.mouse.move(width / 2, height * 0.7);
+    await page.mouse.wheel(0, -40);
+    await page.waitForTimeout(200);
+    assert.ok(
+      (await page.evaluate(() => scrollY)) < before - 20,
+      "Wheel over footer scrolls the document",
+    );
+    assert.equal(
+      await page.locator(".landing-header").getAttribute("data-hidden"),
+      "true",
+    );
+    const edge = await page
+      .locator("[data-landing-footer-reveal]")
+      .evaluate((el) => el.getBoundingClientRect().top + scrollY);
+    await scrollTo(edge - 60);
+    assert.equal(
+      await page.locator(".landing-header").getAttribute("data-hidden"),
+      "true",
+      "Header remains hidden when overlapping footer by 22px",
+    );
+    await scrollTo(edge - 120);
+    assert.equal(
+      await page.locator(".landing-header").getAttribute("data-hidden"),
+      "false",
+      "Header can return once foreground covers it",
+    );
+  }
+  const touchContext = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    isMobile: true,
+    hasTouch: true,
+  });
+  const touchPage = await touchContext.newPage();
+  await touchPage.goto(base + "/landing-page-draft", { waitUntil: "load" });
+  await touchPage.evaluate(() => document.fonts.ready);
+  const cdp = await touchContext.newCDPSession(touchPage);
+  for (const [width, height] of [
+    [390, 844],
+    [320, 568],
+  ]) {
+    await touchPage.setViewportSize({ width, height });
+    await touchPage.evaluate(() => scrollTo({ top: 1e8, behavior: "instant" }));
+    await touchPage.waitForTimeout(150);
+    const before = await touchPage.evaluate(() => scrollY);
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchStart",
+      touchPoints: [{ x: width * 0.6, y: height * 0.5 }],
+    });
+    for (let i = 1; i <= 8; i++) {
+      await cdp.send("Input.dispatchTouchEvent", {
+        type: "touchMove",
+        touchPoints: [{ x: width * 0.6, y: height * 0.5 + i * 7 }],
+      });
+      await touchPage.waitForTimeout(20);
+    }
+    await cdp.send("Input.dispatchTouchEvent", {
+      type: "touchEnd",
+      touchPoints: [],
+    });
+    await touchPage.waitForTimeout(300);
+    assert.ok(
+      (await touchPage.evaluate(() => scrollY)) < before - 20,
+      "Actual swipe inside footer scrolls the document upward",
+    );
+    assert.equal(
+      await touchPage.locator(".landing-header").getAttribute("data-hidden"),
+      "true",
+    );
+  }
+  await cdp.detach();
+  await touchContext.close();
+  result.interactions.push(
+    "Wheel and actual mobile touch from inside full footer scroll the document; header stays hidden at the footer on phone and desktop and returns only above it",
   );
   await page.emulateMedia({ reducedMotion: "reduce" });
   assert.equal(

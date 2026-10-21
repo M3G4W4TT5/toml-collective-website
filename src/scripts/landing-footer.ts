@@ -31,11 +31,16 @@ if (footer && reveal && draft) {
     timer = window.setInterval(updateClocks, 1000);
   };
   updateClocks();
-  const footerVisibility = new IntersectionObserver(([entry]) => {
-    footer.dataset.visible = String(entry.isIntersecting);
+  const updateVisibility = () => {
+    const visible = reveal.getBoundingClientRect().top < window.innerHeight;
+    if (footer.dataset.visible === String(visible)) return;
+    footer.dataset.visible = String(visible);
     syncClocks();
-  });
-  footerVisibility.observe(reveal);
+  };
+  window.addEventListener("scroll", updateVisibility, { passive: true });
+  window.addEventListener("resize", updateVisibility);
+  window.addEventListener("pageshow", updateVisibility);
+  updateVisibility();
   document.addEventListener("visibilitychange", syncClocks);
   window.addEventListener("pageshow", syncClocks);
   const heroSpacer = draft.querySelector<HTMLElement>(".landing-hero-spacer");
@@ -49,7 +54,7 @@ if (footer && reveal && draft) {
     heroVisibility.observe(heroSpacer);
   }
   footer.addEventListener("focusin", () => {
-    // Fixed links cannot scroll themselves out from beneath the page content.
+    // Reveal keyboard-focused links from beneath the foreground content.
     if (reveal.getBoundingClientRect().top > 0) {
       reveal.scrollIntoView({ behavior: "instant", block: "start" });
     }

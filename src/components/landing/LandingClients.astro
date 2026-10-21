@@ -10,11 +10,7 @@ import "../../styles/pages/landing-trust.css";
   data-landing-clients
   data-landing-reveal
 >
-  <div
-    class="landing-clients-window"
-    tabindex="0"
-    aria-label="Client and partner logos; focus to pause movement"
-  >
+  <div class="landing-clients-window">
     <div class="landing-clients-track">
       {[false, true].map((duplicate) => (
         <ul
@@ -41,14 +37,6 @@ import "../../styles/pages/landing-trust.css";
       ))}
     </div>
   </div>
-  <button
-    class="landing-clients-pause"
-    type="button"
-    aria-pressed="false"
-    hidden
-  >
-    Pause logos
-  </button>
 </section>
 <script>
   import "../../scripts/landing-clients";

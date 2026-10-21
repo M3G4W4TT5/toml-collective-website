@@ -27,7 +27,16 @@ if (root) {
   let pendingMilkSwap = false;
   let revealAfterHide = false;
 
+  const footerEdge = root.querySelector<HTMLElement>(
+    "[data-landing-footer-reveal]",
+  );
+  const overlapsFooter = () =>
+    Boolean(
+      footerEdge &&
+      footerEdge.getBoundingClientRect().top <= header.offsetHeight,
+    );
   const showHeader = (visible: boolean) => {
+    visible = visible && !overlapsFooter();
     header.dataset.hidden = String(!visible);
     header.inert = !visible;
   };
@@ -63,7 +72,10 @@ if (root) {
     const y = Math.max(0, window.scrollY);
     header.dataset.scrolled = String(y > 0.5);
     if (y <= 0.5) restoreTopHeader();
-    else if (!menuOpen && y !== previousY) {
+    else if (overlapsFooter()) {
+      revealAfterHide = false;
+      hideHeader();
+    } else if (!menuOpen && y !== previousY) {
       revealAfterHide = y < previousY;
       if (pendingMilkSwap || !revealAfterHide || header.dataset.logo !== "milk")
         hideHeader();
@@ -73,6 +85,7 @@ if (root) {
   };
   header.dataset.scrolled = String(previousY > 0.5);
   window.addEventListener("scroll", updateHeader, { passive: true });
+  window.addEventListener("resize", updateHeader);
   window.addEventListener("pageshow", () => {
     previousY = Math.max(0, window.scrollY);
     header.dataset.scrolled = String(previousY > 0.5);

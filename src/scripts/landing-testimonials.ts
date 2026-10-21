@@ -11,23 +11,40 @@ if (carousel) {
   const count = carousel.querySelector<HTMLElement>(
     "[data-testimonial-count]",
   )!;
-  const previous = carousel.querySelector<HTMLButtonElement>(
-    "[data-testimonial-previous]",
-  )!;
-  const next = carousel.querySelector<HTMLButtonElement>(
-    "[data-testimonial-next]",
-  )!;
   let current = 0;
+  let visible = false;
+  let timer: number | undefined;
+  const schedule = () => {
+    window.clearTimeout(timer);
+    if (!visible || document.hidden) return;
+    const words = slides[current]
+      .querySelector("blockquote")!
+      .textContent!.trim()
+      .split(/\s+/).length;
+    // Allow 180 words/minute plus two seconds to settle, with a 12-second minimum.
+    const readingTime = Math.max(12000, (words / 180) * 60000 + 2000);
+    timer = window.setTimeout(() => show(current + 1), readingTime);
+  };
   const show = (index: number) => {
     current = (index + slides.length) % slides.length;
-    for (const [i, slide] of slides.entries()) slide.hidden = i !== current;
+    for (const [i, slide] of slides.entries()) {
+      // Invisible slides retain their shared grid tracks without being read or focused.
+      slide.setAttribute("aria-hidden", String(i !== current));
+      slide.inert = i !== current;
+    }
     count.textContent = `${current + 1} / ${slides.length}`;
+    schedule();
   };
   carousel.classList.add("is-enhanced");
+  carousel.tabIndex = 0;
   controls.hidden = false;
   show(0);
-  previous.addEventListener("click", () => show(current - 1));
-  next.addEventListener("click", () => show(current + 1));
+  const observer = new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting;
+    schedule();
+  });
+  observer.observe(carousel);
+  document.addEventListener("visibilitychange", schedule);
   carousel.addEventListener("keydown", (event) => {
     if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
       event.preventDefault();
