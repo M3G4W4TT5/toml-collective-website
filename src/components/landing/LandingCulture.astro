@@ -1,0 +1,90 @@
+---
+import ResponsiveImage from "../ResponsiveImage.astro";
+import "../../styles/pages/landing-culture.css";
+
+const houseImages = [
+  ["hot_1.jpg", "A conversation in the lounge at House of TOML"],
+  ["hot_2.jpg", "The lounge and kitchen at House of TOML"],
+  ["hot_3.jpg", "Working together beside the red wall at House of TOML"],
+  ["hot_4.jpg", "Kitchen details at House of TOML"],
+  ["hot_5.jpg", "The meeting space at House of TOML"],
+  ["hot_6.jpg", "The shared studio at House of TOML"],
+  ["hot_7.jpg", "Artwork on the walls at House of TOML"],
+  ["house.jpg", "The red-lit interior at House of TOML"],
+];
+---
+
+<section class="landing-culture" aria-label="TOML Journal and House of TOML">
+  <article class="landing-culture-card" data-culture-card data-landing-reveal>
+    <a class="landing-culture-link" href="https://www.tomljournal.com">
+      <div class="landing-culture-media">
+        <video
+          data-culture-video
+          muted
+          loop
+          playsinline
+          preload="none"
+          poster="/media/landing-culture/journal-poster.webp"
+          aria-label="A selection of stories from TOML Journal"
+          width="560"
+          height="700"
+        >
+          <source src="/media/landing-culture/journal.mp4" type="video/mp4" />
+        </video>
+      </div>
+      <div class="landing-culture-caption">
+        <h2>TOML Journal</h2>
+        <p>
+          Our editorial and R&amp;D platform on creativity, branding, AI, design
+          and culture, with 12+ articles and interviews with creative leaders,
+          producers and CMOs.
+        </p>
+      </div>
+    </a>
+    <button
+      class="landing-culture-motion"
+      data-culture-motion
+      hidden
+      aria-label="Pause TOML Journal video"
+    >
+      Pause
+    </button>
+  </article>
+  <article class="landing-culture-card" data-culture-card data-landing-reveal>
+    <a class="landing-culture-link" href="/about/house-of-toml/">
+      <div class="landing-culture-media" data-culture-slides>
+        {houseImages.map(([file, alt], index) => (
+          <ResponsiveImage
+            src={`/media/landing-culture/${file}`}
+            alt={alt}
+            sizes="(min-width: 48rem) 45vw, 90vw"
+            loading="lazy"
+            decoding="async"
+            data-culture-slide
+            data-active={index === 0 ? "true" : "false"}
+            aria-hidden={index !== 0}
+          />
+        ))}
+      </div>
+      <div class="landing-culture-caption">
+        <h2>House of TOML</h2>
+        <p>
+          Our creative co-working space in central Prishtina, built to attract,
+          connect and grow the next generation of TOML talent.
+        </p>
+      </div>
+    </a>
+    <button
+      class="landing-culture-motion"
+      data-culture-motion
+      hidden
+      aria-label="Pause House of TOML slideshow"
+    >
+      Pause
+    </button>
+  </article>
+</section>
+
+<script>
+  import "../../scripts/landing-culture";
+</script>

@@ -9,6 +9,7 @@ import LandingContact from "../components/landing/LandingContact.astro";
 import LandingServices from "../components/landing/LandingServices.astro";
 import LandingClients from "../components/landing/LandingClients.astro";
 import LandingTestimonials from "../components/landing/LandingTestimonials.astro";
+import LandingCulture from "../components/landing/LandingCulture.astro";
 import {
   getHomepageDesign,
   getLatestWebsiteProjects,
@@ -121,6 +122,7 @@ const [{ selectedWork }, latestProjects] = await Promise.all([
         <LandingServices />
         <LandingTestimonials />
         <LandingContact />
+        <LandingCulture />
         <LandingInstagram />
       </div>
     </main>

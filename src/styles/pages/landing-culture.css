@@ -1,0 +1,102 @@
+@import "../layers.css";
+
+@layer pages {
+  .landing-culture {
+    display: grid;
+    gap: 2rem;
+    max-width: 110rem;
+    margin-inline: auto;
+    padding: 0 var(--landing-gutter) clamp(4.375rem, 9vw, 10rem);
+  }
+  .landing-culture-card {
+    position: relative;
+    min-width: 0;
+  }
+  .landing-culture-link {
+    position: relative;
+    display: block;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #efefeb;
+  }
+  .landing-culture-media {
+    position: absolute;
+    inset: 0;
+    transition: transform 700ms;
+  }
+  .landing-culture-media :is(img, video) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  [data-culture-slide] {
+    opacity: 0;
+    transition: opacity 1000ms;
+  }
+  [data-culture-slide][data-active="true"] {
+    opacity: 1;
+  }
+  .landing-culture-link:is(:hover, :focus-visible) .landing-culture-media {
+    transform: scale(1.05);
+  }
+  .landing-culture-caption {
+    position: absolute;
+    z-index: 1;
+    inset: auto 1rem 1rem;
+    padding: 1.25rem;
+    background: #fff;
+    color: #000;
+  }
+  .landing-culture-caption h2 {
+    margin: 0 0 0.625rem;
+    font: 700 clamp(1.375rem, 2vw, 2rem) / 1.1 var(--font-reference);
+    letter-spacing: normal;
+  }
+  .landing-culture-caption p {
+    margin: 0;
+    font: 400 clamp(0.9375rem, 1.3vw, 1.25rem) / 1.45 var(--font-reference);
+  }
+  .landing-culture-motion {
+    position: absolute;
+    z-index: 2;
+    top: 1rem;
+    right: 1rem;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0.5rem 0.875rem;
+    border: 0;
+    background: #fff;
+    color: #000;
+    font: 400 0.8125rem / 1 var(--font-reference);
+    cursor: pointer;
+  }
+  @media (min-width: 48rem) {
+    .landing-culture {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(2rem, 3vw, 4rem);
+      padding-inline: clamp(2.5rem, 5.5vw, 8rem);
+    }
+    .landing-culture-link {
+      aspect-ratio: 6 / 7;
+    }
+    .landing-culture-caption {
+      inset: auto 1.5rem 1.5rem;
+      padding: clamp(1.25rem, 2vw, 2rem);
+    }
+    .landing-culture-motion {
+      top: 1.5rem;
+      right: 1.5rem;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .landing-culture-media,
+    [data-culture-slide] {
+      transition: none;
+    }
+    .landing-culture-link:is(:hover, :focus-visible) .landing-culture-media {
+      transform: none;
+    }
+  }
+}

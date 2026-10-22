@@ -1,5 +1,12 @@
 # TOML Collective website
 
+## Journal and House cards — 22 October 2026
+
+- The user authorized adding TOML Journal and House of TOML between the contact invitation and Instagram on `/landing-page-draft/`, followed by a GitHub push and deployment to the existing Worker site.
+- Two prominent cards sit side by side from 768px and stack below that width. The draft's white inset captions, black typography and 700ms media zoom are retained; the new zoom is 1.05 versus Selected Work's 1.1.
+- Descriptions use the supplied second screenshot verbatim. Journal links to the existing external Journal destination; House links to the existing House page. The screenshots supply copy only.
+- The supplied Journal video and all eight House photographs are local assets. The separate `hot_logo.svg` is excluded. Media pauses offscreen/when the tab is hidden, supports individual pause/play controls, and defaults to stills with reduced motion. Sources and verification are in `docs/landing-page-draft.md`.
+
 ## Current local increment — landing page draft, 21 October 2026
 
 - **Publication authorized:** the latest request lifts the previous hold and explicitly authorizes committing/pushing the accumulated landing draft, then deploying it to the existing TOML Collective Workers site. This release includes the requested testimonial, footer/header scrolling and logo-control corrections; the original homepage remains in place.

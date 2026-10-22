@@ -1,6 +1,20 @@
 # Landing page draft — 21 October 2026
 
-Route: `/landing-page-draft`. This explicitly unindexed draft contains the homepage through Selected Work, clients/partners, services, testimonials, the contact invitation, Instagram and the full-screen footer. The existing `/` route remains the V4 implementation. The latest request lifts the prior publication hold and authorizes committing/pushing this accumulated draft and deploying through the existing Workers pipelines.
+Route: `/landing-page-draft`. This explicitly unindexed draft contains the homepage through Selected Work, clients/partners, services, testimonials, the contact invitation, Journal/House cards, Instagram and the full-screen footer. The existing `/` route remains the V4 implementation. The latest request lifts the prior publication hold and authorizes committing/pushing this accumulated draft and deploying through the existing Workers pipelines.
+
+## Journal and House of TOML — 22 October 2026
+
+`LandingCulture.astro`, `landing-culture.css` and `landing-culture.ts` add the requested two-card section between the contact invitation and Instagram. Journal appears on the left, House on the right, with two columns from 768px and a stacked phone layout. The white inset captions, black FK Grotesk text and rectangular media follow the existing landing draft. The supplied screenshots are copy references only; the fuller second screenshot descriptions are reproduced verbatim.
+
+Desktop outer gutters are 5.5vw (bounded between 40px and 128px), the card gap is 3vw (32–64px), and the section is capped at 1760px. Media zooms to 1.05 over 700ms, half the existing Selected Work scale increase. The Journal destination remains `https://www.tomljournal.com`; House uses `/about/house-of-toml/`.
+
+Media in `public/media/landing-culture/`:
+
+- `journal.mp4`: supplied [Journal video](https://drive.google.com/file/d/1eEfv74BGn5UkCqL85-3AOUUe_xQ2p8tq/view), unchanged H.264, 560 × 700, 11.8 seconds. `journal-poster.webp` is its first frame.
+- `hot_1.jpg` through `hot_7.jpg` and `house.jpg`: all eight photographs from the supplied [House of TOML folder](https://drive.google.com/drive/folders/1wDDaa6JzE76zi5Rwgesgdyb5dZSPOha8), unchanged. `hot_logo.svg` is neither downloaded nor used.
+- Video playback is muted, inline and looping. House photographs crossfade every five seconds. Each card has a pause/play control. Offscreen/hidden-tab media stops; reduced motion starts with stills and disables zoom/transitions. No JavaScript retains the poster, first photograph, copy and normal links.
+
+Verification: `npm run check`, `npm test`, `npm run build`, `npm run format:check`, the existing `npm run test:browser`, and `node scripts/qa-landing-culture.mjs`. The focused browser check covers placement, outer/inter-card spacing, caption fit at ten widths from 320px to 2560px, media decoding/playback, slideshow advancement, pause/resume, hover scale, offscreen pausing, reduced motion and no-JavaScript fallbacks. Screenshots and machine-readable results live under ignored `artifacts/landing-culture/`.
 
 ## Reference review
 
