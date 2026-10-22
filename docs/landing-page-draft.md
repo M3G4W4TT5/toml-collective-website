@@ -12,9 +12,9 @@ Media in `public/media/landing-culture/`:
 
 - `journal.mp4`: supplied [Journal video](https://drive.google.com/file/d/1eEfv74BGn5UkCqL85-3AOUUe_xQ2p8tq/view), unchanged H.264, 560 × 700, 11.8 seconds. `journal-poster.webp` is its first frame.
 - `hot_1.jpg` through `hot_7.jpg` and `house.jpg`: all eight photographs from the supplied [House of TOML folder](https://drive.google.com/drive/folders/1wDDaa6JzE76zi5Rwgesgdyb5dZSPOha8), unchanged. `hot_logo.svg` is neither downloaded nor used.
-- Video playback is muted, inline and looping. House photographs crossfade every five seconds. Each card has a pause/play control. Offscreen/hidden-tab media stops; reduced motion starts with stills and disables zoom/transitions. No JavaScript retains the poster, first photograph, copy and normal links.
+- Video playback is muted, inline and looping. House photographs crossfade every five seconds. No visible playback controls are added, as requested. Offscreen/hidden-tab media stops; reduced motion starts with stills and disables zoom/transitions. No JavaScript retains the poster, first photograph, copy and normal links.
 
-Verification: `npm run check`, `npm test`, `npm run build`, `npm run format:check`, the existing `npm run test:browser`, and `node scripts/qa-landing-culture.mjs`. The focused browser check covers placement, outer/inter-card spacing, caption fit at ten widths from 320px to 2560px, media decoding/playback, slideshow advancement, pause/resume, hover scale, offscreen pausing, reduced motion and no-JavaScript fallbacks. Screenshots and machine-readable results live under ignored `artifacts/landing-culture/`.
+Verification: `npm run check`, `npm test`, `npm run build`, `npm run format:check`, the existing `npm run test:browser`, and `node scripts/qa-landing-culture.mjs`. The focused browser check covers placement, outer/inter-card spacing, caption fit at ten widths from 320px to 2560px, media decoding/playback, slideshow advancement, absence of extra controls, hover scale, offscreen pausing, reduced motion and no-JavaScript fallbacks. Screenshots and machine-readable results live under ignored `artifacts/landing-culture/`.
 
 ## Reference review
 

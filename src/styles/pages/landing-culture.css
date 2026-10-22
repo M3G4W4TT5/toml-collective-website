@@ -58,20 +58,6 @@
     margin: 0;
     font: 400 clamp(0.9375rem, 1.3vw, 1.25rem) / 1.45 var(--font-reference);
   }
-  .landing-culture-motion {
-    position: absolute;
-    z-index: 2;
-    top: 1rem;
-    right: 1rem;
-    min-height: 44px;
-    min-width: 44px;
-    padding: 0.5rem 0.875rem;
-    border: 0;
-    background: #fff;
-    color: #000;
-    font: 400 0.8125rem / 1 var(--font-reference);
-    cursor: pointer;
-  }
   @media (min-width: 48rem) {
     .landing-culture {
       grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -84,10 +70,6 @@
     .landing-culture-caption {
       inset: auto 1.5rem 1.5rem;
       padding: clamp(1.25rem, 2vw, 2rem);
-    }
-    .landing-culture-motion {
-      top: 1.5rem;
-      right: 1.5rem;
     }
   }
   @media (prefers-reduced-motion: reduce) {

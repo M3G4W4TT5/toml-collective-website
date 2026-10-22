@@ -7,31 +7,17 @@ document
     const slides = [
       ...card.querySelectorAll<HTMLImageElement>("[data-culture-slide]"),
     ];
-    const button = card.querySelector<HTMLButtonElement>(
-      "[data-culture-motion]",
-    );
-    if (!button) return;
-
-    const label = video ? "TOML Journal video" : "House of TOML slideshow";
-    let paused = reducedMotion.matches;
     let visible = false;
     let active = 0;
     let timer: ReturnType<typeof setTimeout> | undefined;
-    const canPlay = () => visible && !paused && !document.hidden;
+    const canPlay = () => visible && !reducedMotion.matches && !document.hidden;
 
     const sync = () => {
       clearTimeout(timer);
-      button.textContent = paused ? "Play" : "Pause";
-      button.setAttribute(
-        "aria-label",
-        `${paused ? "Play" : "Pause"} ${label}`,
-      );
       if (video) {
         if (canPlay()) {
           void video.play().catch(() => {
-            if (!canPlay()) return;
-            paused = true;
-            sync();
+            // The poster remains visible when autoplay is unavailable.
           });
         } else video.pause();
       } else if (canPlay()) {
@@ -53,15 +39,7 @@ document
       }
     };
 
-    button.hidden = false;
-    button.addEventListener("click", () => {
-      paused = !paused;
-      sync();
-    });
-    reducedMotion.addEventListener("change", () => {
-      paused = reducedMotion.matches;
-      sync();
-    });
+    reducedMotion.addEventListener("change", sync);
     document.addEventListener("visibilitychange", sync);
     new IntersectionObserver(
       ([entry]) => {

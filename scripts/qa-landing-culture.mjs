@@ -94,16 +94,7 @@ try {
     await video.evaluate((v) => v.muted && v.loop && v.playsInline),
     true,
   );
-  await page
-    .getByRole("button", { name: "Pause TOML Journal video", exact: true })
-    .click();
-  assert.equal(await video.evaluate((v) => v.paused), true);
-  await page
-    .getByRole("button", { name: "Play TOML Journal video", exact: true })
-    .click();
-  await page.waitForFunction(
-    () => !document.querySelector("[data-culture-video]").paused,
-  );
+  assert.equal(await section.locator("button").count(), 0);
   const active = () =>
     page
       .locator('[data-culture-slide][data-active="true"]')
@@ -117,25 +108,8 @@ try {
     first,
     { timeout: 7000 },
   );
-  await page
-    .getByRole("button", { name: "Pause House of TOML slideshow", exact: true })
-    .click();
-  const pausedSlide = await active();
-  await page.waitForTimeout(5200);
-  assert.equal(await active(), pausedSlide);
-  await page
-    .getByRole("button", { name: "Play House of TOML slideshow", exact: true })
-    .click();
-  await page.waitForFunction(
-    (src) =>
-      document
-        .querySelector('[data-culture-slide][data-active="true"]')
-        .getAttribute("src") !== src,
-    pausedSlide,
-    { timeout: 7000 },
-  );
   result.interactions.push(
-    "Muted inline video, slideshow advancement, and independent pause/resume controls",
+    "Muted inline video and automatic slideshow, with no added controls",
   );
   await page.locator(".landing-culture-link").first().hover();
   await page.waitForTimeout(800);
@@ -184,10 +158,7 @@ try {
     await fallback.locator(".landing-culture-link").last().getAttribute("href"),
     "/about/house-of-toml/",
   );
-  assert.equal(
-    await fallback.locator("[data-culture-motion]:visible").count(),
-    0,
-  );
+  assert.equal(await fallback.locator(".landing-culture button").count(), 0);
   assert.equal(
     await fallback
       .locator("[data-culture-slide]")
