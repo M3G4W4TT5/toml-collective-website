@@ -107,14 +107,19 @@ try {
     await bottom();
     const layout = await page.evaluate(() => {
       const footer = document.querySelector(".landing-footer");
-      const legal = footer.querySelector(".landing-footer-legal");
+      const legal = footer.querySelector(".landing-footer-policies");
       const newsletter = footer.querySelector(".landing-footer-newsletter");
       const news = newsletter.getBoundingClientRect();
       const image = newsletter.querySelector("picture").getBoundingClientRect();
-      const caption = newsletter.querySelector("span");
-      const captionRange = document.createRange();
-      captionRange.selectNodeContents(caption);
-      const lettering = captionRange.getBoundingClientRect();
+      const features = [
+        ...footer.querySelectorAll(".landing-footer-feature"),
+      ].map((el) => el.getBoundingClientRect().toJSON());
+      const socials = footer
+        .querySelector(".landing-footer-social")
+        .getBoundingClientRect();
+      const back = footer
+        .querySelector(".landing-footer-back")
+        .getBoundingClientRect();
       const contacts = document.createTreeWalker(
         footer.querySelector(".landing-footer-offices"),
         NodeFilter.SHOW_TEXT,
@@ -126,10 +131,13 @@ try {
         range.selectNodeContents(contacts.currentNode);
         for (const rect of range.getClientRects()) {
           if (
-            rect.left < news.right &&
-            rect.right > news.left &&
-            rect.top < news.bottom &&
-            rect.bottom > news.top
+            features.some(
+              (feature) =>
+                rect.left < feature.right &&
+                rect.right > feature.left &&
+                rect.top < feature.bottom &&
+                rect.bottom > feature.top,
+            )
           )
             overlap = true;
         }
@@ -157,22 +165,26 @@ try {
         heroVisibility: getComputedStyle(
           document.querySelector(".landing-hero-heading"),
         ).visibility,
+        features,
+        contactsBottom: footer
+          .querySelector(".landing-footer-offices")
+          .getBoundingClientRect().bottom,
+        socials: {
+          left: socials.left,
+          right: socials.right,
+          top: socials.top,
+          bottom: socials.bottom,
+        },
+        back: { right: back.right, top: back.top, bottom: back.bottom },
         newsletter: {
           overlap,
           right: news.right,
           bottom: news.bottom,
           imageWidth: image.width,
           imageHeight: image.height,
-          captionTextWidth: lettering.width,
-          captionCenterOffset:
-            (lettering.left + lettering.right - image.left - image.right) / 2,
           socialTop: footer
             .querySelector(".landing-footer-social")
             .getBoundingClientRect().top,
-          captionLines: Math.round(
-            caption.getBoundingClientRect().height /
-              parseFloat(getComputedStyle(caption).lineHeight),
-          ),
         },
       };
     });
@@ -192,20 +204,64 @@ try {
       layout.newsletter.bottom < layout.newsletter.socialTop,
       JSON.stringify(layout),
     );
-    assert.equal(layout.newsletter.captionLines, 1, JSON.stringify(layout));
+    const naturalHeights = {
+      "320x568": 690.078125,
+      "320x740": 750.515625,
+      "560x740": 748.578125,
+      "560x700": 724.09375,
+      "767x390": 478.34375,
+      "844x390": 419.078125,
+    };
     assert.ok(
       Math.abs(
-        layout.newsletter.captionTextWidth - layout.newsletter.imageWidth,
+        layout.footerHeight - (naturalHeights[`${width}x${height}`] || height),
       ) < 1,
       JSON.stringify(layout),
     );
-    assert.ok(
-      Math.abs(layout.newsletter.captionCenterOffset) < 1,
-      JSON.stringify(layout),
-    );
+    assert.equal(layout.features.length, 3);
+    layout.features.forEach((feature, i) => {
+      assert.ok(Math.abs(feature.width - layout.features[0].width) < 1);
+      assert.ok(
+        Math.abs(
+          feature.width / feature.height -
+            [391 / 173, 1350 / 302, 676 / 115][i],
+        ) < 0.01,
+      );
+      assert.ok(Math.abs(feature.left - layout.features[0].left) < 1);
+      if (i) assert.ok(feature.top > layout.features[i - 1].bottom);
+    });
+    if (width < 768) {
+      // The finished Journal artwork begins 41 source pixels below the crop's
+      // top edge; its earlier frames still have room above that final mark.
+      const upperGap =
+        layout.features[0].top +
+        (layout.features[0].width * 41) / 391 -
+        layout.contactsBottom;
+      const lowerGap = layout.socials.top - layout.features[2].bottom;
+      assert.ok(
+        Math.abs(upperGap - lowerGap) < 1,
+        JSON.stringify({ width, height, upperGap, lowerGap }),
+      );
+      assert.ok(
+        Math.abs((layout.socials.left + layout.socials.right) / 2 - width / 2) <
+          1,
+      );
+    } else {
+      assert.ok(layout.socials.left > layout.back.right);
+      assert.ok(
+        Math.abs(
+          (layout.socials.top +
+            layout.socials.bottom -
+            layout.back.top -
+            layout.back.bottom) /
+            2,
+        ) < 1,
+      );
+    }
     assert.ok(
       Math.abs(
-        layout.newsletter.imageWidth / layout.newsletter.imageHeight - 3.5,
+        layout.newsletter.imageWidth / layout.newsletter.imageHeight -
+          391 / 173,
       ) < 0.01,
     );
     assert.deepEqual(layout.postal, ["block", "block", "block"]);
@@ -283,16 +339,21 @@ try {
     await newsletter.getAttribute("href"),
     "https://www.tomljournal.com/subscribe",
   );
+  assert.equal(await newsletter.locator("span").count(), 0);
   assert.equal(
-    await newsletter.locator("span").textContent(),
-    "SUBSCRIBE TO OUR NEWSLETTER",
+    await page.locator(".landing-footer-drum").getAttribute("href"),
+    "https://www.thedrum.com/profile/tomlcollective/validation",
+  );
+  assert.equal(
+    await page.locator(".landing-footer-impact").getAttribute("href"),
+    "https://www.fastcompany.com/user/virtyt-pula",
   );
   await page.waitForFunction(() => {
     const img = document.querySelector(".landing-footer-newsletter img");
     return (
       img.complete &&
-      img.naturalWidth === 800 &&
-      img.currentSrc.endsWith("tomljournal-logo-animation.gif")
+      img.naturalWidth === 391 &&
+      img.currentSrc.endsWith("tomljournal-logo-animation-cropped.webp")
     );
   });
   const destination = await context.newPage();
@@ -323,7 +384,7 @@ try {
   assert.equal(destination.url(), "https://www.tomljournal.com/subscribe");
   await destination.close();
   result.interactions.push(
-    "Newsletter caption and supplied animated image appear above socials without covering contacts; clicking the image reaches the exact subscription URL",
+    "Three aligned linked images fit without changing footer heights or covering contacts; newsletter caption is absent and destinations are exact",
   );
   await page.locator(".landing-footer-back").click();
   await page.waitForFunction(() => scrollY < 1);
@@ -347,7 +408,7 @@ try {
     scrollable: el.scrollHeight > el.clientHeight,
     height: el.getBoundingClientRect().height,
     legalBottom: el
-      .querySelector(".landing-footer-legal")
+      .querySelector(".landing-footer-policies")
       .getBoundingClientRect().bottom,
   }));
   assert.equal(compact.scrollable, false);
@@ -447,7 +508,8 @@ try {
   await page.waitForFunction(() => {
     const img = document.querySelector(".landing-footer-newsletter img");
     return (
-      img.complete && img.currentSrc.endsWith("tomljournal-logo-still.webp")
+      img.complete &&
+      img.currentSrc.endsWith("tomljournal-logo-still-cropped.webp")
     );
   });
   result.interactions.push("Reduced motion stops the marquee");

@@ -20,6 +20,20 @@ Verification: `npm run check`, `npm test`, `npm run build`, `npm run format:chec
 
 ## Reference review
 
+### Footer recognition refinement — 22 October 2026
+
+Publication is authorized after the final mobile spacing adjustment. On phones, the recognition area fills the space between addresses and social links. The completed artwork is centred vertically within that area, compensating for the Journal animation's 41 source pixels of early-frame headroom. Gaps grow up to 20px when space permits; compact screens retain all animation frames and avoid contacts. Desktop positions and sizes are unchanged. The footer regression checks compare the upper and lower mobile gaps to within one CSS pixel.
+
+The Journal animation is cropped to the union of all visible source-frame pixels: `(200, 119)–(591, 292)` in the original 800 × 450 GIF. The 391 × 173 lossless animated WebP and matching final-frame still preserve the full artwork, including its higher early frames, and the original 7.04-second loop. Every decoded frame is compared pixel-for-pixel with the cropped source timeline. CSS displays the full asset at the same width as the two recognition images, removing the previous zoom and offset. The originals remain available. Preparation evidence is in ignored `artifacts/footer-recognition/crop-journal-animation.py`.
+
+The final Drum cutout uses direct pixel background removal, explicitly approved by the user after the image editor altered its edges. Original RGB values are preserved exactly; only alpha and empty-canvas cropping change. The resulting transparent asset is 1350 × 302 pixels. The reproducible local preparation script and original JPEG remain in ignored `artifacts/footer-recognition/`.
+
+The footer's right-hand stack contains the existing Journal animation, The Drum Recommended image and Fast Company Impact Council image in that order. The supplied `59.png` is preserved as `public/media/fast-company-impact.png`; its original transparency, white lettering and gold emblem work on the black footer. The supplied Drum JPEG's textured background is removed for the footer image. Both images are the only visible contents of their links: `https://www.thedrum.com/profile/tomlcollective/validation` and `https://www.fastcompany.com/user/virtyt-pula` respectively. The Journal subscription destination stays unchanged, with its visible caption removed.
+
+One social navigation element is arranged alongside Back to top on desktop and centred immediately above the marquee on mobile. Equal widths and native image proportions keep the three graphics aligned. The short-screen stack fits the original newsletter/caption footprint plus the space reclaimed by bringing socials closer to the marquee. The former caption line height contributes `0.0588 × 1.3` of its width and its image contributes `1 / 3.5`, totalling approximately `0.362154`; this retains the original natural footer height without a fixed-height crop or an inner scroll area.
+
+The baseline and updated measurements are in ignored `artifacts/footer-recognition/`. The 20-viewport comparison found unchanged footer heights, no overlap with contact text and no horizontal overflow. The existing footer browser check is updated for the three links, absent caption, equal image widths and responsive social placement.
+
 Reviewed only [Wonder Vision's homepage](https://www.wonder-vision.com/): the rendered desktop and phone page, complete homepage HTML, theme CSS and the relevant first-party modules decoded from the public Webpack bundle. The bundle exposes `header.js`, `video.js`, `pushBeyondReality.js`, `moreMenu.js`, `footer.js`, `breakpoints.js` and its initialization in `app.js`.
 
 | Source component | Observed implementation | TOML adaptation |

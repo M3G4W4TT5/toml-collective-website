@@ -80,34 +80,60 @@ const socials = [
   </div>
   <div class="landing-footer-lower">
     <div class="landing-footer-connections landing-container">
-      <a
-        class="landing-footer-newsletter"
-        href="https://www.tomljournal.com/subscribe"
-        aria-label="Subscribe to our newsletter on TOML Journal"
-      >
-        <span>SUBSCRIBE TO OUR NEWSLETTER</span>
-        <picture>
-          <source
-            media="(prefers-reduced-motion: reduce)"
-            srcset="/media/tomljournal-logo-still.webp"
-          />
+      <div class="landing-footer-features">
+        <a
+          class="landing-footer-newsletter landing-footer-feature"
+          href="https://www.tomljournal.com/subscribe"
+          aria-label="Subscribe to our newsletter on TOML Journal"
+        >
+          <picture>
+            <source
+              media="(prefers-reduced-motion: reduce)"
+              srcset="/media/tomljournal-logo-still-cropped.webp"
+            />
+            <img
+              src="/media/tomljournal-logo-animation-cropped.webp"
+              alt=""
+              width="391"
+              height="173"
+              loading="lazy"
+              decoding="async"
+            />
+          </picture>
+        </a>
+        <a
+          class="landing-footer-feature landing-footer-drum"
+          href="https://www.thedrum.com/profile/tomlcollective/validation"
+          aria-label="TOML Collective on The Drum Recommends"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <img
-            src="/media/tomljournal-logo-animation.gif"
-            alt=""
-            width="800"
-            height="450"
+            src="/media/drum-recommended-transparent.png"
+            alt="The Drum Recommended"
+            width="1350"
+            height="302"
             loading="lazy"
             decoding="async"
           />
-        </picture>
-      </a>
-      <nav class="landing-footer-social" aria-label="Social media">
-        {socials.map(({ label, href }) => (
-          <a href={href} target="_blank" rel="noopener noreferrer">
-            {label}
-          </a>
-        ))}
-      </nav>
+        </a>
+        <a
+          class="landing-footer-feature landing-footer-impact"
+          href="https://www.fastcompany.com/user/virtyt-pula"
+          aria-label="Virtyt Pula — Fast Company Impact Council member"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <img
+            src="/media/fast-company-impact.png"
+            alt="Fast Company Impact Council"
+            width="676"
+            height="115"
+            loading="lazy"
+            decoding="async"
+          />
+        </a>
+      </div>
     </div>
     <div
       class="landing-footer-marquee"
@@ -128,9 +154,18 @@ const socials = [
       ))}
     </div>
     <div class="landing-footer-legal landing-container">
-      <a class="landing-footer-back" href="#top">
-        <Fragment set:html={arrowUp} /> Back to top
-      </a>
+      <div class="landing-footer-legal-start">
+        <a class="landing-footer-back" href="#top">
+          <Fragment set:html={arrowUp} /> Back to top
+        </a>
+        <nav class="landing-footer-social" aria-label="Social media">
+          {socials.map(({ label, href }) => (
+            <a href={href} target="_blank" rel="noopener noreferrer">
+              {label}
+            </a>
+          ))}
+        </nav>
+      </div>
       <div class="landing-footer-policies">
         <span>© {new Date().getFullYear()} TOML Collective</span>
         <nav aria-label="Legal">

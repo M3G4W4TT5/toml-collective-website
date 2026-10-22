@@ -1,5 +1,13 @@
 # TOML Collective website
 
+## Footer recognition stack — 22 October 2026, publication approved
+
+- Requested footer changes: remove the visible newsletter caption; stack the Journal animation, supplied Drum logo and supplied Fast Company Impact Council image; move desktop socials beside Back to top and centre mobile socials directly above the marquee.
+- The supplied Fast Company PNG is already transparent, with white lettering and a gold emblem. It remains unchanged and links to Virtyt Pula's supplied profile. The Drum link uses the supplied validation URL. No additional visible captions or controls are added.
+- The user approved direct pixel background removal for the Drum artwork. The final transparent PNG preserves the original JPEG's RGB pixels, adds an opacity mask and trims empty canvas; it replaces the provisional generated cutout.
+- The stack uses equal widths and each asset’s native proportions. The Journal animation is losslessly cropped across all 176 source frames to 391 × 173 pixels, preserving its complete motion and 7.04-second loop while filling the same width as the recognition images. Short-screen sizes reuse the original newsletter/caption and marquee-spacing footprint. Twenty before/after viewport measurements preserve the footer height exactly, including phones and short landscape screens; no contact overlap or horizontal overflow remains.
+- The user approved the desktop stack and authorized GitHub push and deployment after balancing the mobile spacing. Mobile places the finished Journal-to-Impact artwork midway between the address block and social links, with up to 20px between logos and preserved room for the animation's early frames. Desktop image rectangles are unchanged at all measured sizes.
+
 ## Journal and House cards — 22 October 2026
 
 - **Caption revision — publication approved:** descriptions now sit below the media on the white page; white title boxes fit their titles at the lower left. Title sizes are unchanged; descriptions are slightly larger (17–24px), remain smaller than the titles and retain the card width. The user approved the local preview and authorized pushing/deploying this revision after shortening the Journal description to “Our editorial and R&D platform on creativity, branding, AI, design and culture.”
