@@ -4,7 +4,9 @@ Route: `/landing-page-draft`. This explicitly unindexed draft contains the homep
 
 ## Journal and House of TOML — 22 October 2026
 
-`LandingCulture.astro`, `landing-culture.css` and `landing-culture.ts` add the requested two-card section between the contact invitation and Instagram. Journal appears on the left, House on the right, with two columns from 768px and a stacked phone layout. The white inset captions, black FK Grotesk text and rectangular media follow the existing landing draft. The supplied screenshots are copy references only; the fuller second screenshot descriptions are reproduced verbatim.
+Approved caption refinement (push/deployment authorized): white boxes now contain only the titles, fit their text and remain inset at the bottom left. Descriptions sit 20px below each media card directly on the white page. Title sizes retain their previous responsive values. Descriptions use `clamp(1.0625rem, 1.55vw, 1.5rem)` (17–24px), remain smaller than the titles and retain the same card-width text area.
+
+`LandingCulture.astro`, `landing-culture.css` and `landing-culture.ts` add the requested two-card section between the contact invitation and Instagram. Journal appears on the left, House on the right, with two columns from 768px and a stacked phone layout. The white inset captions, black FK Grotesk text and rectangular media follow the existing landing draft. The supplied screenshots are copy references only; House retains the fuller second screenshot description. Journal uses the final approved sentence: “Our editorial and R&D platform on creativity, branding, AI, design and culture.”
 
 Desktop outer gutters are 5.5vw (bounded between 40px and 128px), the card gap is 3vw (32–64px), and the section is capped at 1760px. Media zooms to 1.05 over 700ms, half the existing Selected Work scale increase. The Journal destination remains `https://www.tomljournal.com`; House uses `/about/house-of-toml/`.
 

@@ -56,6 +56,14 @@ try {
         .find((node) => node.tagName === "SECTION")?.id,
       cards: [...el.querySelectorAll(".landing-culture-card")].map((card) => ({
         box: card.getBoundingClientRect().toJSON(),
+        media: card
+          .querySelector(".landing-culture-link")
+          .getBoundingClientRect()
+          .toJSON(),
+        description: card
+          .querySelector(".landing-culture-description")
+          .getBoundingClientRect()
+          .toJSON(),
         caption: card
           .querySelector(".landing-culture-caption")
           .getBoundingClientRect()
@@ -71,13 +79,16 @@ try {
       assert.equal(left.box.top, right.box.top);
       assert.ok(right.box.left - left.box.right >= 31);
     } else assert.ok(right.box.top - left.box.bottom >= 31);
-    for (const { box, caption } of layout.cards) {
+    for (const { box, media, caption, description } of layout.cards) {
       assert.ok(caption.top > box.top + 60);
       assert.ok(
-        caption.bottom < box.bottom &&
+        caption.bottom < media.bottom &&
           caption.left > box.left &&
           caption.right < box.right,
       );
+      assert.ok(description.top >= media.bottom + 19);
+      assert.equal(description.left, media.left);
+      assert.ok(caption.width < media.width - 40);
     }
     result.views.push(layout);
     if ([390, 820, 1440].includes(width)) {

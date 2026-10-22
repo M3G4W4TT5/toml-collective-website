@@ -2,9 +2,11 @@
 
 ## Journal and House cards — 22 October 2026
 
+- **Caption revision — publication approved:** descriptions now sit below the media on the white page; white title boxes fit their titles at the lower left. Title sizes are unchanged; descriptions are slightly larger (17–24px), remain smaller than the titles and retain the card width. The user approved the local preview and authorized pushing/deploying this revision after shortening the Journal description to “Our editorial and R&D platform on creativity, branding, AI, design and culture.”
+
 - The user authorized adding TOML Journal and House of TOML between the contact invitation and Instagram on `/landing-page-draft/`, followed by a GitHub push and deployment to the existing Worker site.
 - Two prominent cards sit side by side from 768px and stack below that width. The draft's white inset captions, black typography and 700ms media zoom are retained; the new zoom is 1.05 versus Selected Work's 1.1.
-- Descriptions use the supplied second screenshot verbatim. Journal links to the existing external Journal destination; House links to the existing House page. The screenshots supply copy only.
+- House uses the supplied second screenshot description; Journal uses the user’s shortened sentence. Journal links to the existing external Journal destination; House links to the existing House page. The screenshots supply copy only.
 - The supplied Journal video and all eight House photographs are local assets. The separate `hot_logo.svg` is excluded. Media pauses offscreen/when the tab is hidden, has no visible playback controls, and defaults to stills with reduced motion. Sources and verification are in `docs/landing-page-draft.md`.
 
 ## Current local increment — landing page draft, 21 October 2026
