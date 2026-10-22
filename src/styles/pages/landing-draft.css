@@ -35,7 +35,7 @@
     --landing-services-size: 1.125rem;
     --landing-reel-edge: 1.25rem;
     isolation: isolate;
-    background: #fff;
+    background: #f2f0ef;
     color: #000;
     font-family: var(--font-reference);
     -webkit-font-smoothing: antialiased;
@@ -61,7 +61,7 @@
     position: relative;
     z-index: 1;
     display: flow-root;
-    background: #fff;
+    background: #f2f0ef;
   }
   .landing-draft[data-hero-covered="true"] .landing-hero-heading {
     visibility: hidden;
@@ -75,7 +75,7 @@
     display: flex;
     justify-content: space-between;
     gap: 1.25rem;
-    background: #fff;
+    background: #f2f0ef;
     transition:
       opacity 500ms,
       background-color 500ms,
@@ -355,7 +355,7 @@
     display: flow-root;
     position: relative;
     z-index: 1;
-    background: #fff;
+    background: #f2f0ef;
   }
   .landing-reel {
     position: relative;
