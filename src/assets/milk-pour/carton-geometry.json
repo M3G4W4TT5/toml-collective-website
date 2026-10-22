@@ -1,0 +1,64 @@
+{
+  "source": "../assets/carton-approved.svg",
+  "localViewBox": [0, 0, 92, 141],
+  "localPivot": [46, 70],
+  "openingCentreLocal": [34.389, 34.198],
+  "openingEllipseMatrix": {
+    "a": 6.745,
+    "b": 2.09,
+    "c": 6.1348,
+    "d": -8.1797,
+    "e": 34.389,
+    "f": 34.198
+  },
+  "openingCircleRadii": {
+    "outer": 1,
+    "whiteRing": 0.81,
+    "darkOpening": 0.59
+  },
+  "physicalAxialTurnAlreadyBakedDegrees": -90,
+  "doNotApplyAxialTurnAgain": true,
+  "transformOrder": "translate(cx cy) rotate(screenAngleDegrees) scale(uniformScale) translate(-46 -70)",
+  "screenCoordinates": "x rightwards; y downwards; CSS/SVG angle convention",
+  "originalFrameCartonMarkupSha256": "88447429844d1b77805adce38aba0eb1474bf87bf1c15682079475762509ab99",
+  "geometricAttributesSha256": "ec9d3eea001cdebd9649798559e1058c8f04fbe025b4ab6d02d9cf6534b70b73",
+  "approvedSvgSha256": "0580092d1647b618050338a55f2080599e67743527770e5a5eee3009a01a644e",
+  "maskSvgSha256": "876daa54b43f1b03751f6e3b8c1209f5e30ae37e0a739edd1bd0fb301454c082",
+  "geometryUnchangedByMaskPaintConversion": true,
+  "referenceCanvas": [1920, 1080],
+  "referencePoses": [
+    {
+      "id": "01-pour-start",
+      "cartonCentre": [1110, 285],
+      "cartonRotationDegrees": -38,
+      "cartonUniformScale": 2.25,
+      "fillHeightPercentApprox": 9.5
+    },
+    {
+      "id": "02-midpoint",
+      "cartonCentre": [1110, 285],
+      "cartonRotationDegrees": -65,
+      "cartonUniformScale": 2.25,
+      "fillHeightPercentApprox": 47.2
+    },
+    {
+      "id": "03-near-end",
+      "cartonCentre": [1110, 20],
+      "cartonRotationDegrees": -75,
+      "cartonUniformScale": 2.25,
+      "fillHeightPercentApprox": 83
+    },
+    {
+      "id": "04-stream-only",
+      "cartonCentre": [1110, -190],
+      "cartonRotationDegrees": -75,
+      "cartonUniformScale": 2.25,
+      "fillHeightPercentApprox": 94.1
+    },
+    {
+      "id": "05-fully-revealed",
+      "fillHeightPercentApprox": 100
+    }
+  ],
+  "invariant": "Keep all supplied paths, polygon points, local matrices, circles, clip geometry, line joins and stroke widths. Only parent screen position, uniform scale and screen rotation may change."
+}

@@ -10,6 +10,7 @@ import LandingServices from "../components/landing/LandingServices.astro";
 import LandingClients from "../components/landing/LandingClients.astro";
 import LandingTestimonials from "../components/landing/LandingTestimonials.astro";
 import LandingCulture from "../components/landing/LandingCulture.astro";
+import LandingMilkPour from "../components/milk-pour/LandingMilkPour";
 import {
   getHomepageDesign,
   getLatestWebsiteProjects,
@@ -35,6 +36,39 @@ const [{ selectedWork }, latestProjects] = await Promise.all([
 >
   <script slot="head" is:inline>
     document.documentElement.classList.add("landing-animations");
+    (() => {
+      try {
+        const key = "toml:landing-milk:seen";
+        const seen = sessionStorage.getItem(key);
+        sessionStorage.setItem(key, "1");
+        const navigation = performance.getEntriesByType("navigation")[0];
+        const internal =
+          document.referrer &&
+          new URL(document.referrer).origin === location.origin;
+        if (
+          seen ||
+          internal ||
+          navigation?.type !== "navigate" ||
+          matchMedia("(prefers-reduced-motion: reduce)").matches
+        )
+          return;
+        document.documentElement.setAttribute("data-landing-milk-pending", "");
+        const reveal = () =>
+          document.documentElement.removeAttribute("data-landing-milk-pending");
+        const watchdog = window.setTimeout(reveal, 6000);
+        document.addEventListener(
+          "milk-pour:ready",
+          () => {
+            window.clearTimeout(watchdog);
+            reveal();
+          },
+          { once: true },
+        );
+        window.addEventListener("pagehide", reveal, { once: true });
+      } catch {
+        // Unavailable session storage or scripting leaves the page revealed.
+      }
+    })();
   </script>
   <link
     slot="head"
@@ -128,6 +162,7 @@ const [{ selectedWork }, latestProjects] = await Promise.all([
     </main>
     <LandingFooter />
   </div>
+  <LandingMilkPour client:load />
 </BaseLayout>
 
 <script>

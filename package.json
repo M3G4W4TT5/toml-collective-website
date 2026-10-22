@@ -23,7 +23,9 @@
     "prebuild": "npm run images:prepare",
     "format": "prettier --write src scripts",
     "format:check": "prettier --check src scripts",
-    "test:browser": "node scripts/qa-layouts.mjs"
+    "test:browser": "node scripts/qa-layouts.mjs",
+    "test:browser:milk-pour": "node scripts/qa-milk-pour.mjs",
+    "test:browser:landing-milk-pour": "node scripts/qa-landing-milk-pour.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.1.0",

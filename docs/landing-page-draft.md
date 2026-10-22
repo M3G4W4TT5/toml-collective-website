@@ -1,6 +1,12 @@
 # Landing page draft — 21 October 2026
 
-Route: `/landing-page-draft`. This explicitly unindexed draft contains the homepage through Selected Work, clients/partners, services, testimonials, the contact invitation, Journal/House cards, Instagram and the full-screen footer. The existing `/` route remains the V4 implementation. The latest request lifts the prior publication hold and authorizes committing/pushing this accumulated draft and deploying through the existing Workers pipelines.
+Route: `/landing-page-draft`. This explicitly unindexed draft contains the homepage through Selected Work, clients/partners, services, testimonials, the contact invitation, Journal/House cards, Instagram and the full-screen footer. The existing `/` route remains the V4 implementation. The user approved the new milk-pour integration and authorized pushing and deploying it, together with the standalone prototype, to the existing primary and preview Worker sites.
+
+## Milk-pour entrance — 22 October 2026, publication authorized
+
+The approved prototype animation now runs on this draft at 1.5×, with the real page revealed during the pour. `LandingMilkPour.tsx` includes only the decorative overlay, with no prototype controls or sample content. Its fixed viewport positioning and `pointer-events: none` allow normal scrolling and interaction throughout.
+
+It runs once per tab session on a direct/external first entry. Internal navigation, reloads and history return skip the effect. Reduced motion, unavailable session storage, no JavaScript and hydration failure leave the page accessible. The original homepage is unchanged. See `docs/milk-pour-prototype.md` for lifecycle details and the dedicated browser checks. The later explicit publication request supersedes the initial local-only boundary.
 
 ## Journal and House of TOML — 22 October 2026
 

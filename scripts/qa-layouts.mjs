@@ -14,7 +14,13 @@ const out = path.join(root, "artifacts/refactor-qa");
 await mkdir(path.join(out, "screenshots"), { recursive: true });
 const files = await readdir(path.join(root, "dist"), { recursive: true });
 const routes = files
-  .filter((file) => file.endsWith(".html") && !file.startsWith("journal/"))
+  // The standalone motion harness has no site navigation; it has its own suite.
+  .filter(
+    (file) =>
+      file.endsWith(".html") &&
+      !file.startsWith("journal/") &&
+      !file.startsWith("milk-pour-prototype/"),
+  )
   .map((file) => "/" + file.replace(/index\.html$/, ""));
 const representative = [
   "/",

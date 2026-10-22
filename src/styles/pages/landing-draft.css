@@ -1,6 +1,25 @@
 @import "../layers.css";
 
 @layer pages {
+  html[data-landing-milk-pending]::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: #000;
+    pointer-events: none;
+    animation: landing-milk-fail-open 0s 6s forwards;
+  }
+  @keyframes landing-milk-fail-open {
+    to {
+      visibility: hidden;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html[data-landing-milk-pending]::after {
+      display: none;
+    }
+  }
   .landing-draft {
     --landing-gutter: 1.25rem;
     --landing-header-gutter: 1.25rem;

@@ -1,0 +1,264 @@
+@import "../layers.css";
+@import "../theme.css";
+
+@layer pages {
+  body:has(.milk-prototype) {
+    margin: 0;
+    background: white;
+  }
+  .milk-prototype {
+    font-family: var(--font-reference);
+    color: black;
+    min-height: 100svh;
+  }
+  .milk-prototype *,
+  .milk-prototype *::before,
+  .milk-prototype *::after {
+    box-sizing: border-box;
+  }
+  .milk-underlay {
+    position: fixed;
+    inset: 0;
+    background: white;
+  }
+  .milk-prototype[data-background="checkerboard"] .milk-underlay {
+    background-color: #fff;
+    background-image: conic-gradient(
+      #c4c4c4 25%,
+      #fff 0 50%,
+      #c4c4c4 0 75%,
+      #fff 0
+    );
+    background-size: 48px 48px;
+  }
+  .milk-prototype[data-background="colour"] .milk-underlay {
+    background: #2448ff;
+  }
+  .milk-prototype[data-background="colour"] .milk-sample {
+    color: white;
+  }
+  .milk-sample {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100svh;
+    padding: clamp(24px, 4vw, 64px);
+    padding-bottom: 270px;
+  }
+  .milk-prototype[data-revealed="false"] .milk-sample {
+    visibility: hidden;
+  }
+  .milk-sample a {
+    color: inherit;
+    text-decoration: none;
+  }
+  .milk-wordmark {
+    font: 700 clamp(26px, 3vw, 44px)/1 var(--font-logo);
+    align-self: flex-start;
+  }
+  .milk-sample-body {
+    margin-block: clamp(60px, 11vh, 140px) 48px;
+  }
+  .milk-eyebrow,
+  .milk-sample-note {
+    font-size: 13px;
+  }
+  .milk-eyebrow {
+    margin: 0 0 24px;
+  }
+  .milk-sample h1 {
+    font-size: clamp(52px, 8vw, 144px);
+    font-weight: 400;
+    letter-spacing: -0.065em;
+    line-height: 0.96;
+    margin: 0 0 28px;
+  }
+  .milk-sample-body > p:not(.milk-eyebrow) {
+    font-size: clamp(18px, 2vw, 26px);
+  }
+  .milk-sample-link {
+    display: inline-block;
+    border-bottom: 1px solid currentColor;
+    padding-block: 8px;
+  }
+  .milk-sample-note {
+    margin-top: auto;
+  }
+  .milk-controls {
+    position: fixed;
+    z-index: 20;
+    bottom: max(16px, env(safe-area-inset-bottom));
+    left: 16px;
+    width: min(358px, calc(100% - 32px));
+    padding: 16px;
+    border: 1px solid #b8b8b8;
+    background: #f5f5f5;
+    color: #111;
+    font: 13px/1.3 var(--font-reference);
+  }
+  .milk-controls-title {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 0;
+    cursor: pointer;
+    list-style: none;
+  }
+  .milk-controls-title::-webkit-details-marker {
+    display: none;
+  }
+  .milk-controls[open] .milk-controls-title {
+    margin-bottom: 14px;
+  }
+  .milk-controls-disclosure {
+    text-decoration: underline;
+  }
+  .milk-controls-title strong {
+    font-size: 15px;
+  }
+  .milk-controls-title span {
+    color: #555;
+    font-size: 12px;
+  }
+  .milk-controls-title output {
+    margin-left: auto;
+    font-variant-numeric: tabular-nums;
+  }
+  .milk-transport {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .milk-controls button,
+  .milk-controls select {
+    font: inherit;
+    color: inherit;
+    background: white;
+    border: 1px solid #aaa;
+    border-radius: 0;
+    min-height: 36px;
+  }
+  .milk-controls button {
+    padding: 6px 14px;
+    cursor: pointer;
+  }
+  .milk-controls button:hover {
+    background: #e6e6e6;
+  }
+  .milk-controls button:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
+  .milk-controls select {
+    padding: 4px 8px;
+  }
+  .milk-speed {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+  }
+  .milk-scrubber {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-block: 12px;
+  }
+  .milk-scrubber input {
+    flex: 1;
+    min-width: 0;
+    accent-color: black;
+    height: 24px;
+    margin: 0;
+    cursor: pointer;
+  }
+  .milk-debug {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+  }
+  .milk-debug > label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .milk-content-toggle {
+    font-size: 12px;
+    min-height: 28px;
+  }
+  .milk-content-toggle input {
+    accent-color: black;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+  }
+  .milk-prototype :focus-visible {
+    outline: 3px solid #ff532f;
+    outline-offset: 3px;
+  }
+  .milk-boot {
+    display: none;
+  }
+  html[data-milk-boot] .milk-boot {
+    display: grid;
+    place-items: start center;
+    position: fixed;
+    inset: 0;
+    z-index: 15;
+    background: black;
+    pointer-events: none;
+    animation: milk-fail-open 0s 6s forwards;
+  }
+  html[data-milk-boot] .milk-boot img {
+    position: absolute;
+    left: 57.8125%;
+    top: 26.4%;
+    width: min(10.78125vw, 19.167vh);
+    height: auto;
+    transform: translate(-50%, -49.65%) rotate(-22deg);
+  }
+  html[data-milk-boot] .milk-sample {
+    visibility: hidden;
+  }
+  @keyframes milk-fail-open {
+    to {
+      visibility: hidden;
+    }
+  }
+  @media (max-width: 767px) {
+    html[data-milk-boot] .milk-boot img {
+      left: 61%;
+      width: min(30.667vw, 19.167vh);
+    }
+    .milk-controls {
+      padding: 12px;
+    }
+    .milk-sample {
+      padding-bottom: 280px;
+    }
+  }
+  @media (max-height: 500px) and (min-width: 600px) {
+    .milk-controls {
+      left: auto;
+      right: 16px;
+    }
+    .milk-sample {
+      padding-bottom: 36px;
+      padding-right: 390px;
+    }
+    .milk-sample-body {
+      margin-block: 28px;
+    }
+    .milk-sample h1 {
+      font-size: 54px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html[data-milk-boot] .milk-boot {
+      display: none;
+    }
+    html[data-milk-boot] .milk-sample {
+      visibility: visible;
+    }
+  }
+}

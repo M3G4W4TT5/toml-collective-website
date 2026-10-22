@@ -1,5 +1,18 @@
 # TOML Collective website
 
+## Milk-pour landing integration — 22 October 2026, publication authorized
+
+- The user approved the refined animation and authorized applying it to `/landing-page-draft/`. It runs at 1.5× speed (about 1.67 seconds), revealing the real, interactive landing page through the existing cutouts. The overlay stays fixed to the viewport while the page scrolls. Only the animation is included; prototype controls and sample content stay on their separate route.
+- It plays once per tab session on a direct or external first entry. Same-origin navigation, reloads and history traversal skip the entrance. A session flag is set before paint; reduced motion, unavailable storage and failed hydration leave the page accessible. Leaving during playback finishes the effect before a possible back/forward-cache snapshot.
+- After approving the local result, the user explicitly authorized pushing to GitHub and deploying both `/landing-page-draft/` and `/milk-pour-prototype/` to the primary and preview Worker sites. The original `/` homepage remains unchanged. Both existing Workers Builds pipelines track `main`; their target account, repository and branch were reverified before release. See `docs/milk-pour-prototype.md` and `design-qa.md` for implementation and validation.
+
+## Milk-pour prototype — 22 October 2026, local review only
+
+- Added the isolated `/milk-pour-prototype/` route from the supplied ZIP handoff, with the exact approved carton SVGs, a reusable transparent SVG mask effect and separate React controls.
+- The first impact is largest. The final supplied crop guides a low splash base with rounded outward splays and deep curved gaps. These splays and droplets settle away by mid-pour, leaving a solid stream with a broad curved join into the still-moving waterline. Both crest and stream joins follow and overlap the local surface, correcting the flat ledges identified during review.
+- White, checkerboard, cobalt and sample-content modes demonstrate genuine transparency. Replay, pause, scrub, speed, reduced-motion and failure fallbacks are scoped to this route. See `docs/milk-pour-prototype.md` and the latest section of `design-qa.md` for local evidence.
+- This initial increment authorized only the isolated prototype. The subsequent landing integration and approval to publish both routes are recorded above. The earlier publication approvals below apply to their named landing-page changes only.
+
 ## Footer recognition stack — 22 October 2026, publication approved
 
 - Requested footer changes: remove the visible newsletter caption; stack the Journal animation, supplied Drum logo and supplied Fast Company Impact Council image; move desktop socials beside Back to top and centre mobile socials directly above the marquee.

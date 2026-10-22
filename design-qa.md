@@ -1,3 +1,99 @@
+# Milk-pour landing integration — 22 October 2026, publication authorized
+
+final local result: passed
+
+Scope: the user approved the refined splash, requested integration into `/landing-page-draft/`, approved that local result, then authorized GitHub push and deployment of both the landing integration and `/milk-pour-prototype/` to the primary and preview Worker sites. Earlier local-only boundaries below are historical. The original homepage is unchanged.
+
+**Behavior:** `LandingMilkPour.tsx` uses the same approved artwork and scene at 1.5× (about 1.67 seconds), with no prototype controls or sample content. The real landing page remains active and visible through the cutouts. The effect is fixed to the viewport and does not intercept scrolling or clicks. A tab-session first-entry check runs before paint: direct/external first entry plays, internal navigation, reloads and history return skip. Leaving during playback finishes the effect before a possible cached restore. Reduced motion, unavailable storage and failed hydration leave the page accessible.
+
+**Visual review:** opened native 1920×1080 impact and scrolling captures and the 390×844 scrolling capture under `artifacts/landing-milk-pour/`. The actual reel and page copy are visible through the splash, stream and original carton panel cutouts. Scrolling moves that content while the effect's viewport bounds stay unchanged. Controls are absent. The approved low initial curls settle into the smooth mid-pour stream. The user reviewed the local draft and said the result looks good; no further visual change was requested.
+
+**Verification:** Astro/TypeScript checks have zero diagnostics; 24 unit tests, the 36-page site build, formatting and whitespace checks pass. Dedicated landing-effect checks pass at 1920×1080, 1366×768, 390×844, 360×800 and 844×390, plus seven behavior groups including real wheel scrolling, first internal entry, reload, interrupted navigation/history, reduced motion, blocked storage, no JavaScript and blocked hydration. Measured real playback speed is 1.489–1.501×. The original prototype suite still passes 40 frames and eight interaction groups. Existing landing checks pass 12 widths and 14 interaction groups; full-site regression passes 142 views and eight interaction checks. No page errors were reported. This is Chromium desktop/emulation evidence, not physical iOS/Safari coverage.
+
+**Release:** the GitHub repository, `main` head and both existing Workers Builds triggers were reverified against the TOML Collective account. Both pipelines build this repository's `main` and deploy to their existing names. Deployment revision, traffic and hosted browser results are checked separately from the local evidence; release records are retained under ignored `artifacts/landing-milk-pour/`.
+
+---
+
+# Milk-pour initial splash refinement — 22 October 2026, local only
+
+final result: passed
+
+Scope: refine the first impact using the user's supplied milk-splash references and final tight screenshot crop. The crop establishes a low base, rounded outward curls and deep curved gaps beside the stream. It supersedes the broad raised crown from the preceding iteration. The later smooth stream, rolling waterline, exact carton artwork and isolated route are retained.
+
+**Source and comparison:** the JPG references, splash collection and final 193×76 screenshot crop were reviewed inline in the conversation. Their Windows paths are not claimed as locally accessible. Reference color, shading and artwork are not runtime assets. Opened `artifacts/milk-pour-prototype/initial-splash/hill-to-low-splash.png`: the preceding hill-shaped iteration on the left and the revised splash on the right, each an equal native 560×290 crop from a 1920×1080 DPR 1 browser frame at 21.5% progress, separated by 20px. This compares silhouette and waterline continuity, not source pixels or reference shading.
+
+**Findings and correction:** the first ribbon iteration was too thin and stalk-like; increasing its body produced the mound the user rejected. The final contour has a low connecting base, short thick curls, deeper rounded valleys and fewer rounded droplets. It grows and folds at spatially varying rates, then settles away by 49% progress. A further frame review found angled joins where a contour anchored to the impact height crossed the moving wave. Anchoring the contour to the surface at each horizontal position removed those exposed edges. Opened the final desktop/phone peak captures and the six-frame `initial-splash/initial-motion.png` sequence at 17%, 19%, 21.5%, 24%, 28% and 35%. No actionable P0/P1/P2 finding remains in this scoped comparison.
+
+**Fidelity surfaces:** genuine mask transparency and original carton hashes pass. The phone's existing collapsed controls remain clear of the splash. Font roles, sample content, page layout and controls are unchanged. The initial splash is largest; late frames retain the approved solid stream and curved surface join. Opened the regenerated `playback-contact-sheet.png` from the final run's 14 real RAF captures to verify the full transition.
+
+**Verification:** 24 unit tests passed, including artwork identity, opening attachment, continuous carton clearance, initial-impact dominance, settling and submerged closing edges. Astro/TypeScript checks reported zero errors, warnings or hints; the 36-page build, formatting and whitespace checks passed. The dedicated Chromium 156 suite passed 40 frames over 1920×1080, 1366×768, 390×844, 360×800 and 844×390, with eight interaction groups and no page/console errors. These are desktop browser emulations, not physical Safari/iOS tests.
+
+The local preview remains running at `http://localhost:4322/milk-pour-prototype/`; an app browser open was requested. No push, deployment, publication or landing-page integration.
+
+---
+
+# Milk-pour settling refinement — 22 October 2026, local only
+
+final result: passed
+
+Scope: the user's follow-up asks for initial splays that settle as the surface rises, followed by a solid stream merging smoothly into the still-moving surface. This supersedes the earlier instruction to keep noticeable crests and droplets throughout the pour. Carton artwork, route, total duration, controls and transparent composition remain unchanged.
+
+**Source and comparison:** reviewed the four supplied JPGs in the conversation. Their broad rounded initial fingers and the final pouring-jug image's curved stream-to-wave join are the target. The final image is copied only into ignored `artifacts/milk-pour-prototype/refinement/user-stream-reference.jpg`. The three Windows-listed images were viewed inline; no local-path access to them is claimed. Online image research preceded these attachments; the flat-fill Serg Ltd Lottie example was explicitly rejected by the user and is not a surface reference.
+
+Opened `refinement/reference-stream-comparison-final.png`, with the supplied stream-junction crop on the left and the browser-rendered 50% frame on the right. Source crop: 235×175, displayed at 470×350. Implementation crop: 265×195 from a native 1920×1080 / DPR 1 browser frame, displayed at 476×350; comparison is of curvature and continuity, not a pixel clone of the jug or blue palette. Opened `refinement/midpoint-before-after.png`, two equal 550×250 native crops from the old and revised 50% state, with a 20px divider. The persistent paired horns are gone and a broad curved foot joins the rolling surface.
+
+**Comparison history:** the first settling revision removed the late horns but retained a tight lower corner. Comparing it against the supplied jug image identified a P2 mismatch: the foot did not roll broadly enough into the surface. Increased the lower curve's radius, reduced its immersion depth to preserve the visible curve, and aligned the outgoing handles with the local surface tangent. Recaptured the final comparison above; no actionable P0/P1/P2 finding remains.
+
+**Motion:** the first burst is retained; the envelope then decreases monotonically and collapses fully by 49% progress. Droplet launches are restricted to the initial burst and short settling phase. Later frames contain no crest or droplet paths, while the attached solid stream and pre-existing rolling waterline remain animated. The lower stream curves merge into the local wave with submerged closing edges, retaining the previous seam fix. Reviewed native phone/desktop captures and the six-frame settling study in `refinement/settling-sequence.png`; final full-motion captures and `browser-results.json` are in `artifacts/milk-pour-prototype/`.
+
+**Fidelity surfaces:** font roles, sample copy, spacing, responsive framing and control behavior are unchanged. The effect remains flat black with genuine transparent openings; reference blue, shading, lettering and jug artwork are not incorporated. Original carton vector hashes still pass. Initial fingers remain rounded and expressive; the later rounded join follows the user's supplied direction without flattening the waterline.
+
+**Verification:** 24 unit tests, including a new monotonic settling/no-late-spray/retained-waves contract; Astro/TypeScript checks with zero diagnostics; 36-page static build; formatting and whitespace checks. The dedicated Chromium 156 suite passed 40 frames at 1920×1080, 1366×768, 390×844, 360×800 and 844×390, plus all eight interaction groups and real RAF playback. No page or console errors. Existing website templates were not changed in this refinement. No physical Safari/iOS or device-performance claim is made.
+
+The foreground local preview remains running on port 4322. No push, deployment, publication or landing-page integration.
+
+---
+
+# Milk-pour prototype — 22 October 2026, local only
+
+final result: passed
+
+Scope: isolated `/milk-pour-prototype/`, with exact supplied artwork and genuine transparent cutouts. No landing-page installation or publication. The existing reports and their earlier publication scopes below are preserved.
+
+## Visual truth and comparison evidence
+
+- Source: `/tmp/toml-milk-pour/milk-pour-prototype-handoff/references/01-pour-start.png`, `02-midpoint.png`, `03-near-end.png`, `04-stream-only.png`, `05-fully-revealed.png`, and `assets/carton-approved.svg`; extracted from the user's attachment. All 25 manifest files verified with the supplied script.
+- Implementation: `artifacts/milk-pour-prototype/{1920x1080,1366x768,390x844,360x800,844x390}-{22,50,83,94,100}.png`. Source desktop frames and browser captures are 1920×1080 native pixels at CSS 1920×1080, DPR 1. Equal 640×360 resampling places source left and implementation right in `comparison-final.png`, opened together for the final comparison. Phone and landscape captures remain native pixels at DPR 1; the source supplies no mobile layout.
+- Focused artwork comparison: `carton-comparison.png`, two native 310×300 crops from the early source and browser frame with a 20px separator. Also opened the approved vector rendered at 276×423. The supplied SVG files remain byte-exact and the original paths, panels, clips, circles, matrices and strokes are retained. The live stream overlaps the opening as required.
+- Real RAF playback: `playback-00.png` through `playback-13.png` and `playback-contact-sheet.png`. The recorded progress increases through the full 2.5-second animation to completion; these are wall-clock playback captures, not seeks. Reviewed the changing crest asymmetry, finite droplet arcs, upward exit and stream-only ending.
+- Transparent underlays: `transparency-cobalt.png`, `transparency-checkerboard.png` and `transparency-content.png`. Browser pixel checks confirm cobalt `(36,72,255)` through liquid and carton panels, actual white/gray checkerboard through liquid, and black in the retained overlay. Completion hides the SVG and restores content interaction.
+
+## Findings and comparison history
+
+1. **[P2, fixed] Phone controls obscured the first impact.** Early `390x844-22.png` captured an expanded bottom panel across the splash. The panel now collapses to a native, keyboard-accessible disclosure bar on fresh phone visits. Recaptured and opened the native phone frame: the initial fan and surface are visible, with controls reachable above the mask. Expanded controls were checked for viewport fit at all five sizes.
+2. **[P2, fixed after user review] Flat splash bases exposed ledges above the moving waterline.** `joins-before.png` shows six close-ups at progress 0.19, 0.22, 0.29, 0.39, 0.50 and 0.69. Crest paths closed at a shared impact height even where the local surface dipped lower. Both crests now return along the local surface tangent, their endpoints overlap the local waterline, and all crest/stream closing edges are submerged below the maximum surface bound. `joins-after.png` recaptures the same six moments and crop sizes; opened it and `comparison-final.png` after the fix. `joins-comparison.png` places equal-size before/after grids together. The exposed horizontal ledges are gone. A focused unit regression checks joins across 4,295 samples over the five viewports.
+
+No actionable P0/P1/P2 finding remains in the final comparison. The requested evolving splash shapes intentionally supersede the repeated reference silhouette. Continuous clearance can lift the carton slightly earlier than the stills. Mobile uses the same timeline with adapted uniform scale and fewer waves.
+
+## Required fidelity surfaces
+
+- **Typography:** the effect contains no added lettering or texture. Sample content and native controls use the repository's local FK Grotesk and Microgramma roles; native desktop, phone and short-landscape captures show readable, untruncated controls. Display wrapping belongs to the separate sample page, not the artwork.
+- **Spacing/layout:** reference desktop carton placement, uniform proportions, broad fill milestones and flat composition are retained. Controls are above the effect; expanded panels fit the tested viewports and phones default to the compact bar. No horizontal overflow or mask seams were observed. The carton stays above the conservative crest bound and is outside the viewport by 94% progress.
+- **Colors/tokens:** opaque black cover, real transparent openings and a white normal underlay reproduce the monochrome direction. Checkerboard/cobalt are intentional proof modes. Focus uses the existing accent token's color. No white liquid sheet, shading or textures were introduced.
+- **Asset quality:** original vectors render sharply without carton distortion. Exact-source hashes are tested. Mask coordinates follow actual viewport dimensions, use explicit luminance mode and per-instance IDs, and include overscan. The splash join correction removes the exposed flat bases.
+- **Copy/content:** the minimal sample page is labelled as a motion study; it is hidden and inert during normal playback and appears near completion. The source stills contain no other content to transcribe. No client facts, imagery or service claims were added.
+
+## Completed verification
+
+- Astro/TypeScript checks: zero errors/warnings/hints; 36-route static build; formatting and diff whitespace checks.
+- 23 unit tests, including exact artwork hashes, opening transforms, continuous clearance, deterministic changing scenes and submerged joins.
+- Dedicated Chromium 156 suite: 40 timeline frames across 1920×1080, 1366×768, 390×844, 360×800 and 844×390; eight interaction groups covering deterministic seeking/replay, transparency, resize/orientation, speed/pause/resume, real playback/completion, reduced motion, away/back navigation, no-JavaScript and failed hydration. Results: `artifacts/milk-pour-prototype/browser-results.json`.
+- Existing website suite: 142 views and eight interaction checks passed. Its normal-navigation assertions exclude this separate harness; the route has the dedicated suite above. No homepage/landing-page source changed.
+
+Remaining test boundary: desktop Chromium emulation, not physical iOS/Safari or a device performance certification. No hosted acceptance is claimed. The local foreground Astro preview remains running on port 4322; opening its prototype URL in the Codex browser panel was requested through the app tool.
+
+---
+
 # Landing draft corrections — 21 October 2026
 
 final result: passed
