@@ -94,7 +94,7 @@ The general square-marker instruction now applies to Services, Instagram and the
 
 ## Services
 
-Recreated the reference homepage's Our Services section from its live markup and ten responsive measurements. At 768px upward, the label occupies four columns and the list eight columns of a 12-column grid with 64px gaps. On phones the label precedes the full-width list with 24px spacing. The service list retains two columns on every size, with three rows in the supplied order: Strategy / Film & content; Brand identity / Motion; Campaigns / Digital experiences. Source type is 18/25/28/32/36/38/40px, with 1.5 leading, 8px vertical cell padding (12px from 1024px), black 1px bottom borders, and an 8px upward list offset from 1024px. Text wraps naturally inside its cell on narrow screens.
+Recreated the reference homepage's Our Services section from its live markup and ten responsive measurements. At 768px upward, the label occupies four columns and the list eight columns of a 12-column grid with 64px gaps. On phones the label precedes the full-width list with 24px spacing. The service list retains two columns on every size, with four rows in the supplied order: Content Production / CGI & VFX; Creative Strategy / Animation & Motion; Post-production / Brand & Design; Live-action Production / Social Media Strategy. The user confirmed eight services in four rows on 22 October 2026. Source type is 18/25/28/32/36/38/40px, with 1.5 leading, 8px vertical cell padding (12px from 1024px), black 1px bottom borders, and an 8px upward list offset from 1024px. Text wraps naturally inside its cell on narrow screens.
 
 The label reuses the reference heading size/weight/tracking and actual square SVG, using brand orange after the latest marker correction, with its 2px upward offset. The section's bottom margins are 60/110/145/180px across the source breakpoints. The requested “How we work” link is 24px below the list and aligned to its right edge; it reuses View all work's responsive link type and actual arrow SVG. Its normal `/work/` anchor reaches the existing work page, including in no-JavaScript mode. The existing 1500ms once-per-load fade and reduced-motion support apply. No new script, media, route, CMS fields or dependencies are introduced. Source captures, comparisons and checks are under ignored `artifacts/landing-services/`; the latest request authorizes publication.
 
@@ -133,3 +133,7 @@ TOML_QA_BASE_URL=http://127.0.0.1:4326 TOML_BROWSER_PATH=/opt/google/chrome/chro
 ```
 
 The `--ignore-lock` preview option avoids a stale local Astro daemon lock in the task environment; it does not change site access or indexing settings.
+
+## Copy update — 22 October 2026
+
+Replaced the two paragraphs below TELL YOUR STORY with the supplied creative and production partner copy, preserving its paragraph break. The existing services grid now displays the eight supplied entries in two columns and four rows, as confirmed by the user. Publication to GitHub and the existing TOML Collective Worker was explicitly requested.
