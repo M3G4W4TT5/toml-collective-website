@@ -1,0 +1,189 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import "../styles/site.css";
+import "../styles/pages/dynamic-scribbles.css";
+const services = [
+  "Content Production",
+  "CGI & VFX",
+  "Creative Strategy",
+  "Animation & Motion",
+  "Post-production",
+  "Brand & Design",
+  "Live-action Production",
+  "Social Media Strategy",
+];
+---
+
+<BaseLayout
+  title="Dynamic scribbles test | TOML Collective"
+  description="Responsive marker experiment."
+  noindex={true}
+>
+  <div class="scribble-test" data-scribble-test>
+    <header class="scribble-header">
+      <a href="/landing-page-draft/" aria-label="TOML landing draft">
+        TOML.
+      </a>
+      <span>MARKER STUDY / 01</span>
+      <span>PROTOTYPE</span>
+    </header>
+    <div class="scribble-workspace">
+      <aside class="scribble-panel" aria-label="Marker controls">
+        <h1>Dynamic scribbles</h1>
+        <p>Change the ink. Resize the page. Watch it follow the words.</p>
+        <form data-marker-controls>
+          <label>
+            Colour <input name="color" type="color" value="#ff532f" />
+          </label>
+          <label for="marker-thickness">
+            Thickness <output data-value="thickness">76%</output>
+          </label>
+          <input
+            id="marker-thickness"
+            name="thickness"
+            type="range"
+            min="10"
+            max="115"
+            value="76"
+          />
+          <label for="marker-position">
+            Vertical position <output data-value="position">58%</output>
+          </label>
+          <input
+            id="marker-position"
+            name="position"
+            type="range"
+            min="0"
+            max="110"
+            value="58"
+          />
+          <label for="marker-irregularity">
+            Irregularity <output data-value="irregularity">55%</output>
+          </label>
+          <input
+            id="marker-irregularity"
+            name="irregularity"
+            type="range"
+            min="0"
+            max="100"
+            value="55"
+          />
+          <label class="scribble-check">
+            <input name="joining" type="checkbox" checked /> Join the two
+            Services phrases
+          </label>
+          <label for="marker-speed">
+            Drawing speed <output data-value="speed">1×</output>
+          </label>
+          <input
+            id="marker-speed"
+            name="speed"
+            type="range"
+            min="0.25"
+            max="3"
+            step="0.25"
+            value="1"
+          />
+          <button type="button" data-marker-replay>
+            Replay marks <span aria-hidden="true">↻</span>
+          </button>
+        </form>
+        <p class="scribble-note">
+          Scroll to reveal each mark. Wrapped phrases follow every line. Reduced
+          motion shows the ink immediately.
+        </p>
+      </aside>
+      <main id="scribble-examples">
+        <section class="scribble-example scribble-hero">
+          <div class="scribble-caption">
+            <span>01 / SINGLE PHRASE</span>
+            <span>TEXT, THEN INK</span>
+          </div>
+          <div data-marker-surface>
+            <h2>
+              A creative agency powered by a{" "}
+              <span data-mark="hero">global collective</span> of storytellers
+            </h2>
+          </div>
+        </section>
+        <section class="scribble-example">
+          <div class="scribble-caption">
+            <span>02 / NATURAL LINE BREAKS</span>
+            <span>RESIZE TO REFLOW</span>
+          </div>
+          <div class="scribble-prose" data-marker-surface>
+            <p>
+              A creative and production partner for{" "}
+              <span data-mark="brands">global brands and organisations</span>,
+              delivering{" "}
+              <span data-mark="craft">
+                world-class branding, strategy, content and digital experiences.
+              </span>
+            </p>
+            <p>
+              We curate the right talent for every brief, so the work is agile
+              and exceptional in craft. The{" "}
+              <span data-mark="boutique">focus of a boutique</span>, the
+              thinking of a strategic partner and the range of a global
+              collective.
+            </p>
+          </div>
+        </section>
+        <section class="scribble-example" id="scribble-services">
+          <div class="scribble-caption">
+            <span>03 / JOINED PHRASES</span>
+            <span>ONE CONTINUOUS GESTURE</span>
+          </div>
+          <h2 class="scribble-small-heading">Our services</h2>
+          <div data-marker-surface>
+            <ul class="scribble-services" role="list">
+              {services.map((service, index) => (
+                <li>
+                  {[0, 2, 5, 7].includes(index) ? (
+                    <span
+                      data-mark={`service-${index}`}
+                      data-mark-join={
+                        [0, 2].includes(index) ? "services" : undefined
+                      }
+                    >
+                      {service}
+                    </span>
+                  ) : (
+                    service
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <p class="scribble-note">
+            “Content Production” and “Creative Strategy” share a stroke when
+            joining is on.
+          </p>
+        </section>
+        <section class="scribble-example scribble-last">
+          <div class="scribble-caption">
+            <span>04 / LONG WRAPPING PHRASE</span>
+            <span>SELECT THE WORDS</span>
+          </div>
+          <div data-marker-surface>
+            <p class="scribble-statement">
+              The focus of a boutique,{" "}
+              <span data-mark="long">
+                the thinking of a strategic partner and the range of a global
+                collective.
+              </span>
+            </p>
+          </div>
+        </section>
+      </main>
+    </div>
+    <noscript>
+      <p>
+        Enable JavaScript to preview the dynamic ink. All text remains readable.
+      </p>
+    </noscript>
+  </div>
+</BaseLayout>
+<script>
+  import "../scripts/dynamic-scribbles";
+</script>

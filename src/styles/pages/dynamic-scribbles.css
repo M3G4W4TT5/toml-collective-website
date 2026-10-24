@@ -1,0 +1,243 @@
+@import "../layers.css";
+@layer pages {
+  .scribble-test {
+    font-family: var(--font-reference);
+    color: #151515;
+    background: #fafafa;
+    padding: 0 clamp(1.25rem, 3vw, 4rem);
+  }
+  .scribble-header {
+    min-height: 6rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    border-bottom: 1px solid #ccc;
+  }
+  .scribble-header a {
+    font: 700 1.8rem var(--font-logo);
+    text-decoration: none;
+  }
+  .scribble-header > span,
+  .scribble-caption {
+    font-size: 0.68rem;
+    letter-spacing: 0.07em;
+  }
+  .scribble-workspace {
+    display: grid;
+    grid-template-columns: 15rem minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 7rem);
+    max-width: 110rem;
+    margin: auto;
+  }
+  .scribble-panel {
+    position: sticky;
+    top: 1.5rem;
+    align-self: start;
+    margin: 3rem 0;
+    max-height: calc(100dvh - 3rem);
+    overflow: auto;
+    padding: 0.4rem;
+  }
+  .scribble-panel h1 {
+    font: 400 1.5rem/1.2 var(--font-reference);
+    letter-spacing: -0.03em;
+    margin: 0 0 0.75rem;
+  }
+  .scribble-panel p {
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+  .scribble-panel form {
+    margin: 2rem 0;
+  }
+  .scribble-panel label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.8rem;
+    margin-top: 1.25rem;
+  }
+  .scribble-panel input[type="range"] {
+    width: 100%;
+    accent-color: #151515;
+    margin: 0.75rem 0 0;
+  }
+  .scribble-panel input[type="color"] {
+    width: 2.5rem;
+    height: 1.8rem;
+    border: 1px solid #ccc;
+    background: transparent;
+    padding: 2px;
+  }
+  .scribble-panel .scribble-check {
+    justify-content: flex-start;
+    line-height: 1.4;
+  }
+  .scribble-panel input[type="checkbox"] {
+    accent-color: #151515;
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+  .scribble-panel button {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    background: #151515;
+    color: #fafafa;
+    border: 0;
+    padding: 0.9rem 1rem;
+    margin-top: 1.5rem;
+    font-size: 0.85rem;
+  }
+  .scribble-note {
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: #606060;
+    max-width: 35rem;
+  }
+  .scribble-example {
+    padding: 3.5rem 0 5rem;
+    border-bottom: 1px solid #ccc;
+  }
+  .scribble-caption {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    color: #606060;
+    margin-bottom: 3rem;
+  }
+  .scribble-hero h2 {
+    font: 400 clamp(2.5rem, 4.3vw, 5.6rem)/1.18 var(--font-reference);
+    letter-spacing: -0.045em;
+    margin: 0;
+    max-width: 18ch;
+  }
+  .scribble-prose {
+    max-width: 48rem;
+    margin-left: auto;
+    font-size: clamp(1.35rem, 2.1vw, 2.5rem);
+    line-height: 1.55;
+    letter-spacing: -0.025em;
+  }
+  .scribble-prose p {
+    margin: 0 0 1.4em;
+  }
+  .scribble-prose p:last-child {
+    margin-bottom: 0;
+  }
+  .scribble-small-heading {
+    font-size: 1rem;
+    font-weight: 400;
+    margin: 0 0 2rem;
+  }
+  .scribble-services {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 2.5rem;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    font-size: clamp(1.25rem, 1.8vw, 2.2rem);
+    line-height: 1.5;
+    letter-spacing: -0.025em;
+  }
+  .scribble-services li {
+    padding: 1rem 0;
+    border-bottom: 1px solid #b7b7b7;
+  }
+  .scribble-statement {
+    font-size: clamp(2rem, 3.6vw, 4.5rem);
+    letter-spacing: -0.035em;
+    line-height: 1.5;
+    max-width: 22ch;
+    margin: 0;
+  }
+  .scribble-last {
+    padding-bottom: 9rem;
+  }
+  [data-marker-surface] {
+    position: relative;
+    isolation: isolate;
+  }
+  [data-marker-surface] > :not(svg) {
+    position: relative;
+    z-index: 1;
+  }
+  .dynamic-marker-layer {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+    z-index: 0;
+  }
+  [data-mark] {
+    color: inherit;
+    background: none;
+  }
+  [data-mark]::selection {
+    background: #b6d9ff;
+    color: #111;
+  }
+  @media (max-width: 60rem) {
+    .scribble-workspace {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    .scribble-panel {
+      position: static;
+      max-height: none;
+      margin: 2rem 0 0;
+    }
+    .scribble-panel form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.5rem 1.5rem;
+      align-items: center;
+      margin: 1.5rem 0;
+    }
+    .scribble-panel label,
+    .scribble-panel button {
+      margin-top: 0;
+    }
+    .scribble-panel label:first-child,
+    .scribble-check {
+      grid-column: 1 / -1;
+    }
+    .scribble-panel label:first-child {
+      justify-content: flex-start;
+    }
+    .scribble-panel input[type="range"] {
+      margin: 0;
+    }
+    .scribble-panel .scribble-check {
+      margin: 0.5rem 0;
+    }
+    .scribble-panel .scribble-note {
+      max-width: none;
+    }
+    .scribble-caption {
+      margin-bottom: 2rem;
+    }
+    .scribble-hero h2 {
+      max-width: 21ch;
+    }
+  }
+  @media (max-width: 35rem) {
+    .scribble-header > span:last-child,
+    .scribble-caption > span:last-child {
+      display: none;
+    }
+    .scribble-services {
+      gap: 0 1.5rem;
+      font-size: 1.1rem;
+    }
+    .scribble-example {
+      padding-top: 2.5rem;
+    }
+  }
+}
