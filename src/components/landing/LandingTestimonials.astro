@@ -11,6 +11,7 @@ import "../../styles/pages/landing-trust.css";
   data-landing-testimonials
   data-landing-reveal
 >
+  <slot name="scribbles-under" />
   <div class="landing-container">
     <div class="landing-testimonial-slides" aria-live="off" aria-atomic="true">
       {testimonials.map((testimonial, index) => (
@@ -35,6 +36,7 @@ import "../../styles/pages/landing-trust.css";
       </span>
     </div>
   </div>
+  <slot name="scribbles-over" />
 </section>
 <script>
   import "../../scripts/landing-testimonials";

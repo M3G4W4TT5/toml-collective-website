@@ -1,0 +1,73 @@
+@import "../layers.css";
+
+@layer pages {
+  .landing-scribbled {
+    overflow-x: clip;
+  }
+
+  .landing-scribbled
+    :is(
+      .landing-stories,
+      .landing-intro,
+      .landing-work,
+      .landing-services,
+      .landing-testimonials,
+      .landing-contact,
+      .landing-culture
+    ) {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .landing-scribbled .landing-footer {
+    isolation: isolate;
+  }
+
+  .landing-scribbled
+    :is(
+      .landing-stories,
+      .landing-intro,
+      .landing-work,
+      .landing-services,
+      .landing-testimonials,
+      .landing-contact,
+      .landing-culture,
+      .landing-footer
+    )
+    > :not(.landing-scribble-layer) {
+    position: relative;
+    z-index: 1;
+  }
+
+  .landing-scribbled .landing-scribble-layer,
+  .landing-scribbled .landing-marker-group {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .landing-scribbled .landing-scribble-under {
+    z-index: 0;
+  }
+
+  .landing-scribbled .landing-scribble-over {
+    z-index: 2;
+  }
+
+  .landing-scribbled .landing-marker-group {
+    opacity: 0.8117647059;
+  }
+
+  .landing-scribbled .landing-scribble-mark {
+    display: block;
+    position: absolute;
+    height: auto;
+    transform-origin: center;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    mask-size: 100% 100%;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-size: 100% 100%;
+  }
+}

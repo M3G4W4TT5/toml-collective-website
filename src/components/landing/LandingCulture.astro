@@ -15,6 +15,7 @@ const houseImages = [
 ---
 
 <section class="landing-culture" aria-label="TOML Journal and House of TOML">
+  <slot name="scribbles-under" />
   <article class="landing-culture-card" data-culture-card data-landing-reveal>
     <a class="landing-culture-link" href="https://www.tomljournal.com">
       <div class="landing-culture-media">
@@ -66,6 +67,7 @@ const houseImages = [
       connect and grow the next generation of TOML talent.
     </p>
   </article>
+  <slot name="scribbles-over" />
 </section>
 
 <script>

@@ -1,0 +1,226 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import LandingHeader from "../components/landing/LandingHeader.astro";
+import LandingReel from "../components/landing/LandingReel.astro";
+import LandingProject from "../components/landing/LandingProject.astro";
+import LandingFooter from "../components/landing/LandingFooter.astro";
+import LandingInstagram from "../components/landing/LandingInstagram.astro";
+import LandingContact from "../components/landing/LandingContact.astro";
+import LandingServices from "../components/landing/LandingServices.astro";
+import LandingClients from "../components/landing/LandingClients.astro";
+import LandingTestimonials from "../components/landing/LandingTestimonials.astro";
+import LandingCulture from "../components/landing/LandingCulture.astro";
+import LandingMilkPour from "../components/milk-pour/LandingMilkPour";
+import LandingScribbleLayer from "../components/landing/LandingScribbleLayer.astro";
+import {
+  getHomepageDesign,
+  getLatestWebsiteProjects,
+} from "../lib/website-content";
+import arrowRight from "../../public/icons/arrow-right.svg?raw";
+import square from "../../public/icons/square.svg?raw";
+import "../styles/site.css";
+import "../styles/pages/landing-draft.css";
+import "../styles/pages/landing-scribbles.css";
+
+const heroText =
+  "A creative agency powered by a global collective of storytellers";
+const [{ selectedWork }, latestProjects] = await Promise.all([
+  getHomepageDesign(),
+  getLatestWebsiteProjects(),
+]);
+---
+
+<BaseLayout
+  title="Landing page draft scribbled | TOML Collective"
+  description={heroText}
+  image="/media/showreel-poster.webp"
+  noindex={true}
+>
+  <script slot="head" is:inline>
+    document.documentElement.classList.add("landing-animations");
+    (() => {
+      try {
+        const key = "toml:landing-milk:seen";
+        const seen = sessionStorage.getItem(key);
+        sessionStorage.setItem(key, "1");
+        const navigation = performance.getEntriesByType("navigation")[0];
+        const internal =
+          document.referrer &&
+          new URL(document.referrer).origin === location.origin;
+        if (
+          seen ||
+          internal ||
+          navigation?.type !== "navigate" ||
+          matchMedia("(prefers-reduced-motion: reduce)").matches
+        )
+          return;
+        document.documentElement.setAttribute("data-landing-milk-pending", "");
+        const reveal = () =>
+          document.documentElement.removeAttribute("data-landing-milk-pending");
+        const watchdog = window.setTimeout(reveal, 6000);
+        document.addEventListener(
+          "milk-pour:ready",
+          () => {
+            window.clearTimeout(watchdog);
+            reveal();
+          },
+          { once: true },
+        );
+        window.addEventListener("pagehide", reveal, { once: true });
+      } catch {
+        // Unavailable session storage or scripting leaves the page revealed.
+      }
+    })();
+  </script>
+  <link
+    slot="head"
+    rel="preload"
+    href="/fonts/fk-grotesk-regular.woff2"
+    as="font"
+    type="font/woff2"
+    crossorigin
+  />
+  <div class="landing-draft landing-scribbled" id="top" data-landing-draft>
+    <a class="skip-link" href="#landing-main">
+      Skip to content
+    </a>
+    <LandingHeader latestProjects={latestProjects} />
+    <main id="landing-main" tabindex="-1">
+      <div class="landing-hero-heading landing-container" data-landing-reveal>
+        <h1 class="landing-main-title">{heroText}</h1>
+      </div>
+      <!-- Mirrors the fixed heading's natural height, including text reflow. -->
+      <div class="landing-hero-spacer landing-container" aria-hidden="true">
+        <div class="landing-main-title">{heroText}</div>
+      </div>
+      <div class="landing-surface">
+        <LandingReel />
+        <section
+          class="landing-stories landing-container"
+          id="tell-your-story"
+          aria-labelledby="landing-stories-heading"
+        >
+          <LandingScribbleLayer zone="story" stack="under" />
+          <h2
+            class="landing-story-title"
+            id="landing-stories-heading"
+            aria-label="TELL YOUR STORY."
+          >
+            <span class="landing-story-line" aria-hidden="true">
+              TELL
+            </span>
+            <span class="landing-story-line" aria-hidden="true">
+              YOUR
+            </span>
+            <span class="landing-story-line" aria-hidden="true">
+              STORY
+              <span class="landing-story-square">
+                <Fragment set:html={square} />
+              </span>
+            </span>
+          </h2>
+        </section>
+        <div class="landing-intro landing-container" data-landing-reveal>
+          <LandingScribbleLayer zone="intro" stack="under" />
+          <div class="landing-prose">
+            <p>
+              A creative and production partner for global brands and
+              organisations, delivering world-class branding, strategy, content
+              and digital experiences.
+            </p>
+            <p>
+              We curate the right talent for every brief, so the work is agile
+              and exceptional in craft. The focus of a boutique, the thinking of
+              a strategic partner and the range of a global collective.
+            </p>
+          </div>
+        </div>
+        <section class="landing-work" aria-labelledby="landing-selected-work">
+          <LandingScribbleLayer zone="work" stack="under" />
+          <div
+            class="landing-work-heading landing-container"
+            data-landing-reveal
+          >
+            <h2 id="landing-selected-work">
+              <span class="landing-work-square" aria-hidden="true">
+                <Fragment set:html={square} />
+              </span>
+              Selected work
+            </h2>
+            <a href="/work">
+              View all work <Fragment set:html={arrowRight} />
+            </a>
+          </div>
+          <div class="landing-projects">
+            {selectedWork.slice(0, 4).map((project) => (
+              <LandingProject project={project} />
+            ))}
+          </div>
+        </section>
+        <LandingClients />
+        <LandingServices>
+          <LandingScribbleLayer
+            zone="services"
+            stack="under"
+            slot="scribbles-under"
+          />
+          <LandingScribbleLayer
+            zone="services"
+            stack="over"
+            slot="scribbles-over"
+          />
+        </LandingServices>
+        <LandingTestimonials>
+          <LandingScribbleLayer
+            zone="testimonials"
+            stack="under"
+            slot="scribbles-under"
+          />
+          <LandingScribbleLayer
+            zone="testimonials"
+            stack="over"
+            slot="scribbles-over"
+          />
+        </LandingTestimonials>
+        <LandingContact>
+          <LandingScribbleLayer
+            zone="contact"
+            stack="under"
+            slot="scribbles-under"
+          />
+          <LandingScribbleLayer
+            zone="contact"
+            stack="over"
+            slot="scribbles-over"
+          />
+        </LandingContact>
+        <LandingCulture>
+          <LandingScribbleLayer
+            zone="culture"
+            stack="under"
+            slot="scribbles-under"
+          />
+          <LandingScribbleLayer
+            zone="culture"
+            stack="over"
+            slot="scribbles-over"
+          />
+        </LandingCulture>
+        <LandingInstagram />
+      </div>
+    </main>
+    <LandingFooter>
+      <LandingScribbleLayer
+        zone="footer"
+        stack="under"
+        slot="scribbles-under"
+      />
+    </LandingFooter>
+  </div>
+  <LandingMilkPour client:load />
+</BaseLayout>
+
+<script>
+  import "../scripts/dialogs";
+  import "../scripts/landing-draft";
+</script>

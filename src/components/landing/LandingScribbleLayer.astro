@@ -1,0 +1,86 @@
+---
+import placements from "../../data/landing-scribbles.json";
+
+type Zone =
+  | "story"
+  | "intro"
+  | "work"
+  | "services"
+  | "testimonials"
+  | "contact"
+  | "culture"
+  | "footer";
+type Props = { zone: Zone; stack: "under" | "over" };
+
+const { zone, stack } = Astro.props;
+
+// The PSD is a 2x capture of the page at a 1920px viewport. These are the
+// section rectangles in CSS pixels in that capture. Each mark is positioned
+// within its section so the composition scales with the page.
+const reference: Record<Zone, { x: number; y: number; w: number; h: number }> =
+  {
+    story: { x: 0, y: 1672, w: 1920, h: 737 },
+    intro: { x: 0, y: 2584, w: 1920, h: 238 },
+    work: { x: 0, y: 3002, w: 1920, h: 3421 },
+    services: { x: 0, y: 6825, w: 1920, h: 367 },
+    testimonials: { x: 0, y: 7372, w: 1920, h: 386 },
+    contact: { x: 0, y: 7898, w: 1920, h: 439 },
+    culture: { x: 80, y: 8337, w: 1760, h: 1119 },
+    footer: { x: 0, y: 10097, w: 1920, h: 1080 },
+  };
+
+const box = reference[zone];
+const marks = placements
+  .filter((mark) => mark.zone === zone && mark.stack === stack)
+  .sort((a, b) => a.layer - b.layer);
+const markerMarks = marks.filter((mark) => mark.markerGroup);
+const ordered = marks.filter((mark) => !mark.markerGroup);
+if (markerMarks.length) {
+  const next = ordered.findIndex((mark) => mark.layer > 25);
+  ordered.splice(next === -1 ? ordered.length : next, 0, {
+    ...markerMarks[0],
+    id: "marker-group",
+  });
+}
+
+const styleFor = (mark: (typeof marks)[number]) =>
+  [
+    `left:${(((mark.x - box.x) / box.w) * 100).toFixed(5)}%`,
+    `top:${(((mark.y - box.y) / box.h) * 100).toFixed(5)}%`,
+    `width:${((mark.width / box.w) * 100).toFixed(5)}%`,
+    `aspect-ratio:${mark.width}/${mark.height}`,
+    `transform:translate(-50%,-50%) rotate(${mark.angle}deg) scaleX(${mark.flipX ? -1 : 1})`,
+    `background-color:${mark.color}`,
+    `opacity:${mark.opacity}`,
+    `mask-image:url('${mark.src}')`,
+    `-webkit-mask-image:url('${mark.src}')`,
+  ].join(";");
+---
+
+<div
+  class={`landing-scribble-layer landing-scribble-${stack}`}
+  aria-hidden="true"
+  data-scribble-zone={zone}
+>
+  {ordered.map((mark) =>
+    mark.id === "marker-group" ? (
+      <div class="landing-marker-group">
+        {markerMarks.map((marker) => (
+          <span
+            class="landing-scribble-mark"
+            data-scribble-layer={marker.layer}
+            data-scribble-src={marker.src}
+            style={styleFor(marker)}
+          />
+        ))}
+      </div>
+    ) : (
+      <span
+        class="landing-scribble-mark"
+        data-scribble-layer={mark.layer}
+        data-scribble-src={mark.src}
+        style={styleFor(mark)}
+      />
+    ),
+  )}
+</div>

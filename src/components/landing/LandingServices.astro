@@ -20,6 +20,7 @@ const services = [
   aria-labelledby="landing-services-heading"
   data-landing-reveal
 >
+  <slot name="scribbles-under" />
   <div class="landing-services-layout landing-container">
     <div class="landing-services-label">
       <h2 id="landing-services-heading">
@@ -41,4 +42,5 @@ const services = [
       </a>
     </div>
   </div>
+  <slot name="scribbles-over" />
 </section>

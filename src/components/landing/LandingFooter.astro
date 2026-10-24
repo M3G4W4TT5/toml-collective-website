@@ -42,6 +42,7 @@ const socials = [
   aria-hidden="true"
 ></div>
 <footer class="landing-footer" data-landing-footer aria-label="TOML Collective">
+  <slot name="scribbles-under" />
   <div class="landing-footer-top landing-container">
     <div class="landing-footer-clock-row">
       {clocks.map(({ label, timeZone }) => (
