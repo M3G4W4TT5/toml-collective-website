@@ -1,6 +1,60 @@
 @import "../layers.css";
 
 @layer pages {
+  /* The PSD uses a 1920px canvas with a 16px root. Keep that canvas stable
+     when browser text settings or a classic scrollbar change the page width. */
+  @media (min-width: 1024px) {
+    html:has(.landing-scribbled) {
+      font-size: 16px;
+    }
+
+    .landing-scribbled {
+      width: 100vw;
+    }
+  }
+
+  /* rem media queries use the browser's initial font size, which can differ
+     from the 16px PSD capture even after the document root is normalized. */
+  @media (min-width: 1920px) {
+    .landing-scribbled {
+      --landing-nav-size: 1.75rem;
+      --landing-heading-min: max(510px, 32svh);
+      --landing-hero-size: 5.25rem;
+      --landing-hero-width: 60.625rem;
+      --landing-prose-size: 1.75rem;
+      --landing-label-size: 1.5rem;
+      --landing-services-size: 2.375rem;
+    }
+
+    .landing-scribbled .landing-contact {
+      --landing-contact-size: 4.25rem;
+    }
+
+    .landing-scribbled .landing-clients {
+      padding-block: 6rem;
+    }
+
+    .landing-scribbled .landing-testimonials {
+      --testimonial-size: 3rem;
+    }
+
+    .landing-scribbled .landing-testimonial figcaption {
+      font-size: 1.125rem;
+    }
+
+    .landing-scribbled .landing-footer {
+      --footer-clock: 4.5rem;
+      --footer-marquee: 13rem;
+      --footer-copy: 1.25rem;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .landing-scribbled .landing-scribble-layer {
+      display: none;
+    }
+  }
+
   .landing-scribbled {
     overflow-x: clip;
   }

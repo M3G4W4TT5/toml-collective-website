@@ -7,6 +7,7 @@
 - `Stack` is explicit: **Between** means the mark sits between the background and captured page-content layers; **On top** means it sits above the page-content layer. `Layer` is the Photoshop order from bottom to top. The page-content layer is 40, and `25.1`–`25.8` are inside the Marker group at layer 25. Keep this order where marks overlap.
 - All source paths are relative to the `TOML-Scribbles/` directory inside the supplied `TOML-Scribbles.rar`. The 42 used files are also saved under `public/scribbles/` with the same relative paths and full filenames. The SVG paths use black fills; recolour each to the exact listed PSD colour. Opacity is 255/255 unless shown otherwise. The Marker group has **207/255** opacity, applied to the group as a whole; the brain icon has **224/255** opacity.
 - The nearby-content descriptions are placement anchors for adapting the composition. These measured coordinates describe the supplied desktop capture; no mobile or other responsive positions are implied.
+- The `/landing-page-draft-scribbled/` implementation uses a 16 px root and the full 1920 px viewport width for its desktop reference, including when browser font settings or a classic scrollbar would otherwise change line wrapping. Scribbles are hidden below 1024 px. Placement at other desktop widths remains to be designed after the 1920 px review.
 
 ## Used marks
 
