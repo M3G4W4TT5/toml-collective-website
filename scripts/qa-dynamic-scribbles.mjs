@@ -45,6 +45,20 @@ async function inspect(label) {
         r.selectNodeContents(el);
         return [...r.getClientRects()];
       });
+      // Regression: a wrapped phrase must leave the inter-line gap unpainted.
+      if (elements.length === 1 && rects.length > 1) {
+        for (let i = 1; i < rects.length; i++) {
+          const y = (rects[i - 1].bottom + rects[i].top) / 2;
+          if (rects[i].top < rects[i - 1].bottom) continue;
+          const left = Math.min(rects[i - 1].left, rects[i].left),
+            right = Math.max(rects[i - 1].right, rects[i].right);
+          for (let x = left; x < right; x += 4) {
+            const p = new DOMPoint(x, y).matrixTransform(matrix.inverse());
+            if (ink.isPointInFill(p))
+              throw new Error(`Diagonal wrap connector: ${id}`);
+          }
+        }
+      }
       const left = Math.min(...rects.map((r) => r.left)),
         right = Math.max(...rects.map((r) => r.right));
       const top = Math.min(...rects.map((r) => r.top)),
@@ -256,6 +270,85 @@ try {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await settle();
   assert.equal(await page.evaluate(() => document.getAnimations().length), 0);
+  // Reproduce large text with short fragments at the line edges.
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.locator(".scribble-prose").evaluate((el) => {
+    el.style.fontSize = "48px";
+    el.style.maxWidth = "none";
+  });
+  await inspect("large-text wrap regression");
+  await page.locator(".scribble-prose").scrollIntoViewIfNeeded();
+  await settle();
+  await page.screenshot({ path: `${out}/wrapping-fixed.png` });
+  await page.locator(".scribble-prose").evaluate((el) => {
+    el.style.fontSize = "";
+    el.style.maxWidth = "";
+  });
+  await page.evaluate(() => scrollTo({ top: 0, behavior: "instant" }));
+  await settle();
+  const texturePixels = [];
+  let solidPath;
+  for (const value of [0, 50, 100]) {
+    await page.locator('[name="texture"]').evaluate((el, v) => {
+      el.value = String(v);
+      el.dispatchEvent(new Event("input", { bubbles: true }));
+    }, value);
+    await settle();
+    const path = await page
+      .locator('[data-marker-id="hero"] > path')
+      .getAttribute("d");
+    if (value === 0) solidPath = path;
+    else assert.equal(path, solidPath, "Texture must not change the outline");
+    assert.equal(
+      (await page.locator('[data-marker-id="hero"]').getAttribute("mask")) !==
+        null,
+      value > 0,
+    );
+    const raster = await page
+      .locator(".scribble-hero")
+      .screenshot({ path: `${out}/texture-${value}.png` });
+    const { data, info } = await sharp(raster)
+      .raw()
+      .toBuffer({ resolveWithObject: true });
+    let pixels = 0;
+    for (let i = 0; i < data.length; i += info.channels)
+      if (
+        data[i] > 220 &&
+        data[i + 1] > 75 &&
+        data[i + 1] < 160 &&
+        data[i + 2] < 130
+      )
+        pixels++;
+    texturePixels.push(pixels);
+  }
+  assert.ok(
+    texturePixels[0] > texturePixels[1] && texturePixels[1] > texturePixels[2],
+    `Texture should remove progressively more ink: ${texturePixels}`,
+  );
+  assert.ok(
+    texturePixels[2] < texturePixels[0] * 0.95,
+    "High texture visibly breaks the ink",
+  );
+  console.log("Texture pixel coverage (0/50/100):", texturePixels);
+  // Grain is deterministic across replay and different for different strokes.
+  const textureFields = () =>
+    page
+      .locator("[data-texture-field]")
+      .evaluateAll((images) =>
+        images.map((image) => image.getAttribute("href")),
+      );
+  const beforeReplay = await textureFields();
+  assert.ok(
+    new Set(beforeReplay).size > 4,
+    "Distinct strokes need distinct seeded grain",
+  );
+  await page.locator("[data-marker-replay]").click();
+  await settle();
+  assert.deepEqual(
+    await textureFields(),
+    beforeReplay,
+    "Replay must preserve the seeded grain",
+  );
   // Controls affect generated ink and output values.
   await page.locator('[name="color"]').fill("#0d2481");
   await settle();
@@ -267,6 +360,7 @@ try {
     ["thickness", "45"],
     ["position", "80"],
     ["irregularity", "90"],
+    ["texture", "65"],
     ["speed", "2"],
   ]) {
     await page.locator(`[name="${name}"]`).evaluate((el, v) => {
@@ -286,6 +380,8 @@ try {
       {
         results,
         interactions: [
+          "natural wraps have no ink in line gaps",
+          "texture at 0/50/100 changes coverage without changing shape",
           "joining",
           "text selection",
           "replay",

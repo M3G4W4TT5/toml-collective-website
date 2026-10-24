@@ -68,6 +68,21 @@ const services = [
             max="100"
             value="55"
           />
+          <label for="marker-texture">
+            Texture <output data-value="texture">30%</output>
+          </label>
+          <input
+            id="marker-texture"
+            name="texture"
+            type="range"
+            min="0"
+            max="100"
+            value="30"
+            aria-describedby="texture-hint"
+          />
+          <p id="texture-hint" class="scribble-texture-hint">
+            Solid ink → coarse paper grain
+          </p>
           <label class="scribble-check">
             <input name="joining" type="checkbox" checked /> Join the two
             Services phrases

@@ -92,6 +92,11 @@
     margin-top: 1.5rem;
     font-size: 0.85rem;
   }
+  .scribble-texture-hint {
+    grid-column: 1 / -1;
+    color: #606060;
+    margin: 0.4rem 0 0;
+  }
   .scribble-note {
     font-size: 0.75rem;
     line-height: 1.5;

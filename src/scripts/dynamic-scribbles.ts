@@ -1,5 +1,13 @@
+import { markerTexture } from "./marker-texture";
+
 /** Isolated prototype: actual text fragments, in surface-local SVG coordinates. */
-type Box = { x: number; y: number; width: number; height: number };
+type Box = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  owner: number;
+};
 type Point = { x: number; y: number; width: number };
 type Mark = {
   id: string;
@@ -12,8 +20,8 @@ type Mark = {
   boxes: Box[];
   ready: boolean;
   played: boolean;
-  animation?: Animation;
-  reveal?: SVGPathElement;
+  animations: Animation[];
+  reveals: SVGPathElement[];
   defs?: SVGDefsElement;
 };
 const host = document.querySelector<HTMLElement>("[data-scribble-test]");
@@ -25,6 +33,7 @@ if (host) {
     thickness: 76,
     position: 58,
     irregularity: 55,
+    texture: 30,
     joining: true,
     speed: 1,
   };
@@ -51,7 +60,9 @@ if (host) {
       .join(" ");
 
   function setup() {
-    marks.forEach((mark) => mark.animation?.cancel());
+    marks.forEach((mark) =>
+      mark.animations.forEach((animation) => animation.cancel()),
+    );
     host!
       .querySelectorAll(".dynamic-marker-layer")
       .forEach((svg) => svg.remove());
@@ -90,6 +101,8 @@ if (host) {
             boxes: [],
             ready: false,
             played: false,
+            animations: [],
+            reveals: [],
           });
         });
       });
@@ -97,7 +110,7 @@ if (host) {
 
   function measure(mark: Mark, origin: DOMRect): Box[] {
     const boxes: Box[] = [];
-    for (const el of mark.elements) {
+    for (const [owner, el] of mark.elements.entries()) {
       // Text-node ranges avoid duplicate ancestor boxes for nested inline markup.
       const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
       let node: Node | null;
@@ -111,6 +124,7 @@ if (host) {
               y: rect.top - origin.top,
               width: rect.width,
               height: rect.height,
+              owner,
             });
         }
       }
@@ -131,51 +145,26 @@ if (host) {
   }
 
   function draw(mark: Mark) {
-    mark.animation?.cancel();
-    const points: Point[] = [];
+    mark.animations.forEach((animation) => animation.cancel());
     const rough = settings.irregularity / 100;
     const seed = [...mark.id].reduce(
       (sum, char) => sum + char.charCodeAt(0),
       0,
     );
-    mark.boxes.forEach((box, line) => {
-      const direction = line % 2 ? -1 : 1;
+    const strokes: Point[][] = [];
+    const linePoints = (box: Box, line: number, reverse = false): Point[] => {
       const width = (box.height * settings.thickness) / 100;
       const pad = Math.min(5, box.height * 0.09);
-      const start = direction > 0 ? box.x - pad : box.x + box.width + pad;
-      const end = direction > 0 ? box.x + box.width + pad : box.x - pad;
-      const y = box.y + (box.height * settings.position) / 100;
-      const previous = points.at(-1);
-      if (previous) {
-        // A return at the edge of the two text lines, not a diagonal through copy.
-        const side = direction < 0 ? 1 : -1;
-        const bend = side * Math.min(6, box.height * 0.12);
-        const middleY = (previous.y + y) / 2;
-        for (let j = 1; j < 16; j++) {
-          const t = j / 16,
-            u = 1 - t;
-          points.push({
-            x:
-              u * u * u * previous.x +
-              3 * u * u * t * (previous.x + bend) +
-              3 * u * t * t * (start + bend) +
-              t * t * t * start,
-            y:
-              u * u * u * previous.y +
-              3 * u * u * t * middleY +
-              3 * u * t * t * middleY +
-              t * t * t * y,
-            width: width * (0.12 + 0.88 * Math.pow(Math.abs(2 * t - 1), 4)),
-          });
-        }
-      }
+      const start = reverse ? box.x + box.width + pad : box.x - pad;
+      const end = reverse ? box.x - pad : box.x + box.width + pad;
       const steps = Math.max(8, Math.ceil(box.width / 9));
-      for (let j = 0; j <= steps; j++) {
+      return Array.from({ length: steps + 1 }, (_, j) => {
         const t = j / steps;
-        points.push({
+        return {
           x: start + (end - start) * t,
           y:
-            y +
+            box.y +
+            (box.height * settings.position) / 100 +
             rough *
               box.height *
               (0.025 * Math.sin(t * 7 + seed + line) + 0.009 * noise(j + seed)),
@@ -185,107 +174,200 @@ if (host) {
               rough *
                 (0.08 * noise(j + seed + line * 19) +
                   0.06 * Math.sin(t * 9 + line))),
+        };
+      });
+    };
+    for (let line = 0; line < mark.boxes.length; line++) {
+      const box = mark.boxes[line],
+        next = mark.boxes[line + 1];
+      // Natural wrapping is a pen lift. Only explicitly grouped, distinct phrases
+      // in the same column may connect, along their shared outside left edge.
+      const join =
+        next &&
+        box.owner !== next.owner &&
+        mark.elements.length > 1 &&
+        Math.abs(box.x - next.x) < 2 &&
+        next.y >= box.y + box.height;
+      if (!join) {
+        strokes.push(linePoints(box, line));
+        continue;
+      }
+      const points = linePoints(box, line, true);
+      const following = linePoints(next, line + 1);
+      const start = points.at(-1)!,
+        end = following[0];
+      const outside = Math.min(start.x, end.x) - Math.min(8, box.height * 0.18);
+      for (let j = 1; j < 20; j++) {
+        const t = j / 20,
+          u = 1 - t;
+        points.push({
+          x:
+            u * u * u * start.x +
+            3 * u * u * t * outside +
+            3 * u * t * t * outside +
+            t * t * t * end.x,
+          y:
+            u * u * u * start.y +
+            3 * u * u * t * start.y +
+            3 * u * t * t * end.y +
+            t * t * t * end.y,
+          width:
+            Math.min(start.width, end.width) *
+            (0.15 + 0.85 * Math.pow(Math.abs(2 * t - 1), 3)),
         });
       }
-    });
-    if (points.length < 2) return;
-    const upper: Point[] = [],
-      lower: Point[] = [];
-    points.forEach((p, i) => {
-      const before = points[Math.max(0, i - 1)],
-        after = points[Math.min(points.length - 1, i + 1)];
-      const dx = after.x - before.x,
-        dy = after.y - before.y,
-        length = Math.hypot(dx, dy) || 1;
-      const uneven = rough * p.width * 0.045 * noise(i + seed);
-      upper.push({
-        x: p.x - (dy / length) * (p.width / 2 + uneven),
-        y: p.y + (dx / length) * (p.width / 2 + uneven),
-        width: 0,
-      });
-      lower.push({
-        x: p.x + (dy / length) * (p.width / 2 - uneven),
-        y: p.y - (dx / length) * (p.width / 2 - uneven),
-        width: 0,
-      });
-    });
-    let ribbon = `${pathThrough(upper)} ${pathThrough(lower.reverse()).replace(/^M/, "L")} Z`;
-    // Small transparent dry-nib slivers; their size follows the measured line height.
-    if (rough > 0)
-      mark.boxes.forEach((box, i) => {
-        const y =
-          box.y +
-          box.height *
-            (settings.position / 100 + (settings.thickness / 200) * 0.79);
-        const x = box.x + box.width * (0.2 + 0.13 * (i % 3));
-        ribbon += ` M${x},${y} l${box.width * 0.17},${-rough * box.height * 0.015} l${-box.width * 0.08},${rough * box.height * 0.045} Z`;
-      });
+      strokes.push([...points, ...following]);
+      line++;
+    }
+    const ribbon = strokes
+      .map((points) => {
+        const upper: Point[] = [],
+          lower: Point[] = [];
+        points.forEach((p, i) => {
+          const before = points[Math.max(0, i - 1)],
+            after = points[Math.min(points.length - 1, i + 1)];
+          const dx = after.x - before.x,
+            dy = after.y - before.y,
+            length = Math.hypot(dx, dy) || 1;
+          const uneven = rough * p.width * 0.045 * noise(i + seed);
+          upper.push({
+            x: p.x - (dy / length) * (p.width / 2 + uneven),
+            y: p.y + (dx / length) * (p.width / 2 + uneven),
+            width: 0,
+          });
+          lower.push({
+            x: p.x + (dy / length) * (p.width / 2 - uneven),
+            y: p.y - (dx / length) * (p.width / 2 - uneven),
+            width: 0,
+          });
+        });
+        return `${pathThrough(upper)} ${pathThrough(lower.reverse()).replace(/^M/, "L")} Z`;
+      })
+      .join(" ");
     const id = `dynamic-ink-${mark.id}-${revision++}`;
-    const mask = svgNode("mask", {
-      id,
+    const bounds = mark.surface.getBoundingClientRect();
+    const maskAttributes = {
       maskUnits: "userSpaceOnUse",
       visibility: "visible",
       x: "-100",
       y: "-100",
-      width: String(mark.surface.getBoundingClientRect().width + 200),
-      height: String(mark.surface.getBoundingClientRect().height + 200),
+      width: String(bounds.width + 200),
+      height: String(bounds.height + 200),
+    };
+    const mask = svgNode("mask", { id, ...maskAttributes });
+    mark.reveals = strokes.map((points) => {
+      const reveal = svgNode("path", {
+        d: pathThrough(points),
+        fill: "none",
+        stroke: "white",
+        visibility: "visible",
+        "stroke-width": String(Math.max(...points.map((p) => p.width)) * 1.25),
+        "stroke-linecap": "butt",
+        "stroke-linejoin": "round",
+        pathLength: "1",
+      });
+      reveal.style.strokeDasharray = "1";
+      reveal.style.strokeDashoffset = "1";
+      mask.append(reveal);
+      return reveal;
     });
-    const reveal = svgNode("path", {
-      d: pathThrough(points),
-      fill: "none",
-      stroke: "white",
-      visibility: "visible", // Mask content must not inherit the waiting group’s hidden state.
-      "stroke-width": String(Math.max(...points.map((p) => p.width)) * 1.8),
-      "stroke-linecap": "round",
-      "stroke-linejoin": "round",
-      pathLength: "1",
-    });
-    mask.append(reveal);
     const defs = svgNode("defs");
     defs.append(mask);
     const ink = svgNode("path", {
       d: ribbon,
       fill: settings.color,
-      "fill-rule": "evenodd",
+      "fill-rule": "nonzero",
       mask: `url(#${id})`,
     });
-    // Keep black text legible even when the colour picker selects very dark ink.
+    // A separate luminance mask removes ink, revealing the actual background.
+    // Coherent multi-scale fields replace repeated geometric cutouts.
+    const texture = settings.texture / 100;
+    mark.group.removeAttribute("mask");
+    if (texture > 0) {
+      const grain = svgNode("mask", { id: `${id}-grain`, ...maskAttributes });
+      grain.append(
+        svgNode("rect", {
+          x: "-100",
+          y: "-100",
+          width: String(bounds.width + 200),
+          height: String(bounds.height + 200),
+          fill: "white",
+        }),
+      );
+      mark.boxes.forEach((box, line) => {
+        const height = ((box.height * settings.thickness) / 100) * 1.25 + 8;
+        const width = box.width + 16;
+        grain.append(
+          svgNode("image", {
+            x: String(box.x - 8),
+            y: String(
+              box.y + (box.height * settings.position) / 100 - height / 2,
+            ),
+            width: String(width),
+            height: String(height),
+            preserveAspectRatio: "none",
+            href: markerTexture(
+              width,
+              height,
+              seed * 65537 + line * 997,
+              texture,
+            ),
+            "data-texture-field": String(line),
+          }),
+        );
+      });
+      defs.append(grain);
+      mark.group.setAttribute("mask", `url(#${id}-grain)`);
+    }
     const rgb = settings.color
       .match(/[a-f\d]{2}/gi)!
       .map((v) => parseInt(v, 16));
-    const luminance = 0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2];
-    ink.setAttribute("opacity", luminance < 100 ? ".42" : ".81");
+    ink.setAttribute(
+      "opacity",
+      0.2126 * rgb[0] + 0.7152 * rgb[1] + 0.0722 * rgb[2] < 100 ? ".42" : ".81",
+    );
     mark.defs?.remove();
     mark.svg.prepend(defs);
     mark.defs = defs;
     mark.group.replaceChildren(ink);
     mark.group.dataset.lines = String(mark.boxes.length);
-    mark.reveal = reveal;
-    reveal.style.strokeDasharray = "1";
-    reveal.style.strokeDashoffset = "1";
+    mark.group.dataset.strokes = String(strokes.length);
     mark.ready = true;
     mark.played = false;
   }
 
   function play(mark: Mark) {
-    if (!mark.reveal) return;
-    mark.animation?.cancel();
+    mark.animations.forEach((animation) => animation.cancel());
+    mark.animations = [];
     mark.group.setAttribute("visibility", "visible");
     mark.group.dataset.state = "drawn";
-    mark.reveal.style.strokeDashoffset = "0";
-    if (!reduced.matches) {
-      const duration =
-        Math.min(2400, Math.max(500, mark.reveal.getTotalLength() * 1.1)) /
-        settings.speed;
-      mark.animation = mark.reveal.animate(
-        [{ strokeDashoffset: "1" }, { strokeDashoffset: "0" }],
-        { duration, easing: "linear" },
-      );
-    }
     const ink = mark.group.querySelector("path")!;
     if (reduced.matches) ink.removeAttribute("mask");
-    else if (mark.animation)
-      mark.animation.onfinish = () => ink.removeAttribute("mask");
+    else {
+      const lengths = mark.reveals.map((path) => path.getTotalLength());
+      const total = lengths.reduce((sum, length) => sum + length, 0);
+      const duration =
+        Math.min(3000, Math.max(500, total * 1.1)) / settings.speed;
+      let delay = 0;
+      mark.reveals.forEach((reveal, i) => {
+        const part = (duration * lengths[i]) / total;
+        const animation = reveal.animate(
+          [{ strokeDashoffset: "1" }, { strokeDashoffset: "0" }],
+          { duration: part, delay, easing: "linear", fill: "forwards" },
+        );
+        mark.animations.push(animation);
+        delay += part;
+      });
+      const animations = [...mark.animations];
+      Promise.all(animations.map((animation) => animation.finished))
+        .then(() => {
+          ink.removeAttribute("mask");
+          animations.forEach((animation) => animation.cancel());
+        })
+        .catch(() => {
+          /* Reflow/replay cancels the previous reveal. */
+        });
+    }
     mark.played = true;
   }
 
@@ -320,7 +402,7 @@ if (host) {
         mark.changed = now;
         mark.ready = false;
         mark.played = false;
-        mark.animation?.cancel();
+        mark.animations.forEach((animation) => animation.cancel());
         mark.group.setAttribute("visibility", "hidden");
         mark.group.dataset.state = "settling";
         mark.svg.setAttribute(
@@ -347,6 +429,7 @@ if (host) {
       "thickness",
       "position",
       "irregularity",
+      "texture",
       "speed",
     ] as const) {
       settings[key] = Number(values.get(key));
@@ -364,7 +447,9 @@ if (host) {
     .querySelector("[data-marker-replay]")!
     .addEventListener("click", invalidate);
   reduced.addEventListener("change", () => {
-    marks.forEach((mark) => mark.animation?.cancel());
+    marks.forEach((mark) =>
+      mark.animations.forEach((animation) => animation.cancel()),
+    );
     invalidate();
   });
   window.addEventListener("pagehide", () => cancelAnimationFrame(frame));
